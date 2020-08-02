@@ -6,7 +6,7 @@ export default React.memo(({ params = [] }) => {
     <span>
       {'('}
       {params.map(({ type, name }, index) => (
-        <React.Fragment>
+        <React.Fragment key={name}>
           <NativeType name={type} />
           {' '}{name}
           {((index + 1) !== params.length) && ', '}
