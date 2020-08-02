@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { useState } from 'react'
 import { useCallback } from 'react'
 import { StickyTree } from 'react-virtualized-sticky-tree'
+import { useEffect } from 'react'
 
 const useStyles = makeStyles(theme => ({
   descriptionPane: {
@@ -19,13 +20,22 @@ const useStyles = makeStyles(theme => ({
 export default () => {
   const classes = useStyles()
   const namespaces = useSelector(store => store.namespaces)
-  const natives = useSelector(store => store.natives)
-  const sections = useState({})
+  const [namespaceData, setNamespaceData] = useState({})
+
+  useEffect(() => {
+    const result = Object.values(namespaces).reduce((accumulator, namespace) => {
+      accumulator[namespace.name] = namespace.natives.map(hash => ({
+        id: hash,
+        height: 28,
+        isSticky: false,
+      }))
+      return accumulator
+    }, {})
+
+    setNamespaceData(result)
+  }, [namespaces])
 
   const getChildren = useCallback((id) => {
-    if (!namespaces)
-      return []
-
     if (id === 'root') {
       return Object.values(namespaces).map(ns => ({
         id: ns.name,
@@ -34,13 +44,9 @@ export default () => {
       }))
     }
     else if (id[0] !== '0') {
-      return namespaces[id].natives.map(hash => ({
-        id: hash,
-        height: 28,
-        isSticky: false,
-      }))
+      return namespaceData[id]
     }
-  }, [namespaces])
+  }, [namespaces, namespaceData])
 
   const renderRow = useCallback(({ id, style }) => {
     if (id[0] !== '0') {
@@ -50,15 +56,13 @@ export default () => {
     }
     
     return (
-      <NativeListItem
-        key={id}
-        style={style}
-        name={natives[id].name}
-        params={natives[id].params}
-        return_type={natives[id].return_type}
-      />
+      <div style={style} key={id}>
+        <NativeListItem
+          hash={id}
+        />
+      </div>
     )
-  }, [namespaces, natives])
+  }, [namespaces])
 
   return (
     <Grid container>
@@ -73,7 +77,7 @@ export default () => {
           getChildren={getChildren}
           rowRenderer={renderRow}
           renderRoot={false}
-          overscanRowCount={20}
+          overscanRowCount={5}
         />
       </Grid>
     </Grid>

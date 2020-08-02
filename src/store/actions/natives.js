@@ -12,9 +12,7 @@ export const loadNatives = () => async (dispatch) => {
       }
       return accumulator
     }, {})
-
-    console.log(namespaces)
-
+    
     const natives = Object.keys(data).reduce(
       (accumulator, namespace) => {
         (Object.keys(data[namespace]).forEach(
