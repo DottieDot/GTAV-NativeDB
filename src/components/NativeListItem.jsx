@@ -3,8 +3,6 @@ import NativeDefinition from './NativeDefinition'
 import { ListItem } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 
-let renders = {}
-
 export default React.memo(({ hash }) => {
   const { name, return_type, params } = useSelector(({ natives }) => natives[hash])
 

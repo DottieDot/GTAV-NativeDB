@@ -1,11 +1,12 @@
 import React from 'react'
 import { Grid, makeStyles } from '@material-ui/core'
-import { NativeListItem } from '../components'
+import { NativeListItem, NamespaceHeader } from '../components'
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
 import { useCallback } from 'react'
 import { StickyTree } from 'react-virtualized-sticky-tree'
 import { useEffect } from 'react'
+import AutoSizer from 'react-virtualized-auto-sizer'
 
 const useStyles = makeStyles(theme => ({
   descriptionPane: {
@@ -39,7 +40,7 @@ export default () => {
     if (id === 'root') {
       return Object.values(namespaces).map(ns => ({
         id: ns.name,
-        height: 77.5,
+        height: 73,
         isSticky: true,
       }))
     }
@@ -51,7 +52,11 @@ export default () => {
   const renderRow = useCallback(({ id, style }) => {
     if (id[0] !== '0') {
       return (
-        <h1 style={style} key={id}>{namespaces[id].name}</h1>
+        <NamespaceHeader 
+          id={id} 
+          style={style} 
+          name={namespaces[id].name} 
+        />
       )
     }
     
@@ -70,15 +75,19 @@ export default () => {
 
       </Grid>
       <Grid className={classes.nativesPane} md={8} xs={12} item>
-        <StickyTree
-          root={{ id: 'root', height: 0 }}
-          width={200}
-          height={400}
-          getChildren={getChildren}
-          rowRenderer={renderRow}
-          renderRoot={false}
-          overscanRowCount={5}
-        />
+        <AutoSizer>
+          {({ height, width }) => (
+            <StickyTree
+              root={{ id: 'root', height: 0 }}
+              width={width}
+              height={height}
+              getChildren={getChildren}
+              rowRenderer={renderRow}
+              renderRoot={false}
+              overscanRowCount={5}
+            />
+          )}
+        </AutoSizer>
       </Grid>
     </Grid>
   )
