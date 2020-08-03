@@ -109,7 +109,7 @@ export default () => {
             )}
           />
         </FormControl>
-        <Typography variant="h6" gutterBottom={16}>Preview</Typography>
+        <Typography variant="h6" gutterBottom>Preview</Typography>
         <Paper className={classes.paper}>
             {(settings.comments && previewNativeData.comment) && (
               <NativeComment>

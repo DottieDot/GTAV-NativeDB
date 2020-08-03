@@ -5,14 +5,10 @@ import { Link as RouterLink } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
-    background: theme.palette.type === 'dark' ? '#333' : theme.palette.primary.main,
     zIndex: 1101,
   },
   subAppbar: {
-    background: fade(
-      theme.palette.type === 'dark' ? '#3a3a3a' : theme.palette.primary.main,
-      .9
-    )
+    background: theme.palette.background.default
   }
 }))
 
@@ -26,6 +22,7 @@ export default () => {
         className={classes.appBar}
         position="relative"
         elevation={0}
+        color="surface"
       >
         <Toolbar>
           <Typography variant="h6">
@@ -42,6 +39,7 @@ export default () => {
       <AppBar
         className={classes.subAppbar}
         position="relative"
+        color="surface"
       >
         <Toolbar variant="dense">
           <Typography variant="subtitle1">

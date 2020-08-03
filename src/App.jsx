@@ -21,13 +21,25 @@ const theme = createMuiTheme({
   palette: {
     background: {
       default: '#eee'
-    }
+    },
+    primary: {
+      main: '#20ba4e'
+    },
+    secondary: {
+      main: '#ff8c00'
+    },
   }
 })
 
 const darkTheme = createMuiTheme({
   palette: {
     type: 'dark',
+    primary: {
+      main: '#20ba4e'
+    },
+    secondary: {
+      main: '#ff8c00'
+    },
   },
 })
 
