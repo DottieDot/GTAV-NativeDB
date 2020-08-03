@@ -1,6 +1,7 @@
 import React from 'react'
-import { AppBar, Toolbar, Typography, makeStyles, fade } from '@material-ui/core'
+import { AppBar, Toolbar, Typography, makeStyles, fade, Link } from '@material-ui/core'
 import { useSelector } from 'react-redux'
+import { Link as RouterLink } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -9,7 +10,7 @@ const useStyles = makeStyles(theme => ({
   },
   subAppbar: {
     background: fade(
-      theme.palette.type === 'dark' ? '#3a3a3a' : theme.palette.primary.main, 
+      theme.palette.type === 'dark' ? '#3a3a3a' : theme.palette.primary.main,
       .9
     )
   }
@@ -21,19 +22,25 @@ export default () => {
 
   return (
     <React.Fragment>
-      <AppBar 
+      <AppBar
         className={classes.appBar}
-        position="relative" 
+        position="relative"
         elevation={0}
       >
         <Toolbar>
           <Typography variant="h6">
-            GTA V Native Reference
+            <Link
+              to="/natives"
+              color="inherit"
+              component={RouterLink}
+            >
+              GTA V Native Reference
+            </Link>
           </Typography>
         </Toolbar>
       </AppBar>
-      <AppBar 
-        className={classes.subAppbar} 
+      <AppBar
+        className={classes.subAppbar}
         position="relative"
       >
         <Toolbar variant="dense">
@@ -42,7 +49,13 @@ export default () => {
             Natives:&nbsp;{stats.natives}{' | '}
             Comments:&nbsp;{stats.comments}{' | '}
             Known names:&nbsp;{stats.knownNames.confirmed} ({stats.knownNames.total}){' | '}
-            Generate&nbsp;natives.h
+            <Link
+              to="/generate-header"
+              color="inherit"
+              component={RouterLink}
+            >
+              Generate&nbsp;natives.h
+            </Link>
           </Typography>
         </Toolbar>
       </AppBar>

@@ -49,6 +49,9 @@ const Content = () => {
         <Route path="/natives/:native">
           <Screens.Natives />
         </Route>
+        <Route path="/generate-header">
+          <Screens.GenerateCode />
+        </Route>
         <Route path="*">
           <Redirect to={{ pathname: "/natives/0x4EDE34FBADD967A6" }} />
         </Route>

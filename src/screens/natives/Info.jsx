@@ -32,7 +32,7 @@ export default () => {
       <Typography variant="h5" gutterBottom={4}>{native.name}</Typography>
       <Paper className={classes.paper}>
         <NativeComment>
-          // {native.hash} {native.jhash} b{native.build}
+          {'//'} {native.hash} {native.jhash} b{native.build}
         </NativeComment>
         <br />
         <NativeDefinition

@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    color: theme.palette.info.main
+    color: theme.palette.info.main,
+    fontFamily: '"Roboto Mono", monospace',
   }
 }))
 
