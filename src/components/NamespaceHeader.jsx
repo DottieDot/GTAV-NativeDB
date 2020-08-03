@@ -1,10 +1,11 @@
 import React from 'react'
-import { Typography, makeStyles } from '@material-ui/core'
+import { Typography, makeStyles, fade } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    background: theme.palette.background.paper,
+    background: fade(theme.palette.background.default, .6),
     padding: 16,
+    backdropFilter: 'blur(20px)'
   }
 }))
 
