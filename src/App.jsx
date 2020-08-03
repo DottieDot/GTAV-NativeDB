@@ -6,12 +6,14 @@ import store from './store'
 import * as Screens from './screens'
 import { useEffect } from 'react'
 import { loadNatives } from './store/actions/natives'
+import { AppBar } from './components'
 
 const useStyles = makeStyles({
   container: {
-    display: 'flex',
     height: '100vh',
-  }
+    display: 'flex',
+    flexDirection: 'column',
+  },
 })
 
 const theme = createMuiTheme({
@@ -32,6 +34,9 @@ const Content = () => {
 
   return (
     <div className={classes.container}>
+      <div>
+        <AppBar />
+      </div>
       <CssBaseline />
       <Switch>
         <Route path="/natives" exact>

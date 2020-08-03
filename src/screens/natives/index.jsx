@@ -6,12 +6,15 @@ import Info from './Info'
 const useStyles = makeStyles(theme => ({
   descriptionPane: {
     background: theme.palette.background.default,
+    height: 'inherit',
   },
   nativesPane: {
     background: theme.palette.background.paper,
+    height: 'inherit',
   },
   root: {
     overflow: 'hidden',
+    height: '100%',
   }
 }))
 

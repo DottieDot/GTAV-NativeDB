@@ -16,8 +16,8 @@ const useStyles = makeStyles({
   root: {
     overflowY: 'scroll',
     display: 'flex',
+    height: '100%',
     flexDirection: 'column',
-    maxHeight: '100vh',
     padding: '16px 16px 0px 16px',
   }
 })
