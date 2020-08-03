@@ -4,10 +4,14 @@ import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
+    background: theme.palette.type === 'dark' ? '#333' : theme.palette.primary.main,
     zIndex: 1101,
   },
   subAppbar: {
-    background: fade(theme.palette.primary.main, .9)
+    background: fade(
+      theme.palette.type === 'dark' ? '#3a3a3a' : theme.palette.primary.main, 
+      .9
+    )
   }
 }))
 

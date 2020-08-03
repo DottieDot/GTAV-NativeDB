@@ -1,7 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { NativeDefinition } from '../../components'
+import { NativeDefinition, NativeComment } from '../../components'
 import { Paper, makeStyles, Typography } from '@material-ui/core'
 
 const useStyles = makeStyles({
@@ -31,6 +31,10 @@ export default () => {
     <div className={classes.root} >
       <Typography variant="h5" gutterBottom={4}>{native.name}</Typography>
       <Paper className={classes.paper}>
+        <NativeComment>
+          // {native.hash} {native.jhash} b{native.build}
+        </NativeComment>
+        <br />
         <NativeDefinition
           name={native.name}
           return_type={native.return_type}

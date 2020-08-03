@@ -7,6 +7,7 @@ import * as Screens from './screens'
 import { useEffect } from 'react'
 import { loadNatives } from './store/actions/natives'
 import { AppBar } from './components'
+import { useMediaPredicate } from 'react-media-hook'
 
 const useStyles = makeStyles({
   container: {
@@ -22,6 +23,12 @@ const theme = createMuiTheme({
       default: '#eee'
     }
   }
+})
+
+const darkTheme = createMuiTheme({
+  palette: {
+    type: 'dark',
+  },
 })
 
 const Content = () => {
@@ -50,12 +57,16 @@ const Content = () => {
   )
 }
 
-export default () => (
-  <StoreProvider store={store}>
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Content />
-      </BrowserRouter>
-    </ThemeProvider>
-  </StoreProvider>
-)
+export default () => {
+  const dark = useMediaPredicate('(prefers-color-scheme: dark)')
+
+  return (
+    <StoreProvider store={store}>
+      <ThemeProvider theme={dark ? darkTheme : theme}>
+        <BrowserRouter>
+          <Content />
+        </BrowserRouter>
+      </ThemeProvider>
+    </StoreProvider>
+  )
+}
