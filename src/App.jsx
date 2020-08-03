@@ -1,6 +1,6 @@
 import React from 'react'
 import { CssBaseline, makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { Provider as StoreProvider, useDispatch } from 'react-redux'
 import store from './store'
 import * as Screens from './screens'
@@ -39,11 +39,11 @@ const Content = () => {
       </div>
       <CssBaseline />
       <Switch>
-        <Route path="/natives" exact>
-          <Screens.Natives />
-        </Route>
         <Route path="/natives/:native">
           <Screens.Natives />
+        </Route>
+        <Route path="*">
+          <Redirect to={{ pathname: "/natives/0x4EDE34FBADD967A6" }} />
         </Route>
       </Switch>
     </div>
