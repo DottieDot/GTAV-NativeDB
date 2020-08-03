@@ -5,7 +5,7 @@ import { StickyTree } from 'react-virtualized-sticky-tree'
 import AutoSizer from 'react-virtualized-auto-sizer'
 
 export default React.memo(() => {
-  const namespaces = useSelector(store => store.namespaces)
+  const namespaces = useSelector(store => store.search)
   const [namespaceData, setNamespaceData] = useState({})
 
   useEffect(() => {
@@ -29,13 +29,13 @@ export default React.memo(() => {
         isSticky: true,
       }))
     }
-    else if (id[0] !== '0') {
+    else if (id && (id[0] !== '0')) {
       return namespaceData[id]
     }
   }, [namespaces, namespaceData])
 
   const renderRow = useCallback(({ id, style }) => {
-    if (id[0] !== '0') {
+    if (id && (id[0] !== '0')) {
       return (
         <NamespaceHeader 
           id={id} 

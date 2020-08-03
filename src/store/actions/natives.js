@@ -19,6 +19,7 @@ export const loadNatives = () => async (dispatch) => {
           (nativeHash) => 
             accumulator[nativeHash] = {
               hash: nativeHash,
+              namespace,
               ...data[namespace][nativeHash]
             }))
 
