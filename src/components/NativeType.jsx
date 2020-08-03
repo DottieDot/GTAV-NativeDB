@@ -11,6 +11,6 @@ export default ({ name }) => {
   const classes = useStyles()
 
   return (
-    <span className={classes.root}>{name}</span>
+    <span className={classes.root}>{name?.replace(/ /g, '\u00A0')}</span>
   )
 }

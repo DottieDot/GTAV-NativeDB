@@ -1,2 +1,2 @@
 
-export { default as Natives } from './Natives'
+export { default as Natives } from './natives'

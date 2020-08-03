@@ -7,12 +7,9 @@ const useStyles = makeStyles({
   mono: {
     fontFamily: '"Roboto Mono", monospace'
   },
-  name: {
-    fontWeight: 600
-  }
 })
 
-export default ({ name, params, return_type, noWrap = false }) => {
+export default ({ name, params, return_type, noWrap = false, boldName = false }) => {
   const classes = useStyles()
   
   return (
@@ -23,7 +20,7 @@ export default ({ name, params, return_type, noWrap = false }) => {
       }}
     >
       <NativeType name={return_type} />
-      <span className={classes.name}>
+      <span style={{ fontWeight: boldName ? 600 : undefined }}>
         {' '}{name}
       </span>
       <NativeParams params={params} />

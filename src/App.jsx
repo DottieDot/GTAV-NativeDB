@@ -34,7 +34,10 @@ const Content = () => {
     <div className={classes.container}>
       <CssBaseline />
       <Switch>
-        <Route path="/">
+        <Route path="/natives" exact>
+          <Screens.Natives />
+        </Route>
+        <Route path="/natives/:native">
           <Screens.Natives />
         </Route>
       </Switch>
