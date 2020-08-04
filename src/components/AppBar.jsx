@@ -1,9 +1,7 @@
 import React from 'react'
-import { AppBar, Toolbar, Typography, makeStyles, Link, TextField } from '@material-ui/core'
-import { useSelector, useDispatch } from 'react-redux'
+import { AppBar, Toolbar, Typography, makeStyles, Link } from '@material-ui/core'
+import { useSelector } from 'react-redux'
 import { Link as RouterLink } from 'react-router-dom'
-import { useState } from 'react'
-import { search } from '../store/actions/search'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -12,18 +10,11 @@ const useStyles = makeStyles(theme => ({
   subAppbar: {
     background: theme.palette.background.default
   },
-  searchField: {
-    display: 'flex',
-    flex: 1,
-    marginLeft: theme.spacing(4)
-  }
 }))
 
-export default () => {
+export default ({ toolbarRef }) => {
   const classes = useStyles()
   const stats = useSelector(({ stats }) => stats)
-  const dispatch = useDispatch()
-  const [query, setQuery] = useState('')
 
   return (
     <React.Fragment>
@@ -33,7 +24,7 @@ export default () => {
         elevation={0}
         color="default"
       >
-        <Toolbar>
+        <Toolbar ref={toolbarRef}>
           <Typography variant="h6">
             <Link
               to="/natives"
@@ -43,15 +34,6 @@ export default () => {
               GTA V Native Reference
             </Link>
           </Typography>
-          <TextField
-            className={classes.searchField}
-            value={query}
-            onChange={e => {
-              setQuery(e.target.value)
-              dispatch(search(e.target.value))
-            }}
-            placeholder="Search for natives..."
-          />
         </Toolbar>
       </AppBar>
       <AppBar
@@ -61,10 +43,10 @@ export default () => {
       >
         <Toolbar variant="dense">
           <Typography variant="subtitle1">
-            Namespaces:&nbsp;{stats.namespaces}{' | '}
-            Natives:&nbsp;{stats.natives}{' | '}
-            Comments:&nbsp;{stats.comments}{' | '}
-            Known names:&nbsp;{stats.knownNames.confirmed} ({stats.knownNames.total}){' | '}
+            Namespaces:&nbsp;{stats.namespaces}&nbsp;{'| '}
+            Natives:&nbsp;{stats.natives}&nbsp;{'| '}
+            Comments:&nbsp;{stats.comments}&nbsp;{'| '}
+            Known names:&nbsp;{stats.knownNames.confirmed} ({stats.knownNames.total})&nbsp;{'| '}
             <Link
               to="/generate-header"
               color="inherit"

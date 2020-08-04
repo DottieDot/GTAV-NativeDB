@@ -4,6 +4,9 @@ import { useSelector } from 'react-redux'
 import { StickyTree } from 'react-virtualized-sticky-tree'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { useParams } from 'react-router-dom'
+import { useAppBar } from '../../components/AppBarProvider'
+import { Portal } from '@material-ui/core'
+import NamespaceSelect from './NamespaceSelect'
 
 export default React.memo(() => {
   const namespaces = useSelector(store => store.search)
@@ -12,6 +15,7 @@ export default React.memo(() => {
   const [ scroll, setScroll ] = useState(-1)
   const [ hasScrolledToNative, setHasScrolledToNative ] = useState(false)
   const [ listLoaded, setListLoaded] = useState(false)
+  const { toolbar } = useAppBar()
 
   useEffect(() => {
     if (listLoaded && Object.keys(namespaces).length) {
@@ -34,13 +38,12 @@ export default React.memo(() => {
     for (const ns in namespaces) {
       if (ns === selectedNative.namespace) {
         result += 3 + namespaces[ns].natives.findIndex(hash => hash === selectedNative.hash)
+        setScroll(result)
+        setHasScrolledToNative(true)
         break
       }
       result += namespaces[ns]?.natives?.length + 1
     }
-
-    setScroll(result)
-    setHasScrolledToNative(true)
   }, [selectedNative, hasScrolledToNative, namespaces, scroll, listLoaded])
 
   useEffect(() => {
@@ -93,20 +96,39 @@ export default React.memo(() => {
     )
   }, [namespaces, listLoaded ])
 
+  const gotoNamespace = useCallback((namespace) => {
+    let result = -1
+    for (const ns in namespaces) {
+      if (ns === namespace) {
+        result += 3
+        setScroll(result)
+        break
+      }
+      result += namespaces[ns].natives.length + 1
+    }
+  }, [namespaces])
+
   return (
-    <AutoSizer>
-      {({ height, width }) => (
-        <StickyTree
-          root={{ id: 'root', height: 0 }}
-          width={width}
-          height={height}
-          getChildren={getChildren}
-          rowRenderer={renderRow}
-          renderRoot={false}
-          overscanRowCount={5}
-          scrollIndex={scroll}
+    <React.Fragment>
+      <Portal container={toolbar.current}>
+        <NamespaceSelect 
+          onSelect={gotoNamespace}
         />
-      )}
-    </AutoSizer>
+      </Portal>
+      <AutoSizer>
+        {({ height, width }) => (
+          <StickyTree
+            root={{ id: 'root', height: 0 }}
+            width={width}
+            height={height}
+            getChildren={getChildren}
+            rowRenderer={renderRow}
+            renderRoot={false}
+            overscanRowCount={5}
+            scrollIndex={scroll}
+          />
+        )}
+      </AutoSizer>
+    </React.Fragment>
   )
 })

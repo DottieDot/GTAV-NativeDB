@@ -6,7 +6,7 @@ import store from './store'
 import * as Screens from './screens'
 import { useEffect } from 'react'
 import { loadNatives } from './store/actions/natives'
-import { AppBar } from './components'
+import { AppBarProvider } from './components'
 import { useMediaPredicate } from 'react-media-hook'
 
 const useStyles = makeStyles({
@@ -53,21 +53,20 @@ const Content = () => {
 
   return (
     <div className={classes.container}>
-      <div>
-        <AppBar />
-      </div>
-      <CssBaseline />
-      <Switch>
-        <Route path="/natives/:native">
-          <Screens.Natives />
-        </Route>
-        <Route path="/generate-header">
-          <Screens.GenerateCode />
-        </Route>
-        <Route path="*">
-          <Redirect to={{ pathname: "/natives/0x4EDE34FBADD967A6" }} />
-        </Route>
-      </Switch>
+      <AppBarProvider>
+        <CssBaseline />
+        <Switch>
+          <Route path="/natives/:native">
+            <Screens.Natives />
+          </Route>
+          <Route path="/generate-header">
+            <Screens.GenerateCode />
+          </Route>
+          <Route path="*">
+            <Redirect to={{ pathname: "/natives/0x4EDE34FBADD967A6" }} />
+          </Route>
+        </Switch>
+      </AppBarProvider>
     </div>
   )
 }
