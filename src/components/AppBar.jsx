@@ -31,7 +31,7 @@ export default () => {
         className={classes.appBar}
         position="relative"
         elevation={0}
-        color="surface"
+        color="default"
       >
         <Toolbar>
           <Typography variant="h6">
@@ -57,7 +57,7 @@ export default () => {
       <AppBar
         className={classes.subAppbar}
         position="relative"
-        color="surface"
+        color="default"
       >
         <Toolbar variant="dense">
           <Typography variant="subtitle1">

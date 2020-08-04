@@ -29,7 +29,7 @@ export default () => {
 
   return (
     <div className={classes.root} >
-      <Typography variant="h5" gutterBottom={4}>{native.name}</Typography>
+      <Typography variant="h5" gutterBottom={true}>{native.name}</Typography>
       <Paper className={classes.paper}>
         <NativeComment>
           {'//'} {native.hash} {native.jhash} b{native.build}

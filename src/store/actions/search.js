@@ -11,8 +11,8 @@ export const search = (input) =>
         (name.toLowerCase().indexOf(lower) !== -1) ||
         (comment.toLowerCase().indexOf(lower) !== -1) ||
         (hash.toLowerCase().indexOf(lower) !== -1) || 
-        (jhash && (jhash.toLowerCase().indexOf(lower) !== -1) ||
-        (`b${build}` === lower))
+        (jhash && (jhash.toLowerCase().indexOf(lower) !== -1)) ||
+        (`b${build}` === lower)
       ) {
         if (!results[namespace]) {
           results[namespace] = {
