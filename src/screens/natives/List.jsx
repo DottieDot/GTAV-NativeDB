@@ -14,6 +14,18 @@ export default React.memo(() => {
   const [ listLoaded, setListLoaded] = useState(false)
 
   useEffect(() => {
+    if (listLoaded && Object.keys(namespaces).length) {
+      setScroll(0)
+    }
+  }, [namespaces, listLoaded])
+  
+  useEffect(() => {
+    if (listLoaded && scroll !== -1) {
+      setScroll(-1)
+    }
+  }, [scroll, listLoaded])
+
+  useEffect(() => {
     if (hasScrolledToNative || !Object.keys(namespaces).length || !listLoaded) {
       return
     }
@@ -79,13 +91,7 @@ export default React.memo(() => {
         />
       </div>
     )
-  }, [namespaces, listLoaded])
-
-  const resetScrollIndex = useCallback(() => {
-    if (scroll !== -1) {
-      setScroll(-1) 
-    }
-  }, [scroll])
+  }, [namespaces, listLoaded ])
 
   return (
     <AutoSizer>
@@ -99,7 +105,6 @@ export default React.memo(() => {
           renderRoot={false}
           overscanRowCount={5}
           scrollIndex={scroll}
-          onScroll={resetScrollIndex}
         />
       )}
     </AutoSizer>
