@@ -1,7 +1,6 @@
 
 const translations = {
   // 'BOOL'      : 'int',
-  // 'Void'      : 'int',
   'Any'       : 'long long',
   'Hash'      : 'unsigned',
   'Ped'       : 'int',

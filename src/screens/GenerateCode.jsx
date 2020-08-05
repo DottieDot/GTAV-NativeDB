@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
-import { Container, Paper, Typography, makeStyles, FormControl, FormLabel, Checkbox, FormControlLabel, TextField } from '@material-ui/core'
+import { Container, Paper, Typography, makeStyles, FormControl, FormLabel, Checkbox, FormControlLabel, TextField, Button } from '@material-ui/core'
 import { NativeDefinition, NativeComment } from '../components'
 import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { transformParamTypesToNativeTypes, transformTypeToNativeType } from '../code-gen/util'
 import { Autocomplete } from '@material-ui/lab'
+import { useCallback } from 'react'
+import CodeGenerator from '../code-gen/CodeGenerator'
+import download from 'downloadjs'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 
 export default () => {
   const classes = useStyles()
-  const natives = useSelector(({ natives }) => natives)
+  const { natives, namespaces } = useSelector(({ natives, namespaces }) => ({ natives, namespaces }))
   const [previewNative, setPreviewNative] = useState('0x4EDE34FBADD967A6')
   const rawNativeData = useSelector(({ natives }) => natives[previewNative])
   const [previewNativeData, setPreviewNativeData] = useState({})
@@ -58,6 +61,19 @@ export default () => {
       setPreviewNativeData(copy)
     }
   }, [settings.typedefs, previewNative, rawNativeData])
+
+  const generateCode = useCallback(() => {
+    console.log(natives, namespaces)
+    const generator = new CodeGenerator({ 
+      comments: settings.comments,
+      nativeTypes: !settings.typedefs,
+     }, { 
+      natives, namespaces 
+    })
+
+      generator.generate()
+      download(generator.getCode(), 'natives.hpp', 'text/plain')
+  }, [natives, namespaces, settings])
 
   return (
     <Container className={classes.root}>
@@ -125,6 +141,15 @@ export default () => {
               {' // '} {previewNativeData.hash} {previewNativeData.jhash} b{previewNativeData.build}
             </NativeComment>
         </Paper>
+        <br />
+        <Button 
+          onClick={generateCode} 
+          color="primary" 
+          variant="contained"
+          fullWidth
+        >
+          Download
+        </Button>
       </Paper>
     </Container>
   )
