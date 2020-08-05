@@ -11,10 +11,16 @@ const useStyles = makeStyles(theme => ({
   descriptionPane: {
     background: theme.palette.background.default,
     height: 'inherit',
+    [theme.breakpoints.down('xs')]: {
+      height: '40%'
+    }
   },
   nativesPane: {
     background: theme.palette.background.paper,
     height: 'inherit',
+    [theme.breakpoints.down('xs')]: {
+      height: '60%'
+    }
   },
   root: {
     overflow: 'hidden',
