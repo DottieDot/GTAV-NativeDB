@@ -10,7 +10,7 @@ A native reference for Grand Theft Auto V built with React. Inspired by FiveM's 
 - Namespace name is sticky so you always now what namespace you're viewing.
 - Works offline and is isntallable as an PWA
 
-[Live page](https://nativedb.dotindustries.com/)
+[Live page](https://nativedb.dotindustries.dev/)
 
 <br />
 

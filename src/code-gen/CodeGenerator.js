@@ -13,7 +13,7 @@ export default class CodeGenerator {
   generateHeader() {
     this.result += '#pragma once\n\n'
     this.result += `// Generated ${new Date().toLocaleString()}\n`
-    this.result += `// https://nativedb.dotindustries.com/\n`
+    this.result += `// https://nativedb.dotindustries.dev/\n`
   }
 
   generateNative(hash) {
