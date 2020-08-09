@@ -52,7 +52,7 @@ export default ({ toolbarRef }) => {
               color="inherit"
               component={RouterLink}
             >
-              Generate&nbsp;natives.h
+              Generate&nbsp;code
             </Link>
           </Typography>
         </Toolbar>
