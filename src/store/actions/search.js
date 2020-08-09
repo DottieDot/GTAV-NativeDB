@@ -10,8 +10,6 @@ export const search = (input) =>
     const nsSearch = (nsSeperator !== -1) ? lower.split('::')[0] : null
     const search = (nsSeperator !== -1) ? lower.substr(nsSeperator + 2) : lower
 
-    console.log(nsSearch, search)
-
     natives.forEach(({ name, comment, namespace, hash, jhash, build }) => {
       if ((
           (name.toLowerCase().indexOf(search) !== -1) ||
