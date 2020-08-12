@@ -18,7 +18,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-virtualized-auto-sizer": "^1.0.2",
-    "react-virtualized-sticky-tree": "^2.1.27",
+    "react-virtualized-sticky-tree": "github:dottiedot/react-virtualized-sticky-tree#backward-search-undefined-property-top",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
   },
