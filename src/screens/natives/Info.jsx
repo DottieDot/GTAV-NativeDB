@@ -15,6 +15,7 @@ const useStyles = makeStyles({
   },
   root: {
     overflowY: 'scroll',
+    overflowX: 'hidden',
     display: 'flex',
     height: '100%',
     flexDirection: 'column',
