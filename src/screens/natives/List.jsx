@@ -34,15 +34,15 @@ export default React.memo(() => {
       return
     }
 
-    let result = -1
+    let result = 0
     for (const ns in namespaces) {
       if (ns === selectedNative.namespace) {
-        result += 3 + namespaces[ns].natives.findIndex(hash => hash === selectedNative.hash)
+        result += (namespaces[ns].natives.findIndex(hash => hash === selectedNative.hash) * 28)
         setScroll(result)
         setHasScrolledToNative(true)
         break
       }
-      result += namespaces[ns]?.natives?.length + 1
+      result += 73 + (namespaces[ns]?.natives?.length * 28)
     }
   }, [selectedNative, hasScrolledToNative, namespaces, scroll, listLoaded])
 
@@ -97,14 +97,14 @@ export default React.memo(() => {
   }, [namespaces, listLoaded ])
 
   const gotoNamespace = useCallback((namespace) => {
-    let result = -1
+    let result = 0
     for (const ns in namespaces) {
       if (ns === namespace) {
-        result += 3
+        result += 0
         setScroll(result)
         break
       }
-      result += namespaces[ns].natives.length + 1
+      result += (namespaces[ns].natives.length * 28) + 73
     }
   }, [namespaces])
 
@@ -125,7 +125,7 @@ export default React.memo(() => {
             rowRenderer={renderRow}
             renderRoot={false}
             overscanRowCount={5}
-            scrollIndex={scroll}
+            scrollTop={scroll}
           />
         )}
       </AutoSizer>
