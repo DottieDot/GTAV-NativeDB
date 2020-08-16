@@ -4,11 +4,11 @@
 
 A native reference for Grand Theft Auto V built with React. Inspired by FiveM's reference with a few improvements.
 
-- Cuickly jump to a namespace.
+- Quickly jump to a namespace.
 - Uses [Alloc8or's native data](https://github.com/alloc8or/gta5-nativedb-data) which is more up-to-date and has the correct naming for all of the namespaces.
 - Ability to generate a native header file.
-- Namespace name is sticky so you always now what namespace you're viewing.
-- Works offline and is isntallable as an PWA
+- The namespace name is sticky so you always now what namespace you're viewing.
+- Works offline and is installable as a PWA
 
 [Live page](https://nativedb.dotindustries.dev/)
 
