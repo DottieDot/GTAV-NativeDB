@@ -1,17 +1,17 @@
 import React from 'react'
 import NativeDefinition from './NativeDefinition'
 import { ListItem } from '@material-ui/core'
-import { useSelector } from 'react-redux'
-import { useHistory, useParams } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { setSelectedNative } from '../store/actions/app'
 
 export default React.memo(({ hash }) => {
   const { name, return_type, params } = useSelector(({ natives }) => natives[hash]) ?? {}
-  const history = useHistory()
-  const { native: selectedNative } = useParams()
+  const dispatch = useDispatch()
+  const selectedNative = useSelector(state => state.app.selectedNative)
 
   return (
     <ListItem
-      onClick={() => history.push(`/natives/${hash}`)}
+      onClick={() => dispatch(setSelectedNative(hash))}
       selected={selectedNative === hash}
       button
       dense

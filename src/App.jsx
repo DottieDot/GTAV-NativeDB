@@ -1,6 +1,6 @@
 import React from 'react'
 import { CssBaseline, makeStyles, createMuiTheme, ThemeProvider, fade } from '@material-ui/core'
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect, useParams } from 'react-router-dom'
 import { Provider as StoreProvider, useDispatch } from 'react-redux'
 import store from './store'
 import * as Screens from './screens'
@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 import { loadNatives } from './store/actions/natives'
 import { AppBarProvider } from './components'
 import { useMediaPredicate } from 'react-media-hook'
+import { setSelectedNative } from './store/actions/app'
 
 const useStyles = makeStyles({
   container: {
@@ -70,6 +71,17 @@ const darkTheme = createMuiTheme({
   },
 })
 
+const HandleNativeLink = () => {
+  const dispatch = useDispatch()
+  const { native } = useParams()
+
+  dispatch(setSelectedNative(native))
+
+  return (
+    <Redirect to={{ pathname: '/natives' }} />
+  )
+}
+
 const Content = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
@@ -84,14 +96,17 @@ const Content = () => {
       <AppBarProvider>
         <CssBaseline />
         <Switch>
-          <Route path="/natives/:native">
+          <Route exact path="/natives">
             <Screens.Natives />
+          </Route>
+          <Route exact path="/natives/:native">
+            <HandleNativeLink />
           </Route>
           <Route path="/generate-header">
             <Screens.GenerateCode />
           </Route>
           <Route path="*">
-            <Redirect to={{ pathname: "/natives/0x4EDE34FBADD967A6" }} />
+            <Redirect to={{ pathname: "/natives" }} />
           </Route>
         </Switch>
       </AppBarProvider>

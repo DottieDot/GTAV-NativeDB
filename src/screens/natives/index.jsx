@@ -3,9 +3,10 @@ import { Grid, makeStyles, Portal, TextField } from '@material-ui/core'
 import List from './List'
 import Info from './Info'
 import { useAppBar } from '../../components/AppBarProvider'
-import { useDispatch } from 'react-redux'
-import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useState, useEffect } from 'react'
 import { search } from '../../store/actions/search'
+import { useLocation, useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   descriptionPane: {
@@ -37,7 +38,19 @@ export default () => {
   const classes = useStyles()
   const { toolbar } = useAppBar()
   const dispatch = useDispatch()
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState(new URLSearchParams(useLocation().search).get('search') ?? '')
+  const history = useHistory()
+  const nativesLoaded = useSelector(({ natives }) => !!natives['0x4EDE34FBADD967A6'])
+
+  const updateUrl = () => {
+    history.replace(query ? `?search=${encodeURIComponent(query)}` : '?')
+  }
+
+  useEffect(() => {
+    if (nativesLoaded) {
+      dispatch(search(query))
+    }
+  }, [query, dispatch, nativesLoaded])
 
   return (
     <React.Fragment>
@@ -47,8 +60,8 @@ export default () => {
           value={query}
           onChange={e => {
             setQuery(e.target.value)
-            dispatch(search(e.target.value))
           }}
+          onBlur={updateUrl}
           placeholder="Search for natives..."
         />
       </Portal>

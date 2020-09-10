@@ -3,7 +3,6 @@ import { NativeListItem, NamespaceHeader } from '../../components'
 import { useSelector } from 'react-redux'
 import { StickyTree } from 'react-virtualized-sticky-tree'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import { useParams } from 'react-router-dom'
 import { useAppBar } from '../../components/AppBarProvider'
 import { Portal } from '@material-ui/core'
 import NamespaceSelect from './NamespaceSelect'
@@ -11,7 +10,7 @@ import NamespaceSelect from './NamespaceSelect'
 export default React.memo(() => {
   const namespaces = useSelector(store => store.search)
   const [namespaceData, setNamespaceData] = useState({})
-  const selectedNative = useSelector(({ natives }) => natives[useParams()['native']]) ?? {}
+  const selectedNative = useSelector(({ natives, app }) => natives[app.selectedNative]) ?? {}
   const [ scroll, setScroll ] = useState(-1)
   const [ hasScrolledToNative, setHasScrolledToNative ] = useState(false)
   const [ listLoaded, setListLoaded] = useState(false)

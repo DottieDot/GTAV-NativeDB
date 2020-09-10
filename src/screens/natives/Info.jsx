@@ -1,5 +1,4 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { NativeDefinition, NativeComment } from '../../components'
 import { Paper, makeStyles, Typography } from '@material-ui/core'
@@ -24,7 +23,7 @@ const useStyles = makeStyles({
 })
 
 export default () => {
-  const { native: hash } = useParams()
+  const hash = useSelector(state => state.app.selectedNative)
   const native = useSelector(({ natives }) => natives[hash]) ?? {}
   const classes = useStyles()
 
