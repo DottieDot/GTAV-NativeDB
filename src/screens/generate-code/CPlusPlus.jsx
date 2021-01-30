@@ -37,6 +37,7 @@ export default () => {
   const [settings, setSettings] = useState({
     comments: false,
     typedefs: true,
+    cpp_complient: true,
   })
 
   const handleChange = React.useCallback((event) => {
@@ -48,20 +49,32 @@ export default () => {
 
   useEffect(() => {
     if (rawNativeData) {
+      let native_name = rawNativeData.name
+      if (settings.cpp_complient && native_name[0] === '_') {
+        if (native_name[1] === '0') {
+          native_name = `N${native_name}`
+        }
+        else {
+          native_name = `${native_name.substr(1)}_`
+        }
+      }
+
       const copy = {
         ...rawNativeData,
+        name: native_name,
         params: settings.typedefs ? rawNativeData.params : transformParamTypesToNativeTypes(rawNativeData.params),
         return_type: settings.typedefs ? rawNativeData.return_type : transformTypeToNativeType(rawNativeData.return_type)
       }
 
       setPreviewNativeData(copy)
     }
-  }, [settings.typedefs, previewNative, rawNativeData])
+  }, [settings, previewNative, rawNativeData])
 
   const generateCode = useCallback(() => {
     const generator = new CodeGenerator({
       comments: settings.comments,
       nativeTypes: !settings.typedefs,
+      cpp_complient: settings.cpp_complient,
     }, {
       natives, namespaces
     })
@@ -100,6 +113,17 @@ export default () => {
             />
           }
           label="Use Typedefs"
+        />
+        <FormControlLabel
+          className={classes.controlLabel}
+          control={
+            <Checkbox
+              checked={settings.cpp_complient}
+              onChange={handleChange}
+              name="cpp_complient"
+            />
+          }
+          label="C++ Complient"
         />
         <Autocomplete
           className={classes.comboBox}
