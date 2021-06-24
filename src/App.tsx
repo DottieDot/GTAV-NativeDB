@@ -1,7 +1,11 @@
 import React from 'react'
+import { Provider as StoreProvider } from 'react-redux'
+import store from './store'
 
 export default function App() {
   return (
-    <h1>The start of something awesome!</h1>
+    <StoreProvider store={store}>
+      
+    </StoreProvider>
   )
 }
