@@ -1,7 +1,6 @@
 {
-  "short_name": "GTA V NativeDB",
-  "name": "Grand Theft Auto V Native Database",
-  "description": "Grand Theft Auto 5 native database",
+  "short_name": "React App",
+  "name": "Create React App Sample",
   "icons": [
     {
       "src": "favicon.ico",
@@ -21,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#20ba4e",
-  "background_color": "#ff7c3f"
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
 }
