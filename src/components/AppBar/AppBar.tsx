@@ -2,15 +2,15 @@ import { AppBar as MaterialAppBar, Box, BoxProps, Divider, IconButton, Link, Too
 import { GitHub as GithubIcon } from '@material-ui/icons'
 import React, { memo } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import useStats from '../../hooks/useStats'
+import { useStats } from '../../hooks'
 
 export interface AppBarProps extends BoxProps {}
 
-function AppBar({ sx, ...rest }: AppBarProps) {
+function AppBar(props: AppBarProps) {
   const stats = useStats()
 
   return (
-    <Box sx={{ flexGrow: 1, ...sx }} {...rest}>
+    <Box {...props}>
       <MaterialAppBar position="sticky">
         <Toolbar>
           <Typography variant="h6" component="div">
