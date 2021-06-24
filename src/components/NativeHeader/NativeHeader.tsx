@@ -6,8 +6,8 @@ export interface NativeHeaderProps extends BoxProps { }
 
 const StyledBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
-  backdropFilter: 'blur(40px)',
-  backgroundColor: alpha(theme.palette.background.default, 0.8),
+  backdropFilter: 'blur(20px)',
+  backgroundColor: alpha(theme.palette.background.default, 0.6),
   ...(theme.palette.mode === 'dark' && {
     backgroundImage: `linear-gradient(${alpha(
       '#fff',

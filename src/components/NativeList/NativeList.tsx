@@ -1,18 +1,19 @@
-import { Box } from '@material-ui/core'
+import { Box, BoxProps } from '@material-ui/core'
 import React, { memo, useCallback, useMemo } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { StickyTree } from 'react-virtualized-sticky-tree'
+import { Namespace } from '../../store'
 import NativeHeader from '../NativeHeader'
 import NativeListItem from './NativeListItem'
 
-// export interface NativeListProps extends Omit<BoxProps, 'children'> {
-//   namespaces: { [name: string]: Namespace }
-// }
+export interface NativeListProps extends Omit<BoxProps, 'children'> {
+  namespaces: { [name: string]: Namespace }
+}
 
-function NativeList({ namespaces, sx = {}, ...rest }) {
+function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
   const namespaceArray = useMemo(() => Object.values(namespaces), [namespaces])
   const namespaceData = useMemo(
-    () => namespaceArray.reduce((accumulator, namespace) => {
+    () => namespaceArray.reduce<{[name: string]: any}>((accumulator, namespace) => {
       accumulator[namespace.name] = namespace.natives.map(hash => ({
         node: {
           id: hash,
@@ -43,7 +44,7 @@ function NativeList({ namespaces, sx = {}, ...rest }) {
       return (
         <NativeHeader 
           id={id} 
-          style={style} 
+          style={{...style, zIndex: 1 }} 
         >
           {namespaces[id].name}
         </NativeHeader>

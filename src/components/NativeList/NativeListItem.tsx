@@ -1,7 +1,7 @@
 import { ListItem } from '@material-ui/core'
 import React, { memo, CSSProperties } from 'react'
 import { useCallback } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { useNative } from '../../hooks'
 import NativeDefinition from '../NativeDefinition'
 
@@ -13,6 +13,7 @@ interface NativeListItemProps {
 function NativeListItem({ nativeHash, style }: NativeListItemProps) {
   const native = useNative(nativeHash)
   const history = useHistory()
+  const { native: selectedNativeHash } = useParams<{ native: string } >()
   
   const onClick = useCallback(() => {
     history.replace(`/natives/${nativeHash}`)
@@ -21,7 +22,7 @@ function NativeListItem({ nativeHash, style }: NativeListItemProps) {
   return (
     <ListItem
       onClick={onClick}
-      selected={false}
+      selected={selectedNativeHash === nativeHash}
       style={style}
       button
       dense
