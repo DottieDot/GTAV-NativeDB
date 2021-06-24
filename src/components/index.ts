@@ -11,6 +11,12 @@ export * from './NativeDefinition'
 export { default as NativeDetails } from './NativeDetails'
 export * from './NativeDetails'
 
+export { default as NativeHeader } from './NativeHeader'
+export * from './NativeHeader'
+
+export { default as NativeList } from './NativeList'
+export * from './NativeList'
+
 export { default as NativeParams } from './NativeParams'
 export * from './NativeParams'
 

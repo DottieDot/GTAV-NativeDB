@@ -8,11 +8,20 @@ export interface NativeDefinitionProps extends Omit<TypographyProps, 'children'>
   name      : string
   params    : NativeParam[]
   returnType: string
+  noWrap   ?: boolean
 }
 
-function NativeDefinition({ name, params, returnType, sx, ...rest }: NativeDefinitionProps) {
+function NativeDefinition({ name, params, returnType, sx, noWrap = false, ...rest }: NativeDefinitionProps) {
   return (
-    <Typography component="span" sx={{ fontFamily: '"Roboto Mono", monospace', ...sx }} {...rest}>
+    <Typography 
+      component="span" 
+      sx={{ 
+        fontFamily: '"Roboto Mono", monospace',
+        whiteSpace: noWrap ? 'nowrap' : undefined,
+        ...sx
+      }} 
+      {...rest}
+    >
       <NativeType>{returnType}</NativeType>
       <span>
         {' '}{name}
