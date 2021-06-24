@@ -4,3 +4,8 @@
   display: flex;
   flex-direction: column;
 }
+
+/* No other way to do this :/ */
+.rv-sticky-tree {
+  overflow-x: hidden !important;
+}
