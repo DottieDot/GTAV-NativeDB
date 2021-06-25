@@ -8,7 +8,7 @@ function NativeComment({ children, sx, ...rest }: NativeCommentProps) {
   return (
     <Typography sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', ...sx }} {...rest}>
       <Linkify componentDecorator={(decoratedHref: string, decoratedText: string, key: number) => (
-          <Link href={decoratedHref} key={key}>
+          <Link href={decoratedHref} key={key} target="_blank">
             {decoratedText}
           </Link>
         )}
