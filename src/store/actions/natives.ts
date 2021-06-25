@@ -12,16 +12,6 @@ export interface SetNatives {
 }
 
 export function setNatives(nativeJson: Alloc8orNativeJson): SetNatives {
-  // const stats: NativeStats = {
-  //   namespaces: 0,
-  //   natives   : 0,
-  //   comments  : 0,
-  //   knownNames: {
-  //     total    : 0,
-  //     confirmed: 0
-  //   }
-  // }
-
   const namespaces = Object.keys(nativeJson)
     .reduce<SetNatives['namespaces']>((accumulator, namespaceName) => {
       const namespace = nativeJson[namespaceName]

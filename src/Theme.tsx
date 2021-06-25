@@ -3,6 +3,7 @@ import { createTheme, ThemeOptions, ThemeProvider, useMediaQuery } from '@materi
 import React from 'react'
 import { useMemo } from 'react'
 import { ReactNode } from 'react'
+import { useSettings } from './hooks'
 
 const lightTheme: ThemeOptions = {
   palette: {
@@ -39,7 +40,9 @@ const darkTheme: ThemeOptions = {
 }
 
 function Theme({ children }: { children: ReactNode }) {
-  const dark = useMediaQuery('(prefers-color-scheme: dark)')
+  const settings = useSettings()
+  const systemIsDark = useMediaQuery('(prefers-color-scheme: dark)')
+  const dark = settings.theme !== 'light' && systemIsDark
   const theme = useMemo(
     () => createTheme(dark ? darkTheme : lightTheme),
     [dark]
