@@ -1,8 +1,9 @@
 import { AppBar as MaterialAppBar, Box, BoxProps, Divider, IconButton, Link, Toolbar, Tooltip, Typography } from '@material-ui/core'
-import { GitHub as GithubIcon } from '@material-ui/icons'
-import React, { memo, RefObject } from 'react'
+import { GitHub as GithubIcon, Settings as SettingsIcon } from '@material-ui/icons'
+import React, { memo, RefObject, useState, useCallback } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useStats } from '../../hooks'
+import SettingsDrawer from './SettingsDrawer'
 
 export interface AppBarProps extends BoxProps {
   toolbarRef?: RefObject<HTMLDivElement>
@@ -10,9 +11,19 @@ export interface AppBarProps extends BoxProps {
 
 function AppBar({ toolbarRef, ...rest }: AppBarProps) {
   const stats = useStats()
+  const [settingsOpen, setSettingsOpen] = useState(false)
+
+  const handleSettingsOpen = useCallback(() => {
+    setSettingsOpen(true)
+  }, [setSettingsOpen])
+
+  const handleSettingsClose = useCallback(() => {
+    setSettingsOpen(false)
+  }, [setSettingsOpen])
 
   return (
     <Box {...rest}>
+      <SettingsDrawer open={settingsOpen} onClose={handleSettingsClose} />
       <MaterialAppBar position="sticky">
         <Toolbar>
           <Typography variant="h6" component="div">
@@ -25,7 +36,18 @@ function AppBar({ toolbarRef, ...rest }: AppBarProps) {
               GTA V Native Reference
             </Link>
           </Typography>
-          <Tooltip title="View on GitHub" sx={{ mx: 1 }}>
+          <Box sx={{ flexGrow: 1 }} />
+          <div ref={toolbarRef} />
+          <Tooltip title="Settings">
+            <IconButton
+              aria-label="settings" 
+              color="inherit"
+              onClick={handleSettingsOpen}
+            >
+              <SettingsIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="View on GitHub">
             <IconButton
               aria-label="view on github" 
               color="inherit"
@@ -35,7 +57,6 @@ function AppBar({ toolbarRef, ...rest }: AppBarProps) {
               <GithubIcon />
             </IconButton>
           </Tooltip>
-          <div ref={toolbarRef} />
         </Toolbar>
         <Divider variant="fullWidth" />
         <Toolbar variant="dense">

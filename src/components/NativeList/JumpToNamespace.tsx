@@ -1,5 +1,5 @@
-import { Dialog, DialogTitle, DialogContent, TextField, List, ListItem, ListItemText, Button } from '@material-ui/core'
-import React, { useMemo, useState, useCallback, ChangeEvent, Fragment, KeyboardEvent } from 'react'
+import { Button, Dialog, List, ListItem, ListItemText, TextField } from '@material-ui/core'
+import React, { ChangeEvent, Fragment, KeyboardEvent, useCallback, useMemo, useState } from 'react'
 import useNamespaces from '../../hooks/useNamespaces'
 import AppBarPortal from '../AppBarPortal'
 
