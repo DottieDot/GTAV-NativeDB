@@ -12,14 +12,14 @@ export default function NativeInfo() {
 
   if  (!native) {
     return (
-      <Box sx={{ p: 2, overflow: 'hidden scroll', flex: 1 }}>
+      <Box sx={{ p: 2 }}>
         <NativeNotFound nativeHash={nativeHash} />
       </Box>
     )
   }
 
   return (
-    <Box sx={{ p: 2, overflow: 'hidden scroll', flex: 1 }}>
+    <Box sx={{ p: 2 }}>
       <Typography 
         sx={{ 
           textOverflow: 'ellipsis', 

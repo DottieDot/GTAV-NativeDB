@@ -8,19 +8,18 @@ function NativesPage() {
   const namespaces = useNamespaces()
 
   return (
-    <Grid sx={{ flex: 1 }} container>
+    <Grid sx={{ flex: 1, overflow: 'hidden' }} container>
       <Grid 
         xl={4} md={5} sm={6} xs={12} item
+        sx={{ overflow: 'hidden scroll' }}
       >
-        <div style={{ height: 'inherit', background: 'blue', overflow: 'hidden' }}>
-          <NativeInfo />
-        </div>
+        <NativeInfo />
       </Grid>
       <Grid 
         xl={8} md={7} sm={6} xs={12} item
-        sx={{ display: 'flex' }}
       >
-        <NativeList 
+        <NativeList
+          sx={{ height: '100%' }}
           namespaces={namespaces}
         />
       </Grid>
