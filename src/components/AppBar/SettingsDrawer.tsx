@@ -90,6 +90,9 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
               <ToggleButton value="alloc8or" disabled>
                 Alloc8or
               </ToggleButton>
+              <ToggleButton value="dottiedot">
+                DottieDot
+              </ToggleButton>
               <ToggleButton value="fivem">
                 FiveM
               </ToggleButton>

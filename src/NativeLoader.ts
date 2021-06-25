@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { LoadAlloc8orNatives, LoadFivemNatives, NativeJson } from './external'
+import { AdditionalNativeDataJson, LoadAlloc8orNatives, LoadDottieDotAdditionalData, LoadFivemNatives, NativeJson } from './external'
 import { useSettings } from './hooks'
 import { NativeSources, setNatives } from './store'
 
@@ -40,7 +40,13 @@ export default function NativeLoader() {
         }
       }
       const merged = mergeDocuments(documents)
-      dispatch(setNatives(merged))
+
+      let additionalData: AdditionalNativeDataJson | null = null
+      if (sources.indexOf(NativeSources.DottieDot) !== -1) {
+        additionalData = await LoadDottieDotAdditionalData()
+      }
+
+      dispatch(setNatives(merged, additionalData))
     })()
   }, [dispatch, sources])
 

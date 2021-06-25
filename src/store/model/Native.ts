@@ -9,4 +9,5 @@ export default interface Native {
   params    : NativeParam[]
   returnType: string
   build     : string
+  oldNames ?: string[]
 }

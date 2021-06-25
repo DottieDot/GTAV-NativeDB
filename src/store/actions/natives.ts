@@ -1,6 +1,7 @@
 import { Native, NativeStats } from '../model'
 import Namespace from '../model/Namespace'
 import { NativeJson as Alloc8orNativeJson } from '../../external/alloc8or-nativedb'
+import { AdditionalNativeDataJson } from '../../external'
 
 export const SET_NATIVES = 'SET_NATIVES'
 
@@ -11,7 +12,7 @@ export interface SetNatives {
   stats     : NativeStats
 }
 
-export function setNatives(nativeJson: Alloc8orNativeJson): SetNatives {
+export function setNatives(nativeJson: Alloc8orNativeJson, additioanlData: AdditionalNativeDataJson | null): SetNatives {
   const namespaces = Object.keys(nativeJson)
     .reduce<SetNatives['namespaces']>((accumulator, namespaceName) => {
       const namespace = nativeJson[namespaceName]
@@ -35,7 +36,8 @@ export function setNatives(nativeJson: Alloc8orNativeJson): SetNatives {
           comment   : native.comment,
           params    : native.params,
           returnType: native.return_type,
-          build     : native.build
+          build     : native.build,
+          oldNames  : (additioanlData && additioanlData[nativeHash]?.old_names) ?? undefined
         }
       })
 

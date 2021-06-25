@@ -1,4 +1,4 @@
-import { Box, IconButton, Paper, Stack, Tooltip, Typography } from '@material-ui/core'
+import { Box, IconButton, List, Paper, Stack, Tooltip, Typography, ListItem, ListItemText, Divider } from '@material-ui/core'
 import { LinkSharp as ShareIcon } from '@material-ui/icons'
 import React, { useCallback } from 'react'
 import { useParams } from 'react-router-dom'
@@ -62,6 +62,21 @@ export default function NativeInfo() {
             {native.comment}
           </NativeComment>
         </Paper>
+        {native.oldNames && (
+          <Paper>
+            <Typography variant="subtitle1" sx={{ p: 2, pb: 1 }}>
+              Old Names
+            </Typography>
+            <Divider />
+            <List>
+              {native.oldNames.map(oldName => (
+                <ListItem dense>
+                  <ListItemText primary={oldName} />
+                </ListItem>
+              ))}
+            </List>
+          </Paper>
+        )}
       </Stack>
     </Box>
   )
