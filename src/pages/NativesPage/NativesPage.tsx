@@ -10,10 +10,11 @@ function NativesPage() {
   return (
     <Grid sx={{ flex: 1 }} container>
       <Grid 
-        xl={4} md={5} sm={6} xs={12} item 
-        sx={{ display: 'flex' }}
+        xl={4} md={5} sm={6} xs={12} item
       >
-        <NativeInfo />
+        <div style={{ height: 'inherit', background: 'blue', overflow: 'hidden' }}>
+          <NativeInfo />
+        </div>
       </Grid>
       <Grid 
         xl={8} md={7} sm={6} xs={12} item

@@ -47,7 +47,7 @@ export default function NativeInfo() {
           />
         </Paper>
         <Paper sx={{ p: 2 }}>
-          <NativeComment variant="body1">
+          <NativeComment variant="body2">
             {native.comment}
           </NativeComment>
         </Paper>

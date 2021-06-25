@@ -6,7 +6,7 @@ export interface NativeCommentProps extends TypographyProps {}
 
 function NativeComment({ children, sx, ...rest }: NativeCommentProps) {
   return (
-    <Typography sx={{ whiteSpace: 'pre-wrap', ...sx }} {...rest}>
+    <Typography sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', ...sx }} {...rest}>
       <Linkify componentDecorator={(decoratedHref: string, decoratedText: string, key: number) => (
           <Link href={decoratedHref} key={key}>
             {decoratedText}
