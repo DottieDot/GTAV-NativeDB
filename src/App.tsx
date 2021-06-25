@@ -1,8 +1,8 @@
 import { CssBaseline } from '@material-ui/core'
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Provider as StoreProvider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import { AppBar } from './components'
+import { AppBarProvider } from './components'
 import useNamespaces from './hooks/useNamespaces'
 import NativeLoader from './NativeLoader'
 import Router from './Router'
@@ -18,10 +18,9 @@ function LoadGate() {
   }
 
   return (
-    <Fragment>
-      <AppBar />
+    <AppBarProvider>
       <Router />
-    </Fragment>
+    </AppBarProvider>
   )
 }
 

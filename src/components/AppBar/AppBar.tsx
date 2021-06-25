@@ -1,16 +1,18 @@
 import { AppBar as MaterialAppBar, Box, BoxProps, Divider, IconButton, Link, Toolbar, Tooltip, Typography } from '@material-ui/core'
 import { GitHub as GithubIcon } from '@material-ui/icons'
-import React, { memo } from 'react'
+import React, { memo, RefObject } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useStats } from '../../hooks'
 
-export interface AppBarProps extends BoxProps {}
+export interface AppBarProps extends BoxProps {
+  toolbarRef?: RefObject<HTMLDivElement>
+}
 
-function AppBar(props: AppBarProps) {
+function AppBar({ toolbarRef, ...rest }: AppBarProps) {
   const stats = useStats()
 
   return (
-    <Box {...props}>
+    <Box {...rest}>
       <MaterialAppBar position="sticky">
         <Toolbar>
           <Typography variant="h6" component="div">
@@ -33,6 +35,7 @@ function AppBar(props: AppBarProps) {
               <GithubIcon />
             </IconButton>
           </Tooltip>
+          <div ref={toolbarRef} />
         </Toolbar>
         <Divider variant="fullWidth" />
         <Toolbar variant="dense">

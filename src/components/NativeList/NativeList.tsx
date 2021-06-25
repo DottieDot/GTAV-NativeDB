@@ -6,6 +6,7 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { StickyTree } from 'react-virtualized-sticky-tree'
 import { Namespace } from '../../store'
 import NativeHeader from '../NativeHeader'
+import JumpToNamespace from './JumpToNamespace'
 import NativeListItem from './NativeListItem'
 
 export interface NativeListProps extends Omit<BoxProps, 'children'> {
@@ -38,6 +39,10 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
 
     listRef.current.scrollNodeIntoView(selectedNativeHash)
   }, [listRef, selectedNativeHash, hasScrolledToNative, listLoaded, setHasScrolledToNative])
+
+  const jumpToNamespace = useCallback((namespace: string) => {
+    listRef.current?.scrollNodeIntoView(namespace)
+  }, [listRef])
 
   const getChildren = useCallback(({ id }) => {
     if (!listLoaded) {
@@ -81,6 +86,9 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
 
   return (
     <Box sx={{ flex: 1, ...sx }} {...rest}>
+      <JumpToNamespace 
+        onNamespaceClicked={jumpToNamespace}
+      />
       <AutoSizer>
         {({ height, width }) => (
           <StickyTree
