@@ -1,14 +1,19 @@
-import { Box, Paper, Stack } from '@material-ui/core'
-import { Typography } from '@material-ui/core'
-import React from 'react'
+import { Box, IconButton, Paper, Stack, Tooltip, Typography } from '@material-ui/core'
+import { LinkSharp as ShareIcon } from '@material-ui/icons'
+import React, { useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { NativeComment, NativeDefinition, NativeDetails } from '../../components'
-import { useNative } from '../../hooks'
+import { useCopyToClipboard, useNative } from '../../hooks'
 import NativeNotFound from './NativeNotFound'
 
 export default function NativeInfo() {
   const { native: nativeHash } = useParams<{ native: string }>()
   const native = useNative(nativeHash)
+  const copyToClipboard = useCopyToClipboard()
+
+  const onShare = useCallback(() => {
+    copyToClipboard(`${window.location.host}/natives/${nativeHash}`)
+  }, [copyToClipboard, nativeHash])
 
   if  (!native) {
     return (
@@ -20,17 +25,23 @@ export default function NativeInfo() {
 
   return (
     <Box sx={{ p: 2 }}>
-      <Typography 
-        sx={{ 
-          textOverflow: 'ellipsis', 
-          overflow: 'hidden' 
-        }}
-        variant="h5" 
-        component="h1" 
-        gutterBottom
-      >
-        {native.name}
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, pb: 1 }}>
+        <Tooltip title="Copy Link">
+          <IconButton onClick={onShare} size="small" aria-label="copy link">
+            <ShareIcon />
+          </IconButton>
+        </Tooltip>
+        <Typography 
+          sx={{ 
+            textOverflow: 'ellipsis', 
+            overflow: 'hidden' 
+          }}
+          variant="h5" 
+          component="h1" 
+        >
+          {native.name}
+        </Typography>
+      </Box>
       <Stack spacing={2}>
         <Paper sx={{ p: 2 }}>
           <NativeDetails

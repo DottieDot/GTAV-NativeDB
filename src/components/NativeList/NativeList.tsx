@@ -67,11 +67,9 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
     if (id && (id[0] !== '0')) {
       return (
         <NativeHeader 
-          id={id} 
+          namespace={id}
           style={{...style, zIndex: 1 }} 
-        >
-          {namespaces[id].name}
-        </NativeHeader>
+        />
       )
     }
     
@@ -82,7 +80,7 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
         key={id}
       />
     )
-  }, [namespaces])
+  }, [])
 
   return (
     <Box sx={{ flex: 1, ...sx }} {...rest}>
