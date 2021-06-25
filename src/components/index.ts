@@ -8,6 +8,9 @@ export * from './AppBarPortal'
 export { default as AppBarProvider } from './AppBarProvider'
 export * from './AppBarProvider'
 
+export { default as BetaRibbon } from './BetaRibbon'
+export * from './BetaRibbon'
+
 export { default as NativeComment } from './NativeComment'
 export * from './NativeComment'
 

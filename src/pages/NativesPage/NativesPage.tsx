@@ -11,7 +11,7 @@ function NativesPage() {
     <Grid sx={{ flex: 1, overflow: 'hidden' }} container>
       <Grid 
         xl={4} md={5} sm={6} xs={12} item
-        sx={{ overflow: 'hidden scroll' }}
+        sx={{ overflow: 'hidden scroll', height: '100%' }}
       >
         <NativeInfo />
       </Grid>

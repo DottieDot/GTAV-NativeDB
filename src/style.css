@@ -1,8 +1,18 @@
 
+html {
+  overflow: hidden;
+}
+
+body {
+  height: 100vh;
+  overflow: 'hidden'
+}
+
 #root {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: 'hidden'
 }
 
 /* No other way to do this :/ */
