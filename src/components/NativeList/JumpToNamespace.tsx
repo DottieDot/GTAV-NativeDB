@@ -52,27 +52,21 @@ export default function JumpToNamespace({ onNamespaceClicked }: Props) {
         </Button>
       </AppBarPortal>
       <Dialog open={dialogOpen} onClose={handleDialogClose} maxWidth="xs" fullWidth>
-        <DialogTitle>
-          Jump To Namespace
-        </DialogTitle>
-        <DialogContent sx={{ pb: 0 }}>
-          <TextField 
-            label="Filter"
-            variant="filled"
-            value={filter}
-            onChange={handleFilterChange}
-            onKeyDown={onKeyDown}
-            fullWidth
-            autoFocus
-          />
-        </DialogContent>
+        <TextField 
+          label="Filter"
+          variant="filled"
+          value={filter}
+          onChange={handleFilterChange}
+          onKeyDown={onKeyDown}
+          fullWidth
+          autoFocus
+        />
         <List sx={{ height: 200, overflowY: 'scroll' }}>
           {filteredNamespaces.map(({ name, natives }, index) => (
             <ListItem 
               key={name} 
               onClick={() => handleNamespaceSelected(name)}
               selected={!!filter && index === 0}
-              sx={{ px: 4 }}
               button
             >
               <ListItemText 
