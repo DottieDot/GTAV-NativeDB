@@ -2,6 +2,7 @@ import { Box, IconButton, List, Paper, Stack, Tooltip, Typography, ListItem, Lis
 import { LinkSharp as ShareIcon } from '@material-ui/icons'
 import React, { useCallback } from 'react'
 import { useParams } from 'react-router-dom'
+import { createShareUrl } from '../../common'
 import { NativeComment, NativeDefinition, NativeDetails } from '../../components'
 import { useCopyToClipboard, useNative } from '../../hooks'
 import NativeNotFound from './NativeNotFound'
@@ -12,7 +13,7 @@ export default function NativeInfo() {
   const copyToClipboard = useCopyToClipboard()
 
   const onShare = useCallback(() => {
-    copyToClipboard(`${window.location.host}/natives/${nativeHash}`)
+    copyToClipboard(createShareUrl(`/natives/${nativeHash}`))
   }, [copyToClipboard, nativeHash])
 
   if  (!native) {

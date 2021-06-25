@@ -9,3 +9,7 @@ export function getOverlayAlpha(elevation: number): number {
   }
   return +(alphaValue / 100).toFixed(2)
 }
+
+export function createShareUrl(path: string) {
+  return `${window.location.origin}${path}`
+}

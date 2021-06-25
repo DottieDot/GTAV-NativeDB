@@ -1,6 +1,6 @@
 import { Box, BoxProps, Typography, styled, alpha, IconButton, Tooltip  } from '@material-ui/core'
 import React, { memo } from 'react'
-import { getOverlayAlpha } from '../../common'
+import { createShareUrl, getOverlayAlpha } from '../../common'
 import { LinkSharp as ShareIcon } from '@material-ui/icons'
 import { useNamespace } from '../../hooks'
 import { useCopyToClipboard } from '../../hooks'
@@ -30,7 +30,7 @@ function NativeHeader({ namespace: namespaceName, ...rest }: NativeHeaderProps) 
   const copyToClipboard = useCopyToClipboard()
 
   const onShare = useCallback(() => {
-    copyToClipboard(`${window.location.host}/natives/${namespace.natives[0]}`)
+    copyToClipboard(createShareUrl(`/natives/${namespace.natives[0]}`))
   }, [copyToClipboard, namespace])
   
   return (
