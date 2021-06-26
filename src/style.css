@@ -1,0 +1,21 @@
+
+html {
+  overflow: hidden;
+}
+
+body {
+  height: 100vh;
+  overflow: 'hidden'
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: 'hidden'
+}
+
+/* No other way to do this :/ */
+.rv-sticky-tree {
+  overflow-x: hidden !important;
+}

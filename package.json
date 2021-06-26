@@ -1,35 +1,51 @@
 {
-  "name": "nativedb",
+  "name": "gtav-nativedb",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.11.0",
-    "@material-ui/icons": "^4.9.1",
-    "@material-ui/lab": "^4.0.0-alpha.56",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
+    "@emotion/react": "^11.4.0",
+    "@emotion/styled": "^11.3.0",
+    "@material-ui/core": "^5.0.0-alpha.38",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^5.0.0-alpha.38",
+    "@material-ui/styles": "^4.11.4",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "@types/jest": "^26.0.23",
+    "@types/node": "^12.20.15",
+    "@types/react": "^17.0.11",
+    "@types/react-dom": "^17.0.8",
+    "@types/react-router-dom": "^5.1.7",
+    "copy-to-clipboard": "^3.3.1",
     "downloadjs": "^1.4.7",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-measure": "^2.3.0",
-    "react-media-hook": "^0.4.7",
-    "react-redux": "^7.2.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-linkify": "^1.0.0-alpha",
+    "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
-    "react-virtualized-auto-sizer": "^1.0.2",
-    "react-virtualized-sticky-tree": "github:dottiedot/react-virtualized-sticky-tree#fix-scroll-top",
-    "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "react-scripts": "4.0.3",
+    "react-virtualized-auto-sizer": "^1.0.5",
+    "react-virtualized-sticky-tree": "^3.0.0-beta13",
+    "react-window": "^1.8.6",
+    "redux": "^4.1.0",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-persist": "^6.0.0",
+    "typescript": "^4.3.4",
+    "use-local-storage-state": "^10.0.0",
+    "web-vitals": "^1.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "rm -r _static; react-scripts build && mv build _static",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -42,5 +58,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/downloadjs": "^1.4.2",
+    "@types/react-linkify": "^1.0.0",
+    "@types/react-virtualized-auto-sizer": "^1.0.0",
+    "@types/react-window": "^1.8.3",
+    "@types/redux-persist": "^4.3.1"
   }
 }
