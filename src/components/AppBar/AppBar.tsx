@@ -53,7 +53,7 @@ function AppBar({ toolbarRef, ...rest }: AppBarProps) {
             <IconButton
               aria-label="view on github" 
               color="inherit"
-              href="https://github.com/DottieDot/GTAV-NativeDB/tree/v2"
+              href="https://github.com/DottieDot/GTAV-NativeDB"
               target="_blank"
             >
               <GithubIcon />
