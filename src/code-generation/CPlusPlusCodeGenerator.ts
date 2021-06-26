@@ -8,6 +8,7 @@ export interface CPlusPlusCodeGeneratorSettings {
   typedefs    : boolean
   comments    : boolean
   cppCompliant: boolean
+  shvIncludes : boolean
 }
 
 export default class CPlusPlusCodeGenerator {
@@ -21,7 +22,12 @@ export default class CPlusPlusCodeGenerator {
   }
 
   generateHeader() {
-    this.result += '#pragma once\n\n'
+    this.result += '#pragma once\n'
+    if (this.settings.shvIncludes) {
+      this.result += '#include "types.h"\n'
+      this.result += '#include "nativeCaller.h"\n'
+    }
+    this.result += '\n'
     this.result += `// Generated ${new Date().toLocaleString()}\n`
     this.result += `// https://nativedb.dotindustries.dev/\n`
   }

@@ -16,6 +16,7 @@ export default function CPlusPlus() {
     comments: false,
     typedefs: true,
     cppCompliant: true,
+    shvIncludes: false
   })
   const previewData = useMemo(() => {
     if (!nativeData) return nativeData
@@ -97,6 +98,16 @@ export default function CPlusPlus() {
             }
             label="C++ Compliant"
           />
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="shvIncludes"
+                onChange={handleChange}
+                checked={settings.shvIncludes}
+              />
+            }
+            label="ScriptHookV Includes"
+          />
         </FormGroup>
         <NativeSelect
           value={previewNative}
@@ -122,11 +133,14 @@ export default function CPlusPlus() {
           preview
         </Typography>
         <Paper elevation={4} sx={{ p: 2, overflow: 'scroll', height: 400 }}>
-          {settings.comments && previewData.comment && (
-            <CodeComment noWrap>
-              {previewData.comment.replace(/(^|\n)/g, '$1// ')}
-            </CodeComment>
-          )}
+          <CodeComment noWrap>
+            {settings.shvIncludes && (
+              '#include "types.h"\n#include "nativeCaller.h"\n\n'
+            )}
+            {settings.comments && previewData.comment && (
+                previewData.comment.replace(/(^|\n)/g, '$1// ')
+            )}
+          </CodeComment>
           <NativeDefinition
             name={previewData.name}
             params={previewData.params}
