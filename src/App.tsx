@@ -3,7 +3,7 @@ import React from 'react'
 import { Provider as StoreProvider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
-import { AppBarProvider, BetaRibbon } from './components'
+import { AppBarProvider } from './components'
 import { useNamespaces } from './hooks'
 import NativeLoader from './NativeLoader'
 import { LoadingScreen } from './pages'
@@ -32,7 +32,6 @@ export default function App() {
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
           <Theme>
-            <BetaRibbon />
             <CssBaseline />
             <NativeLoader />
             <LoadGate />
