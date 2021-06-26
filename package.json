@@ -18,6 +18,7 @@
     "@types/react-dom": "^17.0.8",
     "@types/react-router-dom": "^5.1.7",
     "copy-to-clipboard": "^3.3.1",
+    "downloadjs": "^1.4.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-linkify": "^1.0.0-alpha",
@@ -59,6 +60,7 @@
     ]
   },
   "devDependencies": {
+    "@types/downloadjs": "^1.4.2",
     "@types/react-linkify": "^1.0.0",
     "@types/react-virtualized-auto-sizer": "^1.0.0",
     "@types/react-window": "^1.8.3",

@@ -1,6 +1,6 @@
 import { Button, Dialog, List, ListItem, ListItemText, TextField } from '@material-ui/core'
 import React, { ChangeEvent, Fragment, KeyboardEvent, useCallback, useMemo, useState } from 'react'
-import useNamespaces from '../../hooks/useNamespaces'
+import { useNamespaces } from '../../hooks'
 import AppBarPortal from '../AppBarPortal'
 
 interface Props {

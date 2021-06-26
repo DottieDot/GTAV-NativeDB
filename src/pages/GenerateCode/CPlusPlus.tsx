@@ -1,11 +1,15 @@
-import { Button, Checkbox, FormControlLabel, FormGroup, Grid, Paper, Typography, Box } from '@material-ui/core'
-import React, { useState, useCallback, ChangeEvent, useMemo } from 'react'
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, Paper, Typography } from '@material-ui/core'
+import download from 'downloadjs'
+import React, { ChangeEvent, useCallback, useMemo, useState } from 'react'
 import useLocalStorageState from 'use-local-storage-state'
+import { CPlusPlusCodeGenerator } from '../../code-generation'
 import { gtaParamsToNativeParams, gtaTypeToNativeType, makeNativeNameCPlusPlusCompliant } from '../../common'
 import { CodeComment, NativeDefinition, NativeSelect } from '../../components'
-import { useNative } from '../../hooks'
+import { useNamespaces, useNative, useNatives } from '../../hooks'
 
 export default function CPlusPlus() {
+  const natives = useNatives()
+  const namespaces = useNamespaces()
   const [previewNative, setPreviewNative] = useState('0xD49F9B0955C367DE')
   const nativeData = useNative(previewNative)
   const [settings, setSettings] = useLocalStorageState('Pages.GenerateCode.CPlusPlus.Settings', {
@@ -36,6 +40,16 @@ export default function CPlusPlus() {
       [event.target.name]: event.target.checked
     })
   }, [settings, setSettings])
+
+  const handleDownload = useCallback(() => {
+    const generator = new CPlusPlusCodeGenerator(settings, {
+      natives, 
+      namespaces
+    })
+
+    generator.generate()
+    download(generator.getCode(), 'natives.hpp', 'text/plain')
+  }, [settings, natives, namespaces])
 
   if (!nativeData) {
     setPreviewNative('0x4EDE34FBADD967A6')
@@ -93,6 +107,7 @@ export default function CPlusPlus() {
         <Button
           sx={{ mt: 1 }}
           variant="contained"
+          onClick={handleDownload}
           fullWidth
         >
           Download
