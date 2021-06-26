@@ -5,7 +5,7 @@ import { useCallback } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import CPlusPlus from './CPlusPlus'
 
-function GenerateCode() {
+function GenerateCodePage() {
   const { language } = useParams<{ language: string }>()
   const history = useHistory()
 
@@ -46,4 +46,4 @@ function GenerateCode() {
     </Box>
   )
 }
-export default memo(GenerateCode)
+export default memo(GenerateCodePage)

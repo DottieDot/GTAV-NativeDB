@@ -6,6 +6,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { AppBarProvider, BetaRibbon } from './components'
 import { useNamespaces } from './hooks'
 import NativeLoader from './NativeLoader'
+import { LoadingScreen } from './pages'
 import Router from './Router'
 import store, { persistor } from './store'
 import Theme from './Theme'
@@ -14,7 +15,7 @@ function LoadGate() {
   const namespaces = useNamespaces()
   if (!Object.keys(namespaces).length) {
     return (
-      <h1>Loading {Object.keys(namespaces).length}</h1>
+      <LoadingScreen />
     )
   }
 

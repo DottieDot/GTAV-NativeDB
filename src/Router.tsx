@@ -1,6 +1,6 @@
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
-import { GenerateCode, NativesPage } from './pages'
+import { GenerateCodePage, NativesPage } from './pages'
 
 export default function Router() {
   return (
@@ -12,7 +12,7 @@ export default function Router() {
         <Redirect to="/natives/0x4EDE34FBADD967A6" />
       </Route>
       <Route path="/generate-code/:language" exact>
-        <GenerateCode />
+        <GenerateCodePage />
       </Route>
       <Route path="/generate-code" exact>
         <Redirect to="/generate-code/cpp" />
