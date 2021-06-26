@@ -36,8 +36,10 @@ function AppBar({ toolbarRef, ...rest }: AppBarProps) {
               GTA V Native Reference
             </Link>
           </Typography>
-          <Box sx={{ flexGrow: 1 }} />
-          <div ref={toolbarRef} />
+          <Box 
+            sx={{ display: 'flex', flex: 1 }} 
+            ref={toolbarRef} 
+          />
           <Tooltip title="Settings">
             <IconButton
               aria-label="settings" 

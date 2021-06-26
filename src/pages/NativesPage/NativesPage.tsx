@@ -1,12 +1,9 @@
 import { Grid } from '@material-ui/core'
 import React, { memo } from 'react'
-import { NativeList } from '../../components'
-import useNamespaces from '../../hooks/useNamespaces'
+import NativeList from './NativeList'
 import NativeInfo from './NativeInfo'
 
 function NativesPage() {
-  const namespaces = useNamespaces()
-
   return (
     <Grid sx={{ flex: 1, overflow: 'hidden' }} container>
       <Grid 
@@ -18,10 +15,7 @@ function NativesPage() {
       <Grid 
         xl={8} md={7} sm={6} xs={12} item
       >
-        <NativeList
-          sx={{ height: '100%' }}
-          namespaces={namespaces}
-        />
+        <NativeList />
       </Grid>
     </Grid>
   )
