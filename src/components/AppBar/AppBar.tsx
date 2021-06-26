@@ -68,7 +68,7 @@ function AppBar({ toolbarRef, ...rest }: AppBarProps) {
             Comments:&nbsp;{stats.comments}&nbsp;{'| '}
             Known names:&nbsp;{stats.knownNames.confirmed} ({stats.knownNames.total})&nbsp;{'| '}
             <Link
-              to="/generate-header"
+              to="/generate-code"
               color="inherit"
               underline="hover"
               component={RouterLink}

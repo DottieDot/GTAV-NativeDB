@@ -11,6 +11,9 @@ export * from './AppBarProvider'
 export { default as BetaRibbon } from './BetaRibbon'
 export * from './BetaRibbon'
 
+export { default as CodeComment } from './CodeComment'
+export * from './CodeComment'
+
 export { default as NativeComment } from './NativeComment'
 export * from './NativeComment'
 
@@ -28,6 +31,9 @@ export * from './NativeList'
 
 export { default as NativeParams } from './NativeParams'
 export * from './NativeParams'
+
+export { default as NativeSelect } from './NativeSelect'
+export * from './NativeSelect'
 
 export { default as NativeType } from './NativeType'
 export * from './NativeType'

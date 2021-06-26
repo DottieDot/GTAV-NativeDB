@@ -28,10 +28,10 @@ function parseSearchQuery(searchQuery: string) {
     else if (matches.length === 4) {
       switch (matches[2]) {
         case 'namespace':
-          result.namespace = matches[3].trim()
+          result.namespace = matches[3]
           break
         case 'build':
-          result.build = matches[3].trim()
+          result.build = matches[3]
           break
         case 'description':
           result.description = matches[3]
