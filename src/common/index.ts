@@ -1,3 +1,4 @@
+import preval from 'preval.macro'
 import { NativeParam } from "../store"
 
 // Inspired by https://github.com/material-components/material-components-ios/blob/bca36107405594d5b7b16265a5b0ed698f85a5ee/components/Elevation/src/UIColor%2BMaterialElevation.m#L61
@@ -18,6 +19,8 @@ export function createShareUrl(path: string) {
 export function isDevelopment() {
   return !process.env.NODE_ENV || process.env.NODE_ENV === 'development'
 }
+
+export const buildDate: string = preval`module.exports = new Date().toString()`
 
 export function makeNativeNameCPlusPlusCompliant(name: string): string {
   if (name[0] !== '_') {
