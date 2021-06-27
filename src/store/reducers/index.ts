@@ -1,10 +1,11 @@
-import nativeReducer from './nativeReducer'
-import namespaceReducer from './namespaceReducer'
 import { combineReducers } from 'redux'
-import statsReducer from './statsReducer'
-import storage from 'redux-persist/lib/storage'
 import { persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+import appReducer from './appReducer'
+import namespaceReducer from './namespaceReducer'
+import nativeReducer from './nativeReducer'
 import settingsReducer from './settingsReducer'
+import statsReducer from './statsReducer'
 
 const settingsPersistConfig = {
   key: 'Settings',
@@ -12,6 +13,7 @@ const settingsPersistConfig = {
 }
 
 const rootReducer = combineReducers({
+  app       : appReducer,
   natives   : nativeReducer,
   namespaces: namespaceReducer,
   stats     : statsReducer,
@@ -22,6 +24,8 @@ export type RootState = ReturnType<typeof rootReducer>
 
 export default rootReducer
 
+export * from './appReducer'
 export * from './namespaceReducer'
 export * from './nativeReducer'
 export * from './settingsReducer'
+

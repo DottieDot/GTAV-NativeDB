@@ -3,7 +3,7 @@ import React from 'react'
 import { Provider as StoreProvider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
-import { AppBarProvider } from './components'
+import { AppBarProvider, OnlineStatusProvider } from './components'
 import { useNamespaces } from './hooks'
 import NativeLoader from './NativeLoader'
 import { LoadingScreen } from './pages'
@@ -30,13 +30,15 @@ export default function App() {
   return (
     <StoreProvider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter>
-          <Theme>
-            <CssBaseline />
-            <NativeLoader />
-            <LoadGate />
-          </Theme>
-        </BrowserRouter>
+        <OnlineStatusProvider>
+          <BrowserRouter>
+            <Theme>
+              <CssBaseline />
+              <NativeLoader />
+              <LoadGate />
+            </Theme>
+          </BrowserRouter>
+        </OnlineStatusProvider>
       </PersistGate>
     </StoreProvider>
   )

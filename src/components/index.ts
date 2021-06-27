@@ -37,3 +37,6 @@ export * from './NativeSelect'
 
 export { default as NativeType } from './NativeType'
 export * from './NativeType'
+
+export { default as OnlineStatusProvider } from './OnlineStatusProvider'
+export * from './OnlineStatusProvider'

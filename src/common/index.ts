@@ -15,6 +15,10 @@ export function createShareUrl(path: string) {
   return `${window.location.origin}${path}`
 }
 
+export function isDevelopment() {
+  return !process.env.NODE_ENV || process.env.NODE_ENV === 'development'
+}
+
 export function makeNativeNameCPlusPlusCompliant(name: string): string {
   if (name[0] !== '_') {
     return name

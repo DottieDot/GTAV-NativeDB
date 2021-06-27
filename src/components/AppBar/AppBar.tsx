@@ -4,6 +4,7 @@ import React, { memo, RefObject, useState, useCallback } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useStats } from '../../hooks'
 import SettingsDrawer from './SettingsDrawer'
+import StatusButton from './StatusButton'
 
 export interface AppBarProps extends BoxProps {
   toolbarRef?: RefObject<HTMLDivElement>
@@ -40,6 +41,7 @@ function AppBar({ toolbarRef, ...rest }: AppBarProps) {
             sx={{ display: 'flex', flex: 1 }} 
             ref={toolbarRef} 
           />
+          <StatusButton />
           <Tooltip title="Settings">
             <IconButton
               aria-label="settings" 
