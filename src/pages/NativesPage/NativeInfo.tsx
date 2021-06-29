@@ -71,7 +71,7 @@ export default function NativeInfo() {
             <Divider />
             <List>
               {native.oldNames.map(oldName => (
-                <ListItem dense>
+                <ListItem key={oldName} dense>
                   <ListItemText primary={oldName} />
                 </ListItem>
               ))}
