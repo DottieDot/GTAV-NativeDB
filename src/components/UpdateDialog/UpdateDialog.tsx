@@ -84,6 +84,10 @@ function UpdateDialog() {
               <b>Native counts</b><br />
               The number of natives shown in the namespace headers now adjust tot the search results.
             </ListItem>
+            <ListItem>
+              <b>Search</b><br />
+              Search queries are now sharable.
+            </ListItem>
           </UnorderedList>
         </Typography>
       </DialogContent>

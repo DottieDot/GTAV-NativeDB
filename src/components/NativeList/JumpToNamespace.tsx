@@ -1,5 +1,5 @@
 import { Button, Dialog, List, ListItem, ListItemText, TextField } from '@material-ui/core'
-import React, { ChangeEvent, Fragment, KeyboardEvent, useCallback, useMemo, useState } from 'react'
+import React, { ChangeEvent, Fragment, KeyboardEvent, useCallback, useMemo, useState, memo } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Namespace } from '../../store'
 import AppBarPortal from '../AppBarPortal'
@@ -9,7 +9,7 @@ interface Props {
   namespaces: { [name: string]: Namespace }
 }
 
-export default function JumpToNamespace({ namespaces, onNamespaceClicked }: Props) {
+function JumpToNamespace({ namespaces, onNamespaceClicked }: Props) {
   const namespaceArray = useMemo(() => Object.values(namespaces), [namespaces])
   const [filter, setFilter] = useState('')
   const filteredNamespaces = useMemo(
@@ -90,3 +90,5 @@ export default function JumpToNamespace({ namespaces, onNamespaceClicked }: Prop
     </Fragment>
   )
 }
+
+export default memo(JumpToNamespace)
