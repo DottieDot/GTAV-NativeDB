@@ -85,8 +85,12 @@ function UpdateDialog() {
               The number of natives shown in the namespace headers now adjust tot the search results.
             </ListItem>
             <ListItem>
-              <b>Search</b><br />
+              <b>Sharable search</b><br />
               Search queries are now sharable.
+            </ListItem>
+            <ListItem>
+              <b>Fix update checker</b><br />
+              Update checker should now continuesly check for updates, instead of only the first minute or so.
             </ListItem>
           </UnorderedList>
         </Typography>
