@@ -81,7 +81,7 @@ function JumpToNamespace({ namespaces, onNamespaceClicked }: Props) {
             >
               <ListItemText 
                 primary={name} 
-                secondary={`${natives.length} natives`} 
+                secondary={`${natives.length} ${natives.length === 1 ? 'native' : 'natives'}`} 
               />
             </ListItem>
           ))}
