@@ -46,7 +46,7 @@ function NamespaceHeader({ namespace, nativeCount, ...rest }: NativeHeaderProps)
       </Typography>
       <Box sx={{ flexGrow: 1 }} />
       <Typography variant="h6" component="span" textAlign="right">
-        {nativeCount} natives
+        {nativeCount} {nativeCount === 1 ? 'Native' : 'Natives'}
       </Typography>
     </StyledBox>
   )
