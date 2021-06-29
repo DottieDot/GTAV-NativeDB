@@ -1,7 +1,6 @@
 import { alpha, InputBase, styled } from '@material-ui/core'
 import { Search as SearchIcon } from '@material-ui/icons'
-import React, { Fragment, ChangeEvent, useCallback } from 'react'
-import { useRef } from 'react'
+import React, { Fragment, ChangeEvent, useCallback, useRef, KeyboardEvent } from 'react'
 import { useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { AppBarPortal, NativeList as NativeListComponent } from '../../components'
@@ -46,6 +45,13 @@ export default function NativeList() {
   const namespaces = useNativeSearch(filter)
   const inputRef = useRef<HTMLInputElement>(null)
 
+  const handleSearchKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key  === 'Enter') {
+      inputRef.current?.blur()
+      e.preventDefault()
+    }
+  }, [inputRef])
+
   const handleFilterChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFilter(e.target.value)
   }, [setFilter])
@@ -72,6 +78,7 @@ export default function NativeList() {
             value={filter}
             onChange={handleFilterChange}
             inputRef={inputRef}
+            onKeyDown={handleSearchKeyDown}
           />
         </Search>
       </AppBarPortal>

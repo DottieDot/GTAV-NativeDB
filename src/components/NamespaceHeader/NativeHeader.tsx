@@ -8,6 +8,7 @@ import { useCallback } from 'react'
 
 export interface NativeHeaderProps extends Omit<BoxProps, 'children'> {
   namespace: string
+  nativeCount: number
 }
 
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -25,13 +26,13 @@ const StyledBox = styled(Box)(({ theme }) => ({
   })
 }))
 
-function NativeHeader({ namespace: namespaceName, ...rest }: NativeHeaderProps) {
-  const namespace = useNamespace(namespaceName)
+function NamespaceHeader({ namespace, nativeCount, ...rest }: NativeHeaderProps) {
+  const firstNative = useNamespace(namespace).natives[0]
   const copyToClipboard = useCopyToClipboard()
 
   const onShare = useCallback(() => {
-    copyToClipboard(createShareUrl(`/natives/${namespace.natives[0]}`))
-  }, [copyToClipboard, namespace])
+    copyToClipboard(createShareUrl(`/natives/${firstNative}`))
+  }, [copyToClipboard, firstNative])
   
   return (
     <StyledBox {...rest}>
@@ -41,13 +42,13 @@ function NativeHeader({ namespace: namespaceName, ...rest }: NativeHeaderProps) 
         </IconButton>
       </Tooltip>
       <Typography variant="h4" component="span">
-        {namespace.name}
+        {namespace}
       </Typography>
       <Box sx={{ flexGrow: 1 }} />
       <Typography variant="h6" component="span" textAlign="right">
-        {namespace.natives.length} natives
+        {nativeCount} natives
       </Typography>
     </StyledBox>
   )
 }
-export default memo(NativeHeader)
+export default memo(NamespaceHeader)

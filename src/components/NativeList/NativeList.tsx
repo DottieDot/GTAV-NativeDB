@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { StickyTree } from 'react-virtualized-sticky-tree'
 import { Namespace } from '../../store'
-import NativeHeader from '../NativeHeader'
+import NamespaceHeader from '../NamespaceHeader'
 import JumpToNamespace from './JumpToNamespace'
 import NativeListItem from './NativeListItem'
 
@@ -66,8 +66,9 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
   const renderRow = useCallback(({ node: { id }, style }) => {
     if (id && (id[0] !== '0')) {
       return (
-        <NativeHeader 
+        <NamespaceHeader 
           namespace={id}
+          nativeCount={namespaces[id].natives.length}
           style={{...style, zIndex: 1 }} 
         />
       )
@@ -80,7 +81,7 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
         key={id}
       />
     )
-  }, [])
+  }, [namespaces])
 
   return (
     <Box sx={{ flex: 1, ...sx }} {...rest}>
