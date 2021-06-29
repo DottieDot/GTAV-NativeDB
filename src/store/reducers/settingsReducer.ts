@@ -10,7 +10,7 @@ export interface SettingsReducerState {
 
 const initialState: SettingsReducerState = {
   theme: 'system',
-  sources: [NativeSources.Alloc8or, NativeSources.DottieDot]
+  sources: [NativeSources.Alloc8or]
 }
 
 export default function settingsReducer(state: SettingsReducerState = initialState, action: SettingsReducerActions): SettingsReducerState {

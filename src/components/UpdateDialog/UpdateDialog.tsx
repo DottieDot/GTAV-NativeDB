@@ -75,17 +75,17 @@ function UpdateDialog() {
             </ListItem>
           </UnorderedList>
         </Typography>
-        {/* <Header type="fix">
-          Fixes
+        <Header type="fix">
+          Fixes and Changes
         </Header>
         <Typography variant="body2">
           <UnorderedList>
             <ListItem>
-              <b>FiveM Natives</b><br />
-              FiveM natives will now show their description.
+              <b>Additional data no longer loaded by default</b><br />
+              Loading additional data is now opt-in to decrease initial load times.
             </ListItem>
           </UnorderedList>
-        </Typography> */}
+        </Typography>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>
