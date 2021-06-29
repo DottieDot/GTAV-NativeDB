@@ -73,6 +73,10 @@ function UpdateDialog() {
               <b>Changelog</b><br />
               You will now be able to see all the new features in a neat list.
             </ListItem>
+            <ListItem>
+              <b>Shortcuts</b><br />
+              You can now use shortcuts for certain actions. [ctrl/cmd]+K for search, and [ctrl/cmd]+G to jump to a namespace.
+            </ListItem>
           </UnorderedList>
         </Typography>
         <Header type="fix">
@@ -83,6 +87,10 @@ function UpdateDialog() {
             <ListItem>
               <b>Additional data no longer loaded by default</b><br />
               Loading additional data is now opt-in to decrease initial load times.
+            </ListItem>
+            <ListItem>
+              <b>Jump to namespace</b><br />
+              The jump to namespace dialog will now match the search results.
             </ListItem>
           </UnorderedList>
         </Typography>

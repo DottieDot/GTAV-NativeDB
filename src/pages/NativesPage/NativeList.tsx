@@ -1,7 +1,9 @@
 import { alpha, InputBase, styled } from '@material-ui/core'
 import { Search as SearchIcon } from '@material-ui/icons'
 import React, { Fragment, ChangeEvent, useCallback } from 'react'
+import { useRef } from 'react'
 import { useState } from 'react'
+import { useHotkeys } from 'react-hotkeys-hook'
 import { AppBarPortal, NativeList as NativeListComponent } from '../../components'
 import { useNativeSearch } from '../../hooks'
 
@@ -42,10 +44,20 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 export default function NativeList() {
   const [filter, setFilter] = useState('')
   const namespaces = useNativeSearch(filter)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const handleFilterChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFilter(e.target.value)
   }, [setFilter])
+
+  useHotkeys('ctrl+k', () => {
+    inputRef.current?.focus()
+  }, {
+    filter: (event: globalThis.KeyboardEvent) => {
+      event.preventDefault()
+      return true
+    },
+  }, [inputRef])
 
   return (
     <Fragment>
@@ -59,6 +71,7 @@ export default function NativeList() {
             inputProps={{ 'aria-label': 'search' }}
             value={filter}
             onChange={handleFilterChange}
+            inputRef={inputRef}
           />
         </Search>
       </AppBarPortal>

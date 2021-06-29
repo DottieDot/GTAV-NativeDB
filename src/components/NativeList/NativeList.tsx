@@ -86,6 +86,7 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
     <Box sx={{ flex: 1, ...sx }} {...rest}>
       <JumpToNamespace 
         onNamespaceClicked={jumpToNamespace}
+        namespaces={namespaces}
       />
       <AutoSizer>
         {({ height, width }) => (
