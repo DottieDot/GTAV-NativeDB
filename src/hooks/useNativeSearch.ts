@@ -3,15 +3,16 @@ import { Namespace, Native } from '../store'
 import useTypedSelector from './useTypedSelector'
 
 interface SearchData {
-  name       : string
+  name       ?: string
   namespace  ?: string
   build      ?: string
   description?: string
+  all         : string
 }
 
 function parseSearchQuery(searchQuery: string) {
   const result: SearchData = {
-    name: ''
+    all: ''
   }
   const regex = /((\w+):(\w+))|((\w+):"(.+?(?="))")|(\w+)/g
   let m;
@@ -23,15 +24,18 @@ function parseSearchQuery(searchQuery: string) {
 
     const matches = m.filter(m => m)
     if (matches.length === 2) {
-      result.name += m[0]
+      result.all += m[0]
     }
     else if (matches.length === 4) {
       switch (matches[2]) {
+        case 'name':
+          result.name = matches[3].trim()
+          break
         case 'namespace':
-          result.namespace = matches[3]
+          result.namespace = matches[3].trim()
           break
         case 'build':
-          result.build = matches[3]
+          result.build = matches[3].trim()
           break
         case 'description':
           result.description = matches[3]
@@ -42,14 +46,47 @@ function parseSearchQuery(searchQuery: string) {
     }
   }
 
-  result.name = result.name.trim()
-
   return result
+}
+
+function matchNative2(search: string, native: Native) {
+  let nameMatches = false
+  if (search) {
+    const names = [...(native.oldNames ?? []), native.hash, native.jhash, native.name]
+    for (const name of names) {
+      if (name?.toLocaleLowerCase().indexOf(search) !== -1) {
+        nameMatches = true
+        break
+      }
+    }
+  }
+  else {
+    nameMatches = true
+  }
+
+  const buildMatches = search
+    ? native.build === search
+    : true
+
+  const namespaceMathces = search
+    ? native.namespace.toLocaleLowerCase() === search
+    : true
+
+  const descriptionMatches = search
+    ? native.comment
+      .toLowerCase()
+      .indexOf(search) !== -1
+    : true
+
+  return nameMatches 
+    || buildMatches
+    || namespaceMathces
+    || descriptionMatches
 }
 
 function matchNative(searchData: SearchData, native: Native) {
   let nameMatches = false
-  if (native.name) {
+  if (searchData.name) {
     const names = [...(native.oldNames ?? []), native.hash, native.jhash, native.name]
     for (const name of names) {
       if (name?.toLocaleLowerCase().indexOf(searchData.name) !== -1) {
@@ -76,7 +113,8 @@ function matchNative(searchData: SearchData, native: Native) {
       .indexOf(searchData.description) !== -1
     : true
 
-  return nameMatches 
+  return matchNative2(searchData.all, native)
+    && nameMatches 
     && buildMatches
     && namespaceMathces
     && descriptionMatches

@@ -92,6 +92,10 @@ function UpdateDialog() {
               <b>Fix update checker</b><br />
               Update checker should now continuesly check for updates, instead of only the first minute or so.
             </ListItem>
+            <ListItem>
+              <b>Improve search</b><br />
+              Search now searches in the descriptions too by default.
+            </ListItem>
           </UnorderedList>
         </Typography>
       </DialogContent>
