@@ -49,7 +49,11 @@ function parseSearchQuery(searchQuery: string) {
   return result
 }
 
-function matchNative2(search: string, native: Native) {
+function matchNativeLoose(search: string, native: Native) {
+  if (!search) {
+    return true
+  }
+
   let nameMatches = false
   if (search) {
     const names = [...(native.oldNames ?? []), native.hash, native.jhash, native.name]
@@ -68,7 +72,7 @@ function matchNative2(search: string, native: Native) {
     ? native.build === search
     : true
 
-  const namespaceMathces = search
+  const namespaceMatches = search
     ? native.namespace.toLocaleLowerCase() === search
     : true
 
@@ -80,11 +84,11 @@ function matchNative2(search: string, native: Native) {
 
   return nameMatches 
     || buildMatches
-    || namespaceMathces
+    || namespaceMatches
     || descriptionMatches
 }
 
-function matchNative(searchData: SearchData, native: Native) {
+function matchNativeStrict(searchData: SearchData, native: Native) {
   let nameMatches = false
   if (searchData.name) {
     const names = [...(native.oldNames ?? []), native.hash, native.jhash, native.name]
@@ -103,7 +107,7 @@ function matchNative(searchData: SearchData, native: Native) {
     ? native.build === searchData.build
     : true
 
-  const namespaceMathces = searchData.namespace
+  const namespaceMatches = searchData.namespace
     ? native.namespace.toLocaleLowerCase() === searchData.namespace
     : true
 
@@ -113,10 +117,9 @@ function matchNative(searchData: SearchData, native: Native) {
       .indexOf(searchData.description) !== -1
     : true
 
-  return matchNative2(searchData.all, native)
-    && nameMatches 
+  return nameMatches 
     && buildMatches
-    && namespaceMathces
+    && namespaceMatches
     && descriptionMatches
 }
 
@@ -125,7 +128,7 @@ export default function useNativeSearch(searchQuery: string) {
   return useMemo(() => {
     const searchData = parseSearchQuery(searchQuery)
     return Object.values(natives).reduce<{[name: string]: Namespace}>((accumulator, native) => {
-      if (matchNative(searchData, native)) {
+      if (matchNativeStrict(searchData, native) && matchNativeLoose(searchData.all, native)) {
         if (!accumulator[native.namespace]) {
           accumulator[native.namespace] = {
             name: native.namespace,
