@@ -23,8 +23,8 @@ export * from './NativeDefinition'
 export { default as NativeDetails } from './NativeDetails'
 export * from './NativeDetails'
 
-export { default as NativeHeader } from './NativeHeader'
-export * from './NativeHeader'
+export { default as NamespaceHeader } from './NamespaceHeader'
+export * from './NamespaceHeader'
 
 export { default as NativeList } from './NativeList'
 export * from './NativeList'

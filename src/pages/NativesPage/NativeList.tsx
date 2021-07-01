@@ -1,9 +1,10 @@
 import { alpha, InputBase, styled } from '@material-ui/core'
 import { Search as SearchIcon } from '@material-ui/icons'
-import React, { Fragment, ChangeEvent, useCallback } from 'react'
-import { useState } from 'react'
+import React, { Fragment, ChangeEvent, useCallback, useRef, KeyboardEvent, useEffect, useState } from 'react'
+import { useHotkeys } from 'react-hotkeys-hook'
+import { useHistory } from 'react-router-dom'
 import { AppBarPortal, NativeList as NativeListComponent } from '../../components'
-import { useNativeSearch } from '../../hooks'
+import { useNativeSearch, useQuery } from '../../hooks'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -19,7 +20,6 @@ const Search = styled('div')(({ theme }) => ({
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
-  // flex: 1,
   width: '100%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
@@ -42,10 +42,45 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 export default function NativeList() {
   const [filter, setFilter] = useState('')
   const namespaces = useNativeSearch(filter)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const history = useHistory()
+  const query = useQuery()
+  
+  useEffect(() => {
+    const search = query.get('search')
+    if (search) {
+      setFilter(search)
+    }
+  }, [query, setFilter])
+
+  const handleSearchKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key  === 'Enter') {
+      inputRef.current?.blur()
+      e.preventDefault()
+    }
+  }, [inputRef])
+  
+  const handleSearchBlur = useCallback(() => {
+    if (filter) {
+      history.replace(`?search=${encodeURIComponent(filter)}`)
+    }
+    else {
+      history.replace('')
+    }
+  }, [history, filter])
 
   const handleFilterChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFilter(e.target.value)
   }, [setFilter])
+
+  useHotkeys('ctrl+k', () => {
+    inputRef.current?.focus()
+  }, {
+    filter: (event: globalThis.KeyboardEvent) => {
+      event.preventDefault()
+      return true
+    },
+  }, [inputRef])
 
   return (
     <Fragment>
@@ -58,7 +93,10 @@ export default function NativeList() {
             placeholder="Search…"
             inputProps={{ 'aria-label': 'search' }}
             value={filter}
+            inputRef={inputRef}
             onChange={handleFilterChange}
+            onBlur={handleSearchBlur}
+            onKeyDown={handleSearchKeyDown}
           />
         </Search>
       </AppBarPortal>

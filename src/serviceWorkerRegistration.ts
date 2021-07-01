@@ -95,6 +95,11 @@ function registerValidSW(swUrl: string, config?: Config) {
           }
         };
       };
+      setInterval(() => {
+        if (navigator.onLine) {
+          registration.update()
+        }
+      }, 30 * 60 * 1000)
     })
     .catch((error) => {
       console.error('Error during service worker registration:', error);

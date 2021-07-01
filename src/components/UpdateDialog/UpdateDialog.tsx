@@ -66,12 +66,8 @@ function UpdateDialog() {
         <Typography variant="body2">
           <UnorderedList>
             <ListItem>
-              <b>Update checker</b><br />
-              The app will now periodically check for new updates.
-            </ListItem>
-            <ListItem>
-              <b>Changelog</b><br />
-              You will now be able to see all the new features in a neat list.
+              <b>Shortcuts</b><br />
+              You can now use shortcuts for certain actions. [ctrl/cmd]+K for search, and [ctrl/cmd]+G to jump to a namespace.
             </ListItem>
           </UnorderedList>
         </Typography>
@@ -81,8 +77,24 @@ function UpdateDialog() {
         <Typography variant="body2">
           <UnorderedList>
             <ListItem>
-              <b>Additional data no longer loaded by default</b><br />
-              Loading additional data is now opt-in to decrease initial load times.
+              <b>Jump to namespace</b><br />
+              The jump to namespace dialog will now match the search results.
+            </ListItem>
+            <ListItem>
+              <b>Native counts</b><br />
+              The number of natives shown in the namespace headers now adjust tot the search results.
+            </ListItem>
+            <ListItem>
+              <b>Sharable search</b><br />
+              Search queries are now sharable.
+            </ListItem>
+            <ListItem>
+              <b>Fix update checker</b><br />
+              Update checker should now continuesly check for updates, instead of only the first minute or so.
+            </ListItem>
+            <ListItem>
+              <b>Improved search</b><br />
+              Search now searches in the descriptions too by default.
             </ListItem>
           </UnorderedList>
         </Typography>

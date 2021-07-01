@@ -1,14 +1,15 @@
 import { Button, Dialog, List, ListItem, ListItemText, TextField } from '@material-ui/core'
-import React, { ChangeEvent, Fragment, KeyboardEvent, useCallback, useMemo, useState } from 'react'
-import { useNamespaces } from '../../hooks'
+import React, { ChangeEvent, Fragment, KeyboardEvent, useCallback, useMemo, useState, memo } from 'react'
+import { useHotkeys } from 'react-hotkeys-hook'
+import { Namespace } from '../../store'
 import AppBarPortal from '../AppBarPortal'
 
 interface Props {
   onNamespaceClicked: (namespace: string) => void
+  namespaces: { [name: string]: Namespace }
 }
 
-export default function JumpToNamespace({ onNamespaceClicked }: Props) {
-  const namespaces = useNamespaces()
+function JumpToNamespace({ namespaces, onNamespaceClicked }: Props) {
   const namespaceArray = useMemo(() => Object.values(namespaces), [namespaces])
   const [filter, setFilter] = useState('')
   const filteredNamespaces = useMemo(
@@ -44,6 +45,15 @@ export default function JumpToNamespace({ onNamespaceClicked }: Props) {
     }
   }, [handleNamespaceSelected, filter, filteredNamespaces])
 
+  useHotkeys('ctrl+g', () => {
+    handleDialogOpen()
+  }, {
+    filter: (event: globalThis.KeyboardEvent) => {
+      event.preventDefault()
+      return true
+    },
+  }, [handleDialogOpen])
+
   return (
     <Fragment>
       <AppBarPortal>
@@ -71,7 +81,7 @@ export default function JumpToNamespace({ onNamespaceClicked }: Props) {
             >
               <ListItemText 
                 primary={name} 
-                secondary={`${natives.length} natives`} 
+                secondary={`${natives.length} ${natives.length === 1 ? 'native' : 'natives'}`} 
               />
             </ListItem>
           ))}
@@ -80,3 +90,5 @@ export default function JumpToNamespace({ onNamespaceClicked }: Props) {
     </Fragment>
   )
 }
+
+export default memo(JumpToNamespace)
