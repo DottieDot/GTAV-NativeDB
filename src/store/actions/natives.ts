@@ -1,7 +1,6 @@
 import { Native, NativeStats } from '../model'
 import Namespace from '../model/Namespace'
-import { NativeJson as Alloc8orNativeJson } from '../../external/alloc8or-nativedb'
-import { AdditionalNativeDataJson } from '../../external'
+import { NativeDataLoader } from '../../external'
 
 export const SET_NATIVES = 'SET_NATIVES'
 
@@ -12,38 +11,7 @@ export interface SetNatives {
   stats     : NativeStats
 }
 
-export function setNatives(nativeJson: Alloc8orNativeJson, additioanlData: AdditionalNativeDataJson | null): SetNatives {
-  const namespaces = Object.keys(nativeJson)
-    .reduce<SetNatives['namespaces']>((accumulator, namespaceName) => {
-      const namespace = nativeJson[namespaceName]
-      accumulator[namespaceName] = {
-        name: namespaceName,
-        natives: Object.keys(namespace)
-      }
-      return accumulator
-    }, {})
-
-  const natives = Object.keys(namespaces)
-    .map(name => namespaces[name])
-    .reduce<SetNatives['natives']>((accumulator, namespace) => {
-      namespace.natives.forEach((nativeHash) => {
-        const native = nativeJson[namespace.name][nativeHash]
-        accumulator[nativeHash] = {
-          namespace : namespace.name,
-          name      : native.name,
-          jhash     : native.jhash,
-          hash      : nativeHash,
-          comment   : native.comment,
-          params    : native.params,
-          returnType: native.return_type,
-          build     : native.build,
-          oldNames  : (additioanlData && additioanlData[nativeHash]?.old_names) ?? undefined
-        }
-      })
-
-      return accumulator
-    }, {})
-
+export function setNatives({ namespaces, natives }: NativeDataLoader): SetNatives {
   const stats: NativeStats = {
     namespaces: Object.keys(namespaces).length,
     natives   : Object.keys(natives).length,

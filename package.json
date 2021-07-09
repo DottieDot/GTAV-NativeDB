@@ -19,6 +19,7 @@
     "@types/react-router-dom": "^5.1.7",
     "copy-to-clipboard": "^3.3.1",
     "downloadjs": "^1.4.7",
+    "lodash": "^4.17.21",
     "preval.macro": "^5.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -63,6 +64,7 @@
   },
   "devDependencies": {
     "@types/downloadjs": "^1.4.2",
+    "@types/lodash": "^4.14.171",
     "@types/preval.macro": "^3.0.0",
     "@types/react-linkify": "^1.0.0",
     "@types/react-virtualized-auto-sizer": "^1.0.0",

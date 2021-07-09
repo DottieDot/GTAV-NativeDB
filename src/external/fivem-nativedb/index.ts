@@ -1,6 +1,6 @@
-import { NativeJson } from '../alloc8or-nativedb'
+import { FiveMNativeJson } from './model'
 
-export default async function LoadFivemNatives(): Promise<NativeJson | null> {
+export default async function LoadFivemNatives(): Promise<FiveMNativeJson | null> {
   try {
     const response = await fetch('https://runtime.fivem.net/doc/natives_cfx.json')
 
@@ -14,3 +14,5 @@ export default async function LoadFivemNatives(): Promise<NativeJson | null> {
     return null
   }
 }
+
+export * from './model'
