@@ -17,6 +17,13 @@ const langMap: { [name: string]: string } = {
   cpp: 'cpp'
 }
 
+const humanLangMap: { [name: string]: string } = {
+  js: 'Javascript',
+  cs: 'C#',
+  lua: 'Lua',
+  cpp: 'C++'
+}
+
 function CodeExamples({ examples }: CodeExamplesProps) {
   const [language, setLanguage] = useState(examples[0].lang)
   const theme = useTheme()
@@ -34,7 +41,7 @@ function CodeExamples({ examples }: CodeExamplesProps) {
       <TabList onChange={onTabChange} sx={{ pl: 0 }}>
         {examples.map(({ lang }) => (
           <Tab
-            label={lang}
+            label={humanLangMap[lang] ?? lang}
             value={lang}
           />
         ))}
