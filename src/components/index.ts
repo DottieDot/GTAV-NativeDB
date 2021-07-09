@@ -14,6 +14,9 @@ export * from './BetaRibbon'
 export { default as CodeComment } from './CodeComment'
 export * from './CodeComment'
 
+export { default as CodeExamples } from './CodeExamples'
+export * from './CodeExamples'
+
 export { default as NativeComment } from './NativeComment'
 export * from './NativeComment'
 

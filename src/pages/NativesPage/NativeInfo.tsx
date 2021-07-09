@@ -3,9 +3,10 @@ import { LinkSharp as ShareIcon } from '@material-ui/icons'
 import React, { useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { createShareUrl } from '../../common'
-import { NativeComment, NativeDefinition, NativeDetails } from '../../components'
+import { CodeExamples, NativeComment, NativeDefinition, NativeDetails } from '../../components'
 import { useCopyToClipboard, useNative } from '../../hooks'
 import NativeNotFound from './NativeNotFound'
+import _ from 'lodash'
 
 export default function NativeInfo() {
   const { native: nativeHash } = useParams<{ native: string }>()
@@ -63,6 +64,13 @@ export default function NativeInfo() {
             {native.comment}
           </NativeComment>
         </Paper>
+        {native.examples && !_.isEmpty(native.examples) && (
+          <Paper>
+            <CodeExamples
+              examples={native.examples}
+            />
+          </Paper>
+        )}
         {native.oldNames && (
           <Paper>
             <Typography variant="subtitle1" sx={{ p: 2, pb: 1 }}>
