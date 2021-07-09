@@ -48,8 +48,16 @@ function CodeExamples({ examples }: CodeExamplesProps) {
       </TabList>
       <Divider />
       {examples.map(({ lang, code }) => (
-        <TabPanel value={lang} sx={{ p: 2 }}>
-          <SyntaxHighlighter language={langMap[lang] ?? lang} style={highlighterStyle} customStyle={{ background: 'none', padding: 0, margin: 0 }}>
+        <TabPanel value={lang} sx={{ p: 0 }}>
+          <SyntaxHighlighter 
+            language={langMap[lang] ?? lang} 
+            style={highlighterStyle} 
+            customStyle={{ 
+              background: 'none', 
+              padding: theme.spacing(2), 
+              margin: 0
+            }}
+          >
           {code}
           </SyntaxHighlighter>
         </TabPanel>
