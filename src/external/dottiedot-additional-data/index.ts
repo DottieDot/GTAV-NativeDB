@@ -1,6 +1,6 @@
-import { AdditionalNativeDataJson } from './model'
+import { DottieDotAdditionalNativeDataJson } from './model'
 
-export default async function LoadDottieDotAdditionalData(): Promise<AdditionalNativeDataJson | null> {
+export default async function LoadDottieDotAdditionalData(): Promise<DottieDotAdditionalNativeDataJson | null> {
   try {
     const response = await fetch('https://raw.githubusercontent.com/DottieDot/gta5-additional-nativedb-data/main/natives.json')
 

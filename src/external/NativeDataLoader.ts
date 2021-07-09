@@ -110,7 +110,8 @@ export default class NativeDataLoader {
       const native = data[hash]
 
       this.addAdditionalData(hash, {
-        oldNames: native.old_names
+        oldNames: native.old_names,
+        examples: native.examples
       })
     })
   }
