@@ -84,7 +84,7 @@ export default function NativeInfo() {
         {native.oldNames && (
           <div>
             <Typography variant="subtitle1" gutterBottom>
-              Old name{native.oldNames?.length ? 's' : ''}
+              Old name{native.oldNames?.length !== 1 ? 's' : ''}
             </Typography>
             <Paper>
               <List>
