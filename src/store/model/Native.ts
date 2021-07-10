@@ -1,13 +1,16 @@
+import CodeExample from './CodeExample';
 import NativeParam from './NativeParam'
 
 export default interface Native {
   namespace : string
   name      : string
-  jhash    ?: string
   hash      : string
   comment   : string
   params    : NativeParam[]
   returnType: string
-  build     : string
   oldNames ?: string[]
+  build    ?: string
+  jhash    ?: string
+  apiSet   ?: string
+  examples ?: CodeExample[]
 }

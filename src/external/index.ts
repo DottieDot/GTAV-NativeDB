@@ -7,3 +7,5 @@ export * from './dottiedot-additional-data'
 
 export { default as LoadFivemNatives } from './fivem-nativedb'
 export * from './fivem-nativedb'
+
+export { default as NativeDataLoader } from './NativeDataLoader'

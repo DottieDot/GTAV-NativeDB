@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, DialogContent, Typography, styled, Divider, Box, DialogActions, Button } from '@material-ui/core'
+import { Dialog, DialogTitle, DialogContent, Typography, styled, Divider, Box, DialogActions, Button, Link } from '@material-ui/core'
 import React, { memo } from 'react'
 import { useCallback } from 'react'
 import { ReactNode } from 'react'
@@ -66,35 +66,27 @@ function UpdateDialog() {
         <Typography variant="body2">
           <UnorderedList>
             <ListItem>
-              <b>Shortcuts</b><br />
-              You can now use shortcuts for certain actions. [ctrl/cmd]+K for search, and [ctrl/cmd]+G to jump to a namespace.
+              <b>Code Examples</b><br />
+              It's now possible to add code examples to natives by contributing to <Link underline="hover" href="https://github.com/DottieDot/gta5-additional-nativedb-data" target="_blank">https://github.com/DottieDot/gta5-additional-nativedb-data</Link>.
             </ListItem>
           </UnorderedList>
-        </Typography>
+        </Typography> 
         <Header type="fix">
           Fixes and Changes
         </Header>
         <Typography variant="body2">
           <UnorderedList>
             <ListItem>
-              <b>Jump to namespace</b><br />
-              The jump to namespace dialog will now match the search results.
+              <b>FiveM Native Search</b><br />
+              Fixed how FiveM natives are loaded. The app will no longer crash while having them loaded.
             </ListItem>
             <ListItem>
-              <b>Native counts</b><br />
-              The number of natives shown in the namespace headers now adjust tot the search results.
+              <b>FiveM Native Information</b><br />
+              FiveM natives now include the same information they would have on FiveM's native database.
             </ListItem>
             <ListItem>
-              <b>Sharable search</b><br />
-              Search queries are now sharable.
-            </ListItem>
-            <ListItem>
-              <b>Fix update checker</b><br />
-              Update checker should now continuesly check for updates, instead of only the first minute or so.
-            </ListItem>
-            <ListItem>
-              <b>Improved search</b><br />
-              Search now searches in the descriptions too by default.
+              <b>Section Titles</b><br />
+              Added section titles to the native information panel.
             </ListItem>
           </UnorderedList>
         </Typography>

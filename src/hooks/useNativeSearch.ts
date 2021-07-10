@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Namespace, Native } from '../store'
-import useTypedSelector from './useTypedSelector'
+import useNatives from './useNatives'
 
 interface SearchData {
   name       ?: string
@@ -55,17 +55,12 @@ function matchNativeLoose(search: string, native: Native) {
   }
 
   let nameMatches = false
-  if (search) {
-    const names = [...(native.oldNames ?? []), native.hash, native.jhash, native.name]
-    for (const name of names) {
-      if (name?.toLocaleLowerCase().indexOf(search) !== -1) {
-        nameMatches = true
-        break
-      }
+  const names = [...(native.oldNames ?? []), native.hash, native.jhash, native.name]
+  for (const name of names) {
+    if (name && name.toLowerCase().indexOf(search) !== -1) {
+      nameMatches = true
+      break
     }
-  }
-  else {
-    nameMatches = true
   }
 
   const buildMatches = search
@@ -73,7 +68,7 @@ function matchNativeLoose(search: string, native: Native) {
     : true
 
   const namespaceMatches = search
-    ? native.namespace.toLocaleLowerCase() === search
+    ? native.namespace.toLowerCase() === search
     : true
 
   const descriptionMatches = search
@@ -93,7 +88,7 @@ function matchNativeStrict(searchData: SearchData, native: Native) {
   if (searchData.name) {
     const names = [...(native.oldNames ?? []), native.hash, native.jhash, native.name]
     for (const name of names) {
-      if (name?.toLocaleLowerCase().indexOf(searchData.name) !== -1) {
+      if (name && name.toLowerCase().indexOf(searchData.name) !== -1) {
         nameMatches = true
         break
       }
@@ -108,7 +103,7 @@ function matchNativeStrict(searchData: SearchData, native: Native) {
     : true
 
   const namespaceMatches = searchData.namespace
-    ? native.namespace.toLocaleLowerCase() === searchData.namespace
+    ? native.namespace.toLowerCase() === searchData.namespace
     : true
 
   const descriptionMatches = searchData.description
@@ -124,7 +119,7 @@ function matchNativeStrict(searchData: SearchData, native: Native) {
 }
 
 export default function useNativeSearch(searchQuery: string) {
-  const natives = useTypedSelector(state => state.natives)
+  const natives = useNatives()
   return useMemo(() => {
     const searchData = parseSearchQuery(searchQuery)
     return Object.values(natives).reduce<{[name: string]: Namespace}>((accumulator, native) => {

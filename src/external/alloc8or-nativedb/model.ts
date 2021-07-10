@@ -1,18 +1,18 @@
 
-export interface NativeParam {
+export interface Alloc8orNativeParam {
   type: string
   name: string
 }
 
-export interface Native {
+export interface Alloc8orNative {
   name       : string
   jhash     ?: string
   comment    : string
-  params     : NativeParam[]
+  params     : Alloc8orNativeParam[]
   return_type: string
   build      : string
 }
 
-export type Namespace = { [hash: string]: Native }
+export type Alloc8orNamespace = { [hash: string]: Alloc8orNative }
 
-export type NativeJson = { [name: string]: Namespace }
+export type Alloc8orNativeJson = { [name: string]: Alloc8orNamespace }

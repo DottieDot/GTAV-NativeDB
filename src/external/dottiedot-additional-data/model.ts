@@ -1,8 +1,15 @@
 
-export interface AdditionalNativeData {
-  old_names: string[]
+export interface DottieDotCodeExample {
+  lang: string
+  code: string
 }
 
-export type AdditionalNativeDataJson = {
-  [hash: string]: AdditionalNativeData
+
+export interface DottieDotAdditionalNativeData {
+  old_names: string[]
+  examples: DottieDotCodeExample[]
+}
+
+export type DottieDotAdditionalNativeDataJson = {
+  [hash: string]: DottieDotAdditionalNativeData
 }
