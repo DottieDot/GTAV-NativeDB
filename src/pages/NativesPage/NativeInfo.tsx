@@ -59,9 +59,10 @@ export default function NativeInfo() {
             variant="body2"
           />
         </Paper>
-        <div>
+        {native.comment && (
+          <div>
           <Typography variant="subtitle1" gutterBottom>
-            Description
+            Comment
           </Typography>
           <Paper sx={{ p: 2 }}>
             <NativeComment variant="body2">
@@ -69,6 +70,7 @@ export default function NativeInfo() {
             </NativeComment>
           </Paper>
         </div>
+        )}
         {native.examples && !_.isEmpty(native.examples) && (
           <div>
             <Typography variant="subtitle1" gutterBottom>
