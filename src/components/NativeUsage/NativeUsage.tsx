@@ -13,7 +13,7 @@ function NativeUsage({ nativeHash, onNotFound }: NativeUsageProps) {
   useEffect(() => {
     (async () => {
       setUsageCode(null)
-      const response = await fetch(`https://raw.githubusercontent.com/DottieDot/gta5-additional-nativedb-data/main/usages/${nativeHash}.c`)
+      const response = await fetch(`https://raw.githubusercontent.com/DottieDot/gta5-additional-nativedb-data/main/usages/${nativeHash}.cpp`)
       if (response.ok) {
         const code = await response.text();
         setUsageCode(code)
