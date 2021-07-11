@@ -34,7 +34,7 @@ function NativeUsage({ nativeHash, onNotFound }: NativeUsageProps) {
   }
 
   return (
-    <SyntaxHighlighter language="c">
+    <SyntaxHighlighter language="cpp">
       {usageCode}
     </SyntaxHighlighter>
   )
