@@ -41,8 +41,14 @@ export * from './NativeSelect'
 export { default as NativeType } from './NativeType'
 export * from './NativeType'
 
+export { default as NativeUsage } from './NativeUsage'
+export * from './NativeUsage'
+
 export { default as OnlineStatusProvider } from './OnlineStatusProvider'
 export * from './OnlineStatusProvider'
+
+export { default as SyntaxHighlighter } from './SnytaxHighlighter'
+export * from './SnytaxHighlighter'
 
 export { default as UpdateDialog } from './UpdateDialog'
 export * from './UpdateDialog'

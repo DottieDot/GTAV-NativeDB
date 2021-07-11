@@ -1,10 +1,8 @@
-import { Divider, Tab, useTheme } from '@material-ui/core'
+import { Divider, Tab } from '@material-ui/core'
 import { TabContext, TabList, TabPanel } from '@material-ui/lab'
 import React, { memo, SyntheticEvent, useCallback, useState } from 'react'
-import SyntaxHighlighter /*{ Prism as SyntaxHighlighter }*/ from 'react-syntax-highlighter'
 import { CodeExample } from '../../store'
-// import { materialLight as lightStyle, materialDark as darkStyle } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { atomOneLight as lightStyle, atomOneDark as darkStyle } from 'react-syntax-highlighter/dist/esm/styles/hljs'
+import SyntaxHighlighter from '../SnytaxHighlighter'
 
 export interface CodeExamplesProps {
   examples: CodeExample[]
@@ -26,15 +24,10 @@ const humanLangMap: { [name: string]: string } = {
 
 function CodeExamples({ examples }: CodeExamplesProps) {
   const [language, setLanguage] = useState(examples[0].lang)
-  const theme = useTheme()
-
+  
   const onTabChange = useCallback((e: SyntheticEvent<Element, Event>, language: string) => {
     setLanguage(language)
   }, [setLanguage])
-
-  const highlighterStyle = theme.palette.mode === 'dark'
-    ? darkStyle
-    : lightStyle
 
   return (
     <TabContext value={language}>
@@ -51,14 +44,8 @@ function CodeExamples({ examples }: CodeExamplesProps) {
         <TabPanel value={lang} sx={{ p: 0 }}>
           <SyntaxHighlighter 
             language={langMap[lang] ?? lang} 
-            style={highlighterStyle} 
-            customStyle={{ 
-              background: 'none', 
-              padding: theme.spacing(2), 
-              margin: 0
-            }}
           >
-          {code}
+            {code}
           </SyntaxHighlighter>
         </TabPanel>
       ))}
