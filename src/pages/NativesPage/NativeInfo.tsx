@@ -114,7 +114,7 @@ export default function NativeInfo() {
         {(!usageNotFound && _.includes(settings.sources, NativeSources.DottieDot)) && (
           <div>
             <Typography variant="subtitle1" gutterBottom>
-              Script Usage
+              Script usage
             </Typography>
             <Paper>
               <NativeUsage 
