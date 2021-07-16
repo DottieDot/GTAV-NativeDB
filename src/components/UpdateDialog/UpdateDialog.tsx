@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, DialogContent, Typography, styled, Divider, Box, DialogActions, Button, Link } from '@material-ui/core'
+import { Dialog, DialogTitle, DialogContent, Typography, styled, Divider, Box, DialogActions, Button } from '@material-ui/core'
 import React, { memo } from 'react'
 import { useCallback } from 'react'
 import { ReactNode } from 'react'
@@ -66,12 +66,12 @@ function UpdateDialog() {
         <Typography variant="body2">
           <UnorderedList>
             <ListItem>
-              <b>Code Examples</b><br />
-              It's now possible to add code examples to natives by contributing to <Link underline="hover" href="https://github.com/DottieDot/gta5-additional-nativedb-data" target="_blank">https://github.com/DottieDot/gta5-additional-nativedb-data</Link>.
+              <b>Native Script Usage</b><br />
+              Native info now includes a code snippet from the game scripts on how the native is used.
             </ListItem>
           </UnorderedList>
         </Typography> 
-        <Header type="fix">
+        {/* <Header type="fix">
           Fixes and Changes
         </Header>
         <Typography variant="body2">
@@ -80,16 +80,8 @@ function UpdateDialog() {
               <b>FiveM Native Search</b><br />
               Fixed how FiveM natives are loaded. The app will no longer crash while having them loaded.
             </ListItem>
-            <ListItem>
-              <b>FiveM Native Information</b><br />
-              FiveM natives now include the same information they would have on FiveM's native database.
-            </ListItem>
-            <ListItem>
-              <b>Section Titles</b><br />
-              Added section titles to the native information panel.
-            </ListItem>
           </UnorderedList>
-        </Typography>
+        </Typography> */}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>

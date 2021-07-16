@@ -1,21 +1,33 @@
 import { Box, IconButton, List, Paper, Stack, Tooltip, Typography, ListItem, ListItemText } from '@material-ui/core'
 import { LinkSharp as ShareIcon } from '@material-ui/icons'
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { createShareUrl } from '../../common'
-import { CodeExamples, NativeComment, NativeDefinition, NativeDetails } from '../../components'
-import { useCopyToClipboard, useNative } from '../../hooks'
+import { CodeExamples, NativeComment, NativeDefinition, NativeDetails, NativeUsage } from '../../components'
+import { useCopyToClipboard, useNative, useSettings } from '../../hooks'
 import NativeNotFound from './NativeNotFound'
 import _ from 'lodash'
+import { useEffect } from 'react'
+import { NativeSources } from '../../store'
 
 export default function NativeInfo() {
   const { native: nativeHash } = useParams<{ native: string }>()
+  const [usageNotFound, setUsageNotFound] = useState(false)
+  const settings = useSettings()
   const native = useNative(nativeHash)
   const copyToClipboard = useCopyToClipboard()
 
   const onShare = useCallback(() => {
     copyToClipboard(createShareUrl(`/natives/${nativeHash}`))
   }, [copyToClipboard, nativeHash])
+
+  const onUsageNotFound = useCallback(() => {
+    setUsageNotFound(true)
+  }, [setUsageNotFound])
+
+  useEffect(() => {
+    setUsageNotFound(false)
+  }, [nativeHash])
 
   if  (!native) {
     return (
@@ -96,6 +108,19 @@ export default function NativeInfo() {
                   </ListItem>
                 ))}
               </List>
+            </Paper>
+          </div>
+        )}
+        {(!usageNotFound && _.includes(settings.sources, NativeSources.DottieDot)) && (
+          <div>
+            <Typography variant="subtitle1" gutterBottom>
+              Script usage
+            </Typography>
+            <Paper>
+              <NativeUsage 
+                onNotFound={onUsageNotFound}
+                nativeHash={nativeHash} 
+              />
             </Paper>
           </div>
         )}
