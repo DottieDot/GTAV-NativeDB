@@ -3,7 +3,9 @@ import { Namespace, NamespaceReducerState, NativeReducerState } from '../store'
 
 export interface CPlusPlusCodeGeneratorData { 
   natives   : NativeReducerState, 
-  namespaces: NamespaceReducerState }
+  namespaces: NamespaceReducerState 
+}
+
 export interface CPlusPlusCodeGeneratorSettings {
   typedefs    : boolean
   comments    : boolean

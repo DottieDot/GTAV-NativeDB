@@ -4,6 +4,7 @@ import React, { memo, SyntheticEvent } from 'react'
 import { useCallback } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import CPlusPlus from './CPlusPlus'
+import CSharp from './CSharp'
 
 function GenerateCodePage() {
   const { language } = useParams<{ language: string }>()
@@ -23,21 +24,17 @@ function GenerateCodePage() {
           <TabContext value={language}>
             <TabList onChange={onTabChange}>
               <Tab label="C++" value="cpp" />
-              <Tab label="C# Enum" value="cs" />
-              <Tab label="SHV.NET" value="shvdn" />
-              <Tab label="RPH" value="rph" />
+              <Tab label="C#" value="cs" />
+              <Tab label="C# Enum" value="csEnum" />
             </TabList>
             <Divider />
             <TabPanel value="cpp" sx={{ p: 2 }}>
               <CPlusPlus />
             </TabPanel>
             <TabPanel value="cs">
-              Soon&trade;
+              <CSharp />
             </TabPanel>
-            <TabPanel value="shvdn">
-              Soon&trade;
-            </TabPanel>
-            <TabPanel value="rph">
+            <TabPanel value="csEnum">
               Soon&trade;
             </TabPanel>
           </TabContext>

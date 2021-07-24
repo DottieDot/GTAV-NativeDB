@@ -12,7 +12,7 @@ export function makeNativeNameCPlusPlusCompliant(name: string): string {
   }
 }
 
-const translations: {[gtaType: string]: string} = {
+const gtaTypeNativeTypeMap: {[gtaType: string]: string} = {
   // 'BOOL'      : 'int',
   'Any'       : 'long long',
   'Hash'      : 'unsigned',
@@ -30,7 +30,14 @@ const translations: {[gtaType: string]: string} = {
 }
 
 export function gtaTypeToNativeType(type: string) {
-  return translations[type] ?? type
+  let result = gtaTypeNativeTypeMap[type]
+  if (!result && type.indexOf('*') !== -1) {
+    let tmp = gtaTypeNativeTypeMap[type.substr(0, type.length - 1)]
+    if (tmp) {
+      result = `${tmp}*`
+    }
+  }
+  return result ?? type
 }
 
 export function gtaParamsToNativeParams(params: NativeParam[]) {
@@ -39,3 +46,52 @@ export function gtaParamsToNativeParams(params: NativeParam[]) {
     type: gtaTypeToNativeType(param.type)
   }))
 }
+
+const gtaTypeCSharpTypeMap: {[gtaType: string]: string} = {
+    'BOOL'       : 'bool',
+    'Any'        : 'long long',
+    'Hash'       : 'unsigned',
+    'Ped'        : 'int',
+    'Vehicle'    : 'int',
+    'Blip'       : 'int',
+    'Cam'        : 'int',
+    'Objet'      : 'int',
+    'Player'     : 'int',
+    'Entity'     : 'int',
+    'ScrHandle'  : 'int',
+    'FireId'     : 'int',
+    'Pickup'     : 'int',
+    'Interior'   : 'int',
+    'const char*': 'string'
+}
+
+export function gtaTypeToCSharpType(type: string) {
+  let result = gtaTypeCSharpTypeMap[type]
+  if (!result && type.indexOf('*') !== -1) {
+    let tmp = gtaTypeCSharpTypeMap[type.substr(0, type.length - 1)]
+    if (tmp) {
+      result = `${tmp}*`
+    }
+  }
+
+  result = result ?? type
+  if (result.indexOf('*') !== -1) {
+    result = `out ${result.substr(0, result.length - 1)}`
+  }
+  
+  return result
+}
+
+export function gtaParamsToCSharpParams(params: NativeParam[]) {
+  return params.map(param => ({
+    ...param,
+    type: gtaTypeToCSharpType(param.type)
+  }))
+}
+
+export function snakeCaseToPascalCase(snakeCaseString: string) {
+  return snakeCaseString
+    .toLowerCase()
+    .replace(/(_|^)(.)/g, (_substring, _group0, group1: string) => group1.toUpperCase())
+}
+
