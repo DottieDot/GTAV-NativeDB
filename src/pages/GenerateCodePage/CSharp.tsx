@@ -1,17 +1,29 @@
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, Paper, Typography } from '@material-ui/core'
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, Paper, Typography, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
 import download from 'downloadjs'
 import React, { ChangeEvent, useCallback } from 'react'
 import useLocalStorageState from 'use-local-storage-state'
 import { CSharpCodeGenerator, CSharpCodeGeneratorSettings } from '../../code-generation'
 import { useNamespaces, useNatives } from '../../hooks'
+import * as _ from 'lodash'
 
 export default function CSharp() {
   const natives = useNatives()
   const namespaces = useNamespaces()
   const [settings, setSettings] = useLocalStorageState<CSharpCodeGeneratorSettings>('Pages.GenerateCode.CSharp.Settings', {
     framework: 'SHVDN',
-    comments: false
+    comments: false,
+    usePascalCase: true
   })
+
+  const handleTargetFrameworkChange = useCallback((event: ChangeEvent<{ value: unknown }>) => {
+    if (_.includes(['SHVDN', 'RPH'], event.target.value)) {
+      setSettings({
+        ...settings,
+        // @ts-ignore
+        framework: event.target.value
+      })
+    }
+  }, [settings, setSettings])
 
   const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setSettings({
@@ -41,6 +53,19 @@ export default function CSharp() {
           settings
         </Typography>
         <FormGroup>
+          <FormControl variant="standard" fullWidth>
+            <InputLabel id="cs-target-framework-label">Target Framework</InputLabel>
+            <Select
+              labelId="cs-target-framework-label"
+              label="Target Framework"
+              value={settings.framework}
+              name="framework"
+              onChange={handleTargetFrameworkChange}
+            >
+              <MenuItem value="SHVDN">ScriptHookV.NET</MenuItem>
+              <MenuItem value="RPH">RagePluginHook</MenuItem>
+            </Select>
+          </FormControl>
           <FormControlLabel
             control={
               <Checkbox
@@ -50,6 +75,16 @@ export default function CSharp() {
               />
             }
             label="Include Comments"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="usePascalCase"
+                onChange={handleChange}
+                checked={settings.comments}
+              />
+            }
+            label="Use PascalCase"
           />
         </FormGroup>
         <Box sx={{ flexGrow: 1 }} />

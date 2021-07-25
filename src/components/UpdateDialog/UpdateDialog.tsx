@@ -66,8 +66,8 @@ function UpdateDialog() {
         <Typography variant="body2">
           <UnorderedList>
             <ListItem>
-              <b>Native Script Usage</b><br />
-              Native info now includes a code snippet from the game scripts on how the native is used.
+              <b>C# Code Generation</b><br />
+              Added code generation for C#.
             </ListItem>
           </UnorderedList>
         </Typography> 

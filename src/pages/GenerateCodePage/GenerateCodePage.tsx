@@ -31,7 +31,7 @@ function GenerateCodePage() {
             <TabPanel value="cpp" sx={{ p: 2 }}>
               <CPlusPlus />
             </TabPanel>
-            <TabPanel value="cs">
+            <TabPanel value="cs" sx={{ p: 2 }}>
               <CSharp />
             </TabPanel>
             <TabPanel value="csEnum">

@@ -27,6 +27,7 @@ const gtaTypeNativeTypeMap: {[gtaType: string]: string} = {
   'FireId'    : 'int',
   'Pickup'    : 'int',
   'Interior'  : 'int',
+  'Object'    : 'int'
 }
 
 export function gtaTypeToNativeType(type: string) {
@@ -49,8 +50,8 @@ export function gtaParamsToNativeParams(params: NativeParam[]) {
 
 const gtaTypeCSharpTypeMap: {[gtaType: string]: string} = {
     'BOOL'       : 'bool',
-    'Any'        : 'long long',
-    'Hash'       : 'unsigned',
+    'Any'        : 'long',
+    'Hash'       : 'uint',
     'Ped'        : 'int',
     'Vehicle'    : 'int',
     'Blip'       : 'int',
@@ -62,7 +63,8 @@ const gtaTypeCSharpTypeMap: {[gtaType: string]: string} = {
     'FireId'     : 'int',
     'Pickup'     : 'int',
     'Interior'   : 'int',
-    'const char*': 'string'
+    'const char*': 'string',
+    'Object'     : 'int'
 }
 
 export function gtaTypeToCSharpType(type: string) {

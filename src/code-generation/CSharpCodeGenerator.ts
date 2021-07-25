@@ -7,8 +7,9 @@ export interface CSharpCodeGeneratorData {
 }
 
 export interface CSharpCodeGeneratorSettings {
-  framework: 'SHVDN',
+  framework: 'SHVDN' | 'RPH',
   comments: boolean
+  usePascalCase: boolean
 }
 
 export default class CSharpCodeGenerator {
@@ -27,10 +28,14 @@ export default class CSharpCodeGenerator {
         this.result += 'using GTA.Math;\n'
         this.result += 'using GTA.Native;\n'
         break
+      case 'RPH':
+        this.result += 'using Rage;\n'
+        this.result += 'using Rage.Native;\n'
+        break
     }
   }
 
-  generateShvdnFunctionCall(native: Native, name: string, returnType: string, params: NativeParam[]) {
+  generateShvdnFunctionCall(native: Native, returnType: string, params: NativeParam[]) {
     const hasOutParam = params.findIndex(({ type }) => type.indexOf('out ') === 0)
     if (hasOutParam === -1) {
       this.result += `\t\t\treturn Function.Call<${returnType}>((Hash)${native.hash}`
@@ -59,8 +64,19 @@ export default class CSharpCodeGenerator {
     }
   }
 
+  generateRphFunctionCall(native: Native, returnType: string, params: NativeParam[]) {
+    this.result += `\t\t\treturn NativeFunction.Natives.x${native.hash.substr(2)}<${returnType}>(`
+    this.result += params.map(({ name, type }) => `${type.indexOf('out ') === 0 ? 'out ' : ''}${name}`).join(', ')
+    this.result += ');\n'
+  }
+
   generateNative(hash: string) {
     const native = this.data.natives[hash]
+
+    // Any* could be anything, some struct, an array, or an out param.
+    if (native.params.findIndex(({ type }) => type === 'Any*') !== -1) {
+      return
+    }
 
     let nativeName = native.name
     if (nativeName[1] === '0') {
@@ -70,9 +86,14 @@ export default class CSharpCodeGenerator {
       nativeName = `${nativeName.substr(1)}_`
     }
 
-    const name = snakeCaseToPascalCase(nativeName)
+    const name = this.settings.usePascalCase ? snakeCaseToPascalCase(nativeName) : native.name
     const returnType = gtaTypeToCSharpType(native.returnType)
     const params = gtaParamsToCSharpParams(native.params)
+
+    // Not sure how you'd handle something like this in C#
+    if (returnType.indexOf('out ') !== -1) {
+      return
+    }
 
     if (this.settings.comments && native.comment) {
       this.result += `${native.comment.replace(/^/gm, '\t\t// ')}\n`
@@ -84,7 +105,10 @@ export default class CSharpCodeGenerator {
 
     switch (this.settings.framework) {
       case 'SHVDN':
-        this.generateShvdnFunctionCall(native, name, returnType, params)
+        this.generateShvdnFunctionCall(native, returnType, params)
+        break
+      case 'RPH':
+        this.generateRphFunctionCall(native, returnType, params)
         break
     }
 
