@@ -81,7 +81,7 @@ export default function CSharp() {
               <Checkbox
                 name="usePascalCase"
                 onChange={handleChange}
-                checked={settings.comments}
+                checked={settings.usePascalCase}
               />
             }
             label="Use PascalCase"
