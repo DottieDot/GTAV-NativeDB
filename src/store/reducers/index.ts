@@ -7,17 +7,17 @@ import nativeReducer from './nativeReducer'
 import settingsReducer from './settingsReducer'
 import statsReducer from './statsReducer'
 
-const settingsPersistConfig = {
-  key: 'Settings',
-  storage: storage
-}
+const persistConfig = (key: string) => ({
+  key,
+  storage
+})
 
 const rootReducer = combineReducers({
   app       : appReducer,
-  natives   : nativeReducer,
-  namespaces: namespaceReducer,
-  stats     : statsReducer,
-  settings  : persistReducer(settingsPersistConfig, settingsReducer)
+  natives   : persistReducer(persistConfig('Natives'), nativeReducer),
+  namespaces: persistReducer(persistConfig('Namespaces'), namespaceReducer),
+  stats     : persistReducer(persistConfig('Stats'), statsReducer),
+  settings  : persistReducer(persistConfig('Settings'), settingsReducer)
 })
 
 export type RootState = ReturnType<typeof rootReducer>
