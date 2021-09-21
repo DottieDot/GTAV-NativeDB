@@ -42,7 +42,7 @@ const darkTheme: ThemeOptions = {
 function Theme({ children }: { children: ReactNode }) {
   const settings = useSettings()
   const systemIsDark = useMediaQuery('(prefers-color-scheme: dark)')
-  const dark = settings.theme !== 'light' && systemIsDark
+  const dark = settings.theme === 'dark' || (settings.theme === 'system' && systemIsDark)
   const theme = useMemo(
     () => createTheme(dark ? darkTheme : lightTheme),
     [dark]
