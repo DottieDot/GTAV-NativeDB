@@ -1,6 +1,6 @@
 import { darkScrollbar } from '@material-ui/core'
 import { createTheme, ThemeOptions, ThemeProvider, useMediaQuery } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useMemo } from 'react'
 import { ReactNode } from 'react'
 import { useSettings } from './hooks'
@@ -47,6 +47,11 @@ function Theme({ children }: { children: ReactNode }) {
     () => createTheme(dark ? darkTheme : lightTheme),
     [dark]
   )
+
+  useEffect(() => {
+    document.querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', dark ? '#272727' :'#0e752e')
+  }, [dark])
 
   return (
     <ThemeProvider theme={theme}>

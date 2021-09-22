@@ -1,6 +1,20 @@
 
+:root {
+  --theme-color: blue;
+}
+
 html {
   overflow: hidden;
+
+  --theme-color: #fff;
+}
+
+html.light {
+  --theme-color: #0e752e;
+}
+
+html.dark {
+  --theme-color: #272727;
 }
 
 body {
