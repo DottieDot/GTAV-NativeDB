@@ -36,4 +36,4 @@ function NativeListItem({ nativeHash, style }: NativeListItemProps) {
     </ListItem>
   )
 }
-export default memo(NativeListItem)
+export default  memo(NativeListItem)

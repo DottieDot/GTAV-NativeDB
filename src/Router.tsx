@@ -20,7 +20,7 @@ export default function Router() {
       <Route path="/generate-header">
         <Redirect to="/generate-code" />
       </Route>
-      <Route path="/" exact>
+      <Route path="*">
         <Redirect to="/natives" />
       </Route>
     </Switch>
