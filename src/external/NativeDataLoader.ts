@@ -5,7 +5,6 @@ import LoadFivemNatives from './fivem-nativedb'
 
 interface AdditionalNativeData {
   examples?: Native['examples']
-  oldNames?: Native['oldNames']
 }
 
 export default class NativeDataLoader {
@@ -93,7 +92,8 @@ export default class NativeDataLoader {
           params    : native.params,
           returnType: native.return_type,
           jhash     : native.jhash,
-          build     : native.build
+          build     : native.build,
+          oldNames  : native.old_names
         })
       })
     })
@@ -110,7 +110,6 @@ export default class NativeDataLoader {
       const native = data[hash]
 
       this.addAdditionalData(hash, {
-        oldNames: native.old_names,
         examples: native.examples
       })
     })
