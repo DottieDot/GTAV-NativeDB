@@ -1,21 +1,20 @@
 import { AppBarProps } from '@material-ui/core'
-import React, { memo, createContext, RefObject } from 'react'
-import { useRef } from 'react'
-import AppBar from '../AppBar'
+import React, { createContext, memo, useState } from 'react'
+import AppBar, { AppBarSettings } from '../AppBar'
 
-export const appBarContext = createContext<RefObject<HTMLDivElement> | null>(null)
+export const appBarContext = createContext<[AppBarSettings, React.Dispatch<React.SetStateAction<AppBarSettings>>] | null>(null)
 
 export interface AppBarProviderProps extends AppBarProps {
   
 }
 
 function AppBarProvider({ children, ...rest }: AppBarProviderProps) {
-  const toolbarRef = useRef<HTMLDivElement>(null)
+  const state = useState<AppBarSettings>({})
 
   return (
-    <appBarContext.Provider value={toolbarRef}>
+    <appBarContext.Provider value={state}>
       <AppBar
-        toolbarRef={toolbarRef}
+        settings={state[0]}
         {...rest}
       />
       {children}

@@ -1,9 +1,8 @@
 import { alpha, InputBase, styled } from '@material-ui/core'
-import { Search as SearchIcon } from '@material-ui/icons'
-import React, { Fragment, ChangeEvent, useCallback, useRef, KeyboardEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, Fragment, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { useHistory } from 'react-router-dom'
-import { AppBarPortal, NativeList as NativeListComponent } from '../../components'
+import { NativeList as NativeListComponent } from '../../components'
 import { useNativeSearch, useQuery } from '../../hooks'
 
 const Search = styled('div')(({ theme }) => ({
@@ -84,7 +83,7 @@ export default function NativeList() {
 
   return (
     <Fragment>
-      <AppBarPortal>
+      {/* <AppBarPortal>
         <Search>
           <SearchIconWrapper>
             <SearchIcon />
@@ -99,7 +98,7 @@ export default function NativeList() {
             onKeyDown={handleSearchKeyDown}
           />
         </Search>
-      </AppBarPortal>
+      </AppBarPortal> */}
       <NativeListComponent
         sx={{ height: '100%' }}
         namespaces={namespaces}
