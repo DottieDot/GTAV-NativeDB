@@ -13,9 +13,7 @@ export default function NativeList() {
 
   useEffect(() => {
     const search = query.get('search')
-    if (search) {
-      setFilter(search)
-    }
+    setFilter(search ?? '')
   }, [query, setFilter])
 
   const handleSearchKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
@@ -27,10 +25,10 @@ export default function NativeList() {
 
   const handleSearchBlur = useCallback(() => {
     if (filter) {
-      history.replace(`?search=${encodeURIComponent(filter)}`)
+      history.replace(`${history.location.pathname}?search=${encodeURIComponent(filter)}`)
     }
     else {
-      history.replace('')
+      history.replace(history.location.pathname)
     }
   }, [history, filter])
 

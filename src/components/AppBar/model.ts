@@ -1,10 +1,15 @@
-import { BoxProps, ButtonBaseProps } from '@material-ui/core'
+import { BoxProps } from '@material-ui/core'
 import { ElementType } from 'react'
 
 export interface AppBarAction {
-  text       : string
-  icon      ?: ElementType
-  buttonProps: ButtonBaseProps & { href?: string, target?: string }
+  text        : string
+  desktopIcon?: ElementType
+  mobileIcon ?: ElementType
+  buttonProps: {
+    onClick?: () => void,
+    href   ?: string, 
+    target ?: string 
+  }
 }
 
 export interface AppBarSearch {

@@ -3,6 +3,7 @@ import React, { ChangeEvent, Fragment, KeyboardEvent, memo, useCallback, useMemo
 import { useHotkeys } from 'react-hotkeys-hook'
 import { useSetAppBarSettings } from '../../hooks'
 import { Namespace } from '../../store'
+import { ExitToApp as JumpToNamespaceIcon } from '@material-ui/icons'
 
 interface Props {
   onNamespaceClicked: (namespace: string) => void
@@ -41,7 +42,8 @@ function JumpToNamespace({ namespaces, onNamespaceClicked }: Props) {
   useSetAppBarSettings('JumpToNamespace', {
     actions: [
       {
-        text: 'jump to namespace',
+        text: 'Jump to namespace',
+        mobileIcon: JumpToNamespaceIcon,
         buttonProps: {
           onClick: handleDialogOpen
         }
@@ -67,11 +69,6 @@ function JumpToNamespace({ namespaces, onNamespaceClicked }: Props) {
 
   return (
     <Fragment>
-      {/* <AppBarPortal>
-        <Button onClick={handleDialogOpen} color="inherit">
-          jump to namespace
-        </Button>
-      </AppBarPortal> */}
       <Dialog open={dialogOpen} onClose={handleDialogClose} maxWidth="xs" fullWidth>
         <TextField 
           label="Filter"

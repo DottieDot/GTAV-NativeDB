@@ -9,8 +9,8 @@ import { AppBarProps } from './model'
 import SettingsDrawer from './SettingsDrawer'
 import StatusButton from './StatusButton'
 
-function AppBarAction({ text, icon, buttonProps }: AppBarActionProps) {
-  if (!icon) {
+function AppBarAction({ text, desktopIcon, buttonProps }: AppBarActionProps) {
+  if (!desktopIcon) {
     return (
       <Button {...buttonProps} color="inherit">
         {text}
@@ -25,7 +25,7 @@ function AppBarAction({ text, icon, buttonProps }: AppBarActionProps) {
         {...buttonProps}
         color="inherit"
       >
-        {React.createElement(icon)}
+        {React.createElement(desktopIcon)}
       </IconButton>
     </Tooltip>
   )
@@ -48,14 +48,14 @@ function Desktop({ ...rest }: AppBarProps) {
     ...(settings.actions ?? []),
     {
       text: 'Settings',
-      icon: SettingsIcon,
+      desktopIcon: SettingsIcon,
       buttonProps: {
         onClick: handleSettingsOpen
       }
     },
     {
       text: 'View on Github',
-      icon: GithubIcon,
+      desktopIcon: GithubIcon,
       buttonProps: {
         href: 'https://github.com/DottieDot/GTAV-NativeDB',
         target: '_blank'
