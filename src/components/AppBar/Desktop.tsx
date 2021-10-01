@@ -1,9 +1,10 @@
 import { AppBar as MaterialAppBar, Box, Button, Divider, IconButton, Link, Toolbar, Tooltip, Typography } from '@material-ui/core'
 import { GitHub as GithubIcon, Settings as SettingsIcon } from '@material-ui/icons'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { AppBarAction as AppBarActionProps } from '.'
-import { useStats } from '../../hooks'
+import { useAppBarSettings, useStats } from '../../hooks'
+import DesktopSearch from './DesktopSearch'
 import { AppBarProps } from './model'
 import SettingsDrawer from './SettingsDrawer'
 import StatusButton from './StatusButton'
@@ -30,9 +31,10 @@ function AppBarAction({ text, icon, buttonProps }: AppBarActionProps) {
   )
 }
 
-function Desktop({ toolbarRef, settings, ...rest }: AppBarProps) {
+function Desktop({ ...rest }: AppBarProps) {
   const stats = useStats()
   const [settingsOpen, setSettingsOpen] = useState(false)
+  const settings = useAppBarSettings()
 
   const handleSettingsOpen = useCallback(() => {
     setSettingsOpen(true)
@@ -42,8 +44,8 @@ function Desktop({ toolbarRef, settings, ...rest }: AppBarProps) {
     setSettingsOpen(false)
   }, [setSettingsOpen])
 
-  const actions: AppBarActionProps[] = [
-    ...(settings?.actions ?? []),
+  const actions: AppBarActionProps[] = useMemo(() => [
+    ...(settings.actions ?? []),
     {
       text: 'Settings',
       icon: SettingsIcon,
@@ -59,7 +61,7 @@ function Desktop({ toolbarRef, settings, ...rest }: AppBarProps) {
         target: '_blank'
       }
     }
-  ]
+  ], [settings, handleSettingsOpen])
 
   return (
     <Box {...rest}>
@@ -78,8 +80,9 @@ function Desktop({ toolbarRef, settings, ...rest }: AppBarProps) {
           </Typography>
           <Box
             sx={{ display: 'flex', flex: 1 }}
-            ref={toolbarRef}
-          />
+          >
+            {settings.search && <DesktopSearch search={settings.search} />}
+          </Box>
           <StatusButton />
           {actions.map(action => (
             <AppBarAction

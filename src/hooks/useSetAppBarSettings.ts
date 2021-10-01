@@ -1,25 +1,17 @@
-import { useContext, useEffect } from 'react'
-import { appBarContext, AppBarSettings } from '../components'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { AppBarSettings } from '../components'
+import { registerAppBarSettings, removeAppBarSettings } from '../store'
 
-export default function useSetAppBarSettings(settings: AppBarSettings) {
-  const [currentSettings, setSettings] = useContext(appBarContext) ?? [{}, () => {}]
+export default function useSetAppBarSettings(id: string, settings: AppBarSettings) {
+  
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    const newSettings = {
-      ...currentSettings,
-      ...settings,
-      actions: (currentSettings.actions || [])
-        .filter(action => !settings.actions?.find(a2 => a2.text === action.text))
-        .concat(settings.actions ?? [])
-    }
-    setSettings(newSettings)
+    dispatch(registerAppBarSettings(id, settings))
 
     return () => {
-      setSettings({
-        ...currentSettings,
-        actions: (currentSettings.actions || [])
-          .filter(action => !settings.actions?.find(a2 => a2.text === action.text))
-      })
+      dispatch(removeAppBarSettings(id))
     }
-  }, [currentSettings, setSettings, settings])
+  }, [dispatch, id, settings])
 }

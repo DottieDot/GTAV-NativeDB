@@ -38,7 +38,7 @@ function JumpToNamespace({ namespaces, onNamespaceClicked }: Props) {
     handleDialogClose()
   }, [handleDialogClose, onNamespaceClicked])
 
-  useSetAppBarSettings({
+  useSetAppBarSettings('JumpToNamespace', {
     actions: [
       {
         text: 'jump to namespace',

@@ -1,42 +1,8 @@
-import { alpha, InputBase, styled } from '@material-ui/core'
 import React, { ChangeEvent, Fragment, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { useHistory } from 'react-router-dom'
 import { NativeList as NativeListComponent } from '../../components'
-import { useNativeSearch, useQuery } from '../../hooks'
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25)
-  },
-  margin: theme.spacing(0, 2),
-  flex: 1,
-  display: 'flex'
-}))
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  width: '100%',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%'
-  }
-}))
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}))
+import { useNativeSearch, useQuery, useSetAppBarSettings } from '../../hooks'
 
 export default function NativeList() {
   const [filter, setFilter] = useState('')
@@ -44,7 +10,7 @@ export default function NativeList() {
   const inputRef = useRef<HTMLInputElement>(null)
   const history = useHistory()
   const query = useQuery()
-  
+
   useEffect(() => {
     const search = query.get('search')
     if (search) {
@@ -53,12 +19,12 @@ export default function NativeList() {
   }, [query, setFilter])
 
   const handleSearchKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key  === 'Enter') {
+    if (e.key === 'Enter') {
       inputRef.current?.blur()
       e.preventDefault()
     }
   }, [inputRef])
-  
+
   const handleSearchBlur = useCallback(() => {
     if (filter) {
       history.replace(`?search=${encodeURIComponent(filter)}`)
@@ -72,6 +38,16 @@ export default function NativeList() {
     setFilter(e.target.value)
   }, [setFilter])
 
+  useSetAppBarSettings('NativeList', {
+    search: {
+      onChange: handleFilterChange,
+      onKeyDown: handleSearchKeyDown,
+      onBlur: handleSearchBlur,
+      ref: inputRef,
+      value: filter
+    }
+  })
+
   useHotkeys('ctrl+k', () => {
     inputRef.current?.focus()
   }, {
@@ -83,22 +59,6 @@ export default function NativeList() {
 
   return (
     <Fragment>
-      {/* <AppBarPortal>
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Search…"
-            inputProps={{ 'aria-label': 'search' }}
-            value={filter}
-            inputRef={inputRef}
-            onChange={handleFilterChange}
-            onBlur={handleSearchBlur}
-            onKeyDown={handleSearchKeyDown}
-          />
-        </Search>
-      </AppBarPortal> */}
       <NativeListComponent
         sx={{ height: '100%' }}
         namespaces={namespaces}

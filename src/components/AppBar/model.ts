@@ -1,5 +1,5 @@
 import { BoxProps, ButtonBaseProps } from '@material-ui/core'
-import { ElementType, RefObject } from 'react'
+import { ElementType } from 'react'
 
 export interface AppBarAction {
   text       : string
@@ -7,12 +7,20 @@ export interface AppBarAction {
   buttonProps: ButtonBaseProps & { href?: string, target?: string }
 }
 
+export interface AppBarSearch {
+  value    ?: string
+  onChange ?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  onBlur   ?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  ref      ?: React.RefObject<HTMLInputElement>
+}
+
 export interface AppBarSettings {
   title  ?: string
   actions?: AppBarAction[]
+  search ?: AppBarSearch
 }
 
 export interface AppBarProps extends BoxProps {
-  toolbarRef?: RefObject<HTMLDivElement>
-  settings?: AppBarSettings
+
 }
