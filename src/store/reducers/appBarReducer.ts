@@ -20,7 +20,7 @@ export default function appBarReducer(state: AppBarReducerState = initialState, 
           accumulator[id] = state[id]
         }
         return accumulator
-      }, {})
+      }, state)
     default:
       return state
   }

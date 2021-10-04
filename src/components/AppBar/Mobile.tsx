@@ -1,5 +1,5 @@
 import { AppBar as MaterialAppBar, Box, IconButton, Link, ListItemIcon, Menu, MenuItem, Toolbar, Typography, Zoom } from '@material-ui/core'
-import { GitHub as GithubIcon, MoreVert as MoreIcon, Search as SearchIcon, Settings as SettingsIcon } from '@material-ui/icons'
+import { GitHub as GithubIcon, MoreVert as MoreIcon, Search as SearchIcon, Settings as SettingsIcon, ShowChart as StatsIcon } from '@material-ui/icons'
 import React, { MouseEvent, useCallback, useMemo, useState } from 'react'
 import { Link as BrowserLink, Link as RouterLink } from 'react-router-dom'
 import { AppBarAction as AppBarActionProps } from '.'
@@ -7,6 +7,7 @@ import { useAppBarSettings } from '../../hooks'
 import MobileSearch from './MobileSearch'
 import { AppBarProps } from './model'
 import SettingsDrawer from './SettingsDrawer'
+import StatsDialog from './StatsDialog'
 import StatusButton from './StatusButton'
 
 function AppBarAction({ text, mobileIcon, buttonProps }: AppBarActionProps) {
@@ -24,6 +25,7 @@ function Mobile({ ...rest }: AppBarProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [statsDialog, setStatsDialog] = useState(false)
   const settings = useAppBarSettings()
 
   const handleSettingsOpen = useCallback(() => {
@@ -50,6 +52,14 @@ function Mobile({ ...rest }: AppBarProps) {
     setSearchOpen(false)
   }, [setSearchOpen])
 
+  const handleStatsDialogOpen = useCallback(() => {
+    setStatsDialog(true)
+  }, [setStatsDialog])
+
+  const handleStatsDialogClose = useCallback(() => {
+    setStatsDialog(false)
+  }, [setStatsDialog])
+
   const actions: AppBarActionProps[] = useMemo(() => [
     ...(settings.actions ?? []),
     {
@@ -60,6 +70,13 @@ function Mobile({ ...rest }: AppBarProps) {
       }
     },
     {
+      text: 'Stats',
+      mobileIcon: StatsIcon,
+      buttonProps: {
+        onClick: handleStatsDialogOpen
+      }
+    },
+    {
       text: 'View on Github',
       mobileIcon: GithubIcon,
       buttonProps: {
@@ -67,10 +84,11 @@ function Mobile({ ...rest }: AppBarProps) {
         target: '_blank'
       }
     }
-  ], [settings, handleSettingsOpen])
+  ], [settings, handleSettingsOpen, handleStatsDialogOpen])
 
   return (
     <Box {...rest}>
+      <StatsDialog open={statsDialog} onClose={handleStatsDialogClose} />
       <SettingsDrawer open={settingsOpen} onClose={handleSettingsClose} />
       <MaterialAppBar position="sticky">
         {settings.search && (
@@ -110,6 +128,7 @@ function Mobile({ ...rest }: AppBarProps) {
             anchorEl={anchorEl}
             open={!!anchorEl}
             onClose={handleMenuClose}
+            onClick={handleMenuClose}
           >
             {actions.map(action => (
               <AppBarAction

@@ -4,7 +4,6 @@ import { AppBarSettings } from '../components'
 import { registerAppBarSettings, removeAppBarSettings } from '../store'
 
 export default function useSetAppBarSettings(id: string, settings: AppBarSettings) {
-  
   const dispatch = useDispatch()
 
   useEffect(() => {
