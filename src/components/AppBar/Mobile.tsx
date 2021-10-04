@@ -1,7 +1,7 @@
 import { AppBar as MaterialAppBar, Box, IconButton, Link, ListItemIcon, Menu, MenuItem, Toolbar, Typography, Zoom } from '@material-ui/core'
-import { GitHub as GithubIcon, MoreVert as MoreIcon, Search as SearchIcon, Settings as SettingsIcon, ShowChart as StatsIcon } from '@material-ui/icons'
+import { GitHub as GithubIcon, MoreVert as MoreIcon, Search as SearchIcon, Settings as SettingsIcon, ShowChart as StatsIcon, Code as CodeIcon } from '@material-ui/icons'
 import React, { MouseEvent, useCallback, useMemo, useState } from 'react'
-import { Link as BrowserLink, Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useHistory } from 'react-router-dom'
 import { AppBarAction as AppBarActionProps } from '.'
 import { useAppBarSettings } from '../../hooks'
 import MobileSearch from './MobileSearch'
@@ -10,9 +10,24 @@ import SettingsDrawer from './SettingsDrawer'
 import StatsDialog from './StatsDialog'
 import StatusButton from './StatusButton'
 
-function AppBarAction({ text, mobileIcon, buttonProps }: AppBarActionProps) {
+function AppBarAction({ text, mobileIcon, buttonProps: { href, target, onClick, ...buttonProps } }: AppBarActionProps) {
+  const history = useHistory()
+
+  const handleClick = useCallback(() => {
+    if (href) {
+      if (href.includes('://') || target) {
+        window.open(href, target)
+      }
+      else {
+        history.push(href)
+      }
+    }
+
+    onClick && onClick()
+  }, [href, target, onClick, history])
+
   return (
-    <MenuItem {...buttonProps} LinkComponent={BrowserLink}>
+    <MenuItem onClick={handleClick}>
       {mobileIcon && <ListItemIcon>
         {React.createElement(mobileIcon)}
       </ListItemIcon>}
@@ -74,6 +89,13 @@ function Mobile({ ...rest }: AppBarProps) {
       mobileIcon: StatsIcon,
       buttonProps: {
         onClick: handleStatsDialogOpen
+      }
+    },
+    {
+      text: 'Generate Code',
+      mobileIcon: CodeIcon,
+      buttonProps: {
+        href: '/generate-code'
       }
     },
     {
