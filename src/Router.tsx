@@ -9,7 +9,7 @@ export default function Router() {
         <NativesPage />
       </Route>
       <Route path="/natives" exact>
-        <Redirect to="/natives/0x4EDE34FBADD967A6" />
+        <NativesPage />
       </Route>
       <Route path="/generate-code/:language" exact>
         <GenerateCodePage />
@@ -20,7 +20,7 @@ export default function Router() {
       <Route path="/generate-header">
         <Redirect to="/generate-code" />
       </Route>
-      <Route path="/" exact>
+      <Route path="*">
         <Redirect to="/natives" />
       </Route>
     </Switch>

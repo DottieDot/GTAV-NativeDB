@@ -2,12 +2,6 @@
 export { default as AppBar } from './AppBar'
 export * from './AppBar'
 
-export { default as AppBarPortal } from './AppBarPortal'
-export * from './AppBarPortal'
-
-export { default as AppBarProvider } from './AppBarProvider'
-export * from './AppBarProvider'
-
 export { default as BetaRibbon } from './BetaRibbon'
 export * from './BetaRibbon'
 

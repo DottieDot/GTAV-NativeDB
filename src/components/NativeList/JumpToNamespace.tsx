@@ -1,8 +1,9 @@
-import { Button, Dialog, List, ListItem, ListItemText, TextField } from '@material-ui/core'
-import React, { ChangeEvent, Fragment, KeyboardEvent, useCallback, useMemo, useState, memo } from 'react'
+import { Dialog, List, ListItem, ListItemText, TextField } from '@material-ui/core'
+import React, { ChangeEvent, Fragment, KeyboardEvent, memo, useCallback, useMemo, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
+import { useSetAppBarSettings } from '../../hooks'
 import { Namespace } from '../../store'
-import AppBarPortal from '../AppBarPortal'
+import { ExitToApp as JumpToNamespaceIcon } from '@material-ui/icons'
 
 interface Props {
   onNamespaceClicked: (namespace: string) => void
@@ -38,6 +39,18 @@ function JumpToNamespace({ namespaces, onNamespaceClicked }: Props) {
     handleDialogClose()
   }, [handleDialogClose, onNamespaceClicked])
 
+  useSetAppBarSettings('JumpToNamespace', {
+    actions: [
+      {
+        text: 'Jump to namespace',
+        mobileIcon: JumpToNamespaceIcon,
+        buttonProps: {
+          onClick: handleDialogOpen
+        }
+      }
+    ]
+  })
+
   const onKeyDown = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key  === 'Enter' && filter && filteredNamespaces) {
       handleNamespaceSelected(filteredNamespaces[0].name)
@@ -56,11 +69,6 @@ function JumpToNamespace({ namespaces, onNamespaceClicked }: Props) {
 
   return (
     <Fragment>
-      <AppBarPortal>
-        <Button onClick={handleDialogOpen} color="inherit">
-          jump to namespace
-        </Button>
-      </AppBarPortal>
       <Dialog open={dialogOpen} onClose={handleDialogClose} maxWidth="xs" fullWidth>
         <TextField 
           label="Filter"

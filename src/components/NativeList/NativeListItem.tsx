@@ -16,7 +16,7 @@ function NativeListItem({ nativeHash, style }: NativeListItemProps) {
   const { native: selectedNativeHash } = useParams<{ native: string } >()
   
   const onClick = useCallback(() => {
-    history.replace(nativeHash)
+    history.push(`/natives/${nativeHash}`)
   }, [history, nativeHash])
 
   return (
@@ -36,4 +36,4 @@ function NativeListItem({ nativeHash, style }: NativeListItemProps) {
     </ListItem>
   )
 }
-export default memo(NativeListItem)
+export default  memo(NativeListItem)
