@@ -1,20 +1,20 @@
-import { Box, IconButton, List, Paper, Stack, Tooltip, Typography, ListItem, ListItemText } from '@material-ui/core'
+import { Box, IconButton, List, ListItem, ListItemText, Paper, Stack, Tooltip, Typography } from '@material-ui/core'
 import { LinkSharp as ShareIcon } from '@material-ui/icons'
-import React, { useCallback, useState } from 'react'
+import _ from 'lodash'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { createShareUrl } from '../../common'
 import { CodeExamples, NativeComment, NativeDefinition, NativeDetails, NativeUsage } from '../../components'
 import { useCopyToClipboard, useNative, useSettings } from '../../hooks'
-import NativeNotFound from './NativeNotFound'
-import _ from 'lodash'
-import { useEffect } from 'react'
 import { NativeSources } from '../../store'
+import NativeNotFound from './NativeNotFound'
+import NoNativeSelected from './NoNativeSelected'
 
 export default function NativeInfo() {
-  const { native: nativeHash } = useParams<{ native: string }>()
+  const { native: nativeHash } = useParams<{ native?: string }>()
   const [usageNotFound, setUsageNotFound] = useState(false)
   const settings = useSettings()
-  const native = useNative(nativeHash)
+  const native = useNative(nativeHash ?? '')
   const copyToClipboard = useCopyToClipboard()
 
   const onShare = useCallback(() => {
@@ -28,6 +28,14 @@ export default function NativeInfo() {
   useEffect(() => {
     setUsageNotFound(false)
   }, [nativeHash])
+
+  if (!nativeHash) {
+    return (
+      <Box sx={{ p: 2 }}>
+        <NoNativeSelected />
+      </Box>
+    )
+  }
 
   if  (!native) {
     return (

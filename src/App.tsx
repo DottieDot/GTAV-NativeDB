@@ -3,7 +3,7 @@ import React from 'react'
 import { Provider as StoreProvider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
-import { AppBarProvider, OnlineStatusProvider, UpdateDialog } from './components'
+import { AppBar, OnlineStatusProvider, UpdateDialog } from './components'
 import { useNamespaces } from './hooks'
 import NativeLoader from './NativeLoader'
 import { LoadingScreen } from './pages'
@@ -20,10 +20,11 @@ function LoadGate() {
   }
 
   return (
-    <AppBarProvider>
+    <React.Fragment>
+      <AppBar />
       <UpdateDialog />
       <Router />
-    </AppBarProvider>
+    </React.Fragment>
   )
 }
 

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import appBarReducer from './appBarReducer'
 import appReducer from './appReducer'
 import namespaceReducer from './namespaceReducer'
 import nativeReducer from './nativeReducer'
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   natives   : nativeReducer,
   namespaces: namespaceReducer,
   stats     : statsReducer,
+  appBar    : appBarReducer,
   settings  : persistReducer(settingsPersistConfig, settingsReducer)
 })
 

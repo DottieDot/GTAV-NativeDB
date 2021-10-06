@@ -6,7 +6,6 @@ export interface DottieDotCodeExample {
 
 
 export interface DottieDotAdditionalNativeData {
-  old_names: string[]
   examples: DottieDotCodeExample[]
 }
 

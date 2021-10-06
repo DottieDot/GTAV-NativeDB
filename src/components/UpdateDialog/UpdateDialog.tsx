@@ -66,22 +66,30 @@ function UpdateDialog() {
         <Typography variant="body2">
           <UnorderedList>
             <ListItem>
-              <b>Native Script Usage</b><br />
-              Native info now includes a code snippet from the game scripts on how the native is used.
+              <b>Mobile Interface</b><br />
+              It's now possible to browse natives from the comfort of your toilet seat.
+            </ListItem>
+            <ListItem>
+              <b>Theme colors for Safari 15</b><br />
+              Theme colors are now properly defined and change depending on the selected theme.
             </ListItem>
           </UnorderedList>
         </Typography> 
-        {/* <Header type="fix">
+        <Header type="fix">
           Fixes and Changes
         </Header>
         <Typography variant="body2">
           <UnorderedList>
             <ListItem>
-              <b>FiveM Native Search</b><br />
-              Fixed how FiveM natives are loaded. The app will no longer crash while having them loaded.
+              <b>Old names from Alloc8or ndb</b><br />
+              Old names are now taken from Alloc8or's native data instead of my "extra data" repo.
+            </ListItem>
+            <ListItem>
+              <b>Switching to dark mode</b><br />
+              Switching to dark mode is no longer broken if your system is set to light mode.
             </ListItem>
           </UnorderedList>
-        </Typography> */}
+        </Typography>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>

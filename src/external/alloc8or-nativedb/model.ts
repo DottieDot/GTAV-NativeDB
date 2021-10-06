@@ -11,6 +11,7 @@ export interface Alloc8orNative {
   params     : Alloc8orNativeParam[]
   return_type: string
   build      : string
+  old_names  : string[]
 }
 
 export type Alloc8orNamespace = { [hash: string]: Alloc8orNative }
