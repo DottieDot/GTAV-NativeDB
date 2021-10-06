@@ -89,13 +89,13 @@ A native reference for Grand Theft Auto V built with React. Inspired by FiveM's 
   ![Desktop light interface screenshot][desktop-light-screenshot]
 
   #### Mobile Dark
-  ![Mobile dark interface screenshot][mobile-dark-screenshot]
+  <img alt="Mobile dark interface" src="screenshots/mobile_dark.png" height="600">
 
   #### Mobile Light
-  ![Mobile light interface screenshot][mobile-light-screenshot]
+  <img alt="Mobile light interface" src="screenshots/mobile_light.png" height="600">
 
   #### Mobile Native Info
-  ![Mobile native info interface screenshot][mobile-native-info-screenshot]
+  <img alt="Mobile interface native info" src="screenshots/mobile_native_info.png" height="600">
 
 </details>
 
