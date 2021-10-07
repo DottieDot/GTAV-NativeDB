@@ -31,7 +31,7 @@ function NativeInfoDrawer() {
   const theme = useTheme()
 
   const handleClose = useCallback(() => {
-    history.replace('/natives')
+    history.replace(`/natives${history.location.search}`)
   }, [history])
 
   return (

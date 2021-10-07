@@ -88,6 +88,10 @@ function UpdateDialog() {
               <b>Switching to dark mode</b><br />
               Switching to dark mode is no longer broken if your system is set to light mode.
             </ListItem>
+            <ListItem>
+              <b>Search results are no longer cleared</b><br />
+              Selecting a native would clear your search results, this is now fixed.
+            </ListItem>
           </UnorderedList>
         </Typography>
       </DialogContent>

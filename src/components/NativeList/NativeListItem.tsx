@@ -16,7 +16,7 @@ function NativeListItem({ nativeHash, style }: NativeListItemProps) {
   const { native: selectedNativeHash } = useParams<{ native: string } >()
   
   const onClick = useCallback(() => {
-    history.push(`/natives/${nativeHash}`)
+    history.push(`/natives/${nativeHash}${history.location.search}`)
   }, [history, nativeHash])
 
   return (
