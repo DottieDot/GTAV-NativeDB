@@ -3,23 +3,9 @@
   --theme-color: blue;
 }
 
-html {
+html, body {
   overflow: hidden;
-
-  --theme-color: #fff;
-}
-
-html.light {
-  --theme-color: #0e752e;
-}
-
-html.dark {
-  --theme-color: #272727;
-}
-
-body {
   height: 100vh;
-  overflow: 'hidden'
 }
 
 #root {
