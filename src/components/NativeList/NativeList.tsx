@@ -75,11 +75,12 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
     }
     
     return (
-      <NativeListItem
-        nativeHash={id}
-        style={style}
-        key={id}
-      />
+      <div style={style}>
+        <NativeListItem
+          nativeHash={id}
+          key={id}
+        />
+      </div>
     )
   }, [namespaces])
 
@@ -99,7 +100,7 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
             getChildren={getChildren}
             rowRenderer={renderRow}
             renderRoot={false}
-            overscanRowCount={10}
+            overscanRowCount={5}
           />
         )}
       </AutoSizer>
