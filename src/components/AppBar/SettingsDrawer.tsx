@@ -1,5 +1,5 @@
-import { Box, Divider, Drawer, IconButton, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@material-ui/core'
-import { Brightness4 as DarkIcon, Brightness6 as SystemIcon, BrightnessHigh as LightIcon, CloseOutlined as CloseIcon } from '@material-ui/icons'
+import { Box, Divider, Drawer, IconButton, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
+import { Brightness4 as DarkIcon, Brightness6 as SystemIcon, BrightnessHigh as LightIcon, CloseOutlined as CloseIcon } from '@mui/icons-material'
 import React, { MouseEvent as ReactMouseEvent, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { useIsSmallDisplay, useSettings } from '../../hooks'

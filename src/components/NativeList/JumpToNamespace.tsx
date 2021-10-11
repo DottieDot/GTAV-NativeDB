@@ -1,9 +1,9 @@
-import { Dialog, List, ListItem, ListItemText, TextField } from '@material-ui/core'
+import { Dialog, List, ListItem, ListItemText, TextField } from '@mui/material'
 import React, { ChangeEvent, Fragment, KeyboardEvent, memo, useCallback, useMemo, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { useSetAppBarSettings } from '../../hooks'
 import { Namespace } from '../../store'
-import { ExitToApp as JumpToNamespaceIcon } from '@material-ui/icons'
+import { ExitToApp as JumpToNamespaceIcon } from '@mui/icons-material'
 
 interface Props {
   onNamespaceClicked: (namespace: string) => void

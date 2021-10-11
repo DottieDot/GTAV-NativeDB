@@ -1,4 +1,4 @@
-import { CssBaseline } from '@material-ui/core'
+import { CssBaseline } from '@mui/material'
 import React from 'react'
 import { Provider as StoreProvider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'

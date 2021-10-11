@@ -1,4 +1,4 @@
-import { ListItem } from '@material-ui/core'
+import { ListItem } from '@mui/material'
 import React, { memo, CSSProperties } from 'react'
 import { useCallback } from 'react'
 import { useHistory, useParams } from 'react-router-dom'

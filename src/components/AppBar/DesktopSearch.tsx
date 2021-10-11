@@ -1,5 +1,5 @@
-import { alpha, InputBase, styled } from '@material-ui/core'
-import { Search as SearchIcon } from '@material-ui/icons'
+import { alpha, InputBase, styled } from '@mui/material'
+import { Search as SearchIcon } from '@mui/icons-material'
 import { AppBarSearch } from './model'
 
 const Search = styled('div')(({ theme }) => ({

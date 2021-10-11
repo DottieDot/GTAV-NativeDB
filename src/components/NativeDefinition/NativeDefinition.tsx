@@ -1,4 +1,4 @@
-import { Typography, TypographyProps } from '@material-ui/core'
+import { Typography, TypographyProps } from '@mui/material'
 import React, { memo, useMemo } from 'react'
 import { NativeParam } from '../../store'
 import NativeType from '../NativeType'

@@ -1,5 +1,5 @@
-import { Divider, Tab } from '@material-ui/core'
-import { TabContext, TabList, TabPanel } from '@material-ui/lab'
+import { Divider, Tab } from '@mui/material'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
 import React, { memo, SyntheticEvent, useCallback, useState } from 'react'
 import { CodeExample } from '../../store'
 import SyntaxHighlighter from '../SnytaxHighlighter'

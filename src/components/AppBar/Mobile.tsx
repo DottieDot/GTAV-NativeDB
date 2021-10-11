@@ -1,5 +1,5 @@
-import { AppBar as MaterialAppBar, Box, IconButton, Link, ListItemIcon, Menu, MenuItem, Toolbar, Typography, Zoom } from '@material-ui/core'
-import { GitHub as GithubIcon, MoreVert as MoreIcon, Search as SearchIcon, Settings as SettingsIcon, ShowChart as StatsIcon, Code as CodeIcon } from '@material-ui/icons'
+import { AppBar as MaterialAppBar, Box, IconButton, Link, ListItemIcon, Menu, MenuItem, Toolbar, Typography, Zoom } from '@mui/material'
+import { GitHub as GithubIcon, MoreVert as MoreIcon, Search as SearchIcon, Settings as SettingsIcon, ShowChart as StatsIcon, Code as CodeIcon } from '@mui/icons-material'
 import React, { MouseEvent, useCallback, useMemo, useState } from 'react'
 import { Link as RouterLink, useHistory } from 'react-router-dom'
 import { AppBarAction as AppBarActionProps } from '.'

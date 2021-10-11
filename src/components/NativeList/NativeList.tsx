@@ -1,4 +1,4 @@
-import { Box, BoxProps } from '@material-ui/core'
+import { Box, BoxProps } from '@mui/material'
 import React, { memo, useCallback, useMemo, useState, useEffect } from 'react'
 import { useRef } from 'react'
 import { useParams } from 'react-router-dom'
@@ -99,7 +99,7 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
             getChildren={getChildren}
             rowRenderer={renderRow}
             renderRoot={false}
-            overscanRowCount={5}
+            overscanRowCount={10}
           />
         )}
       </AutoSizer>

@@ -1,4 +1,4 @@
-import { Box, CircularProgress } from '@material-ui/core'
+import { Box, CircularProgress } from '@mui/material'
 import React, { memo, useEffect, useState } from 'react'
 import SyntaxHighlighter from '../SnytaxHighlighter'
 

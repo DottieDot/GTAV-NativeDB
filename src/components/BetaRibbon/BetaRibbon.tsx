@@ -1,4 +1,4 @@
-import { styled, Paper } from '@material-ui/core'
+import { styled, Paper } from '@mui/material'
 import React from 'react'
 
 const Container = styled(Paper)(({ theme }) => ({

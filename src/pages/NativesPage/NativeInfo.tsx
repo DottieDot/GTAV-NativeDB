@@ -1,5 +1,5 @@
-import { Box, IconButton, List, ListItem, ListItemText, Paper, Stack, Tooltip, Typography } from '@material-ui/core'
-import { LinkSharp as ShareIcon } from '@material-ui/icons'
+import { Box, IconButton, List, ListItem, ListItemText, Paper, Stack, Tooltip, Typography } from '@mui/material'
+import { LinkSharp as ShareIcon } from '@mui/icons-material'
 import _ from 'lodash'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'

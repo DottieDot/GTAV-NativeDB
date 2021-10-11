@@ -1,4 +1,4 @@
-import { LinearProgress, Typography, Box, Stack } from '@material-ui/core'
+import { LinearProgress, Typography, Box, Stack } from '@mui/material'
 import React, { memo } from 'react'
 
 const LoadingPage = () => {

@@ -1,5 +1,5 @@
-import { Tooltip, IconButton } from '@material-ui/core'
-import { CloudOff as OfflineIcon, Update as UpdateIcon } from '@material-ui/icons'
+import { Tooltip, IconButton } from '@mui/material'
+import { CloudOff as OfflineIcon, Update as UpdateIcon } from '@mui/icons-material'
 import React, { useCallback, useState } from 'react'
 import { useOnlineStatus, useUpdateAvailable } from '../../hooks'
 import { useUpdateServiceWorker } from '../../hooks'

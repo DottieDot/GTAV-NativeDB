@@ -1,4 +1,4 @@
-import { Typography, TypographyProps } from '@material-ui/core'
+import { Typography, TypographyProps } from '@mui/material'
 import React, { memo, Fragment } from 'react'
 
 export interface NativeDetailsProps extends TypographyProps {

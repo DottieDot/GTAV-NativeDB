@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogTitle, List, ListItem, ListItemText } from '@material-ui/core'
+import { Button, Dialog, DialogActions, DialogTitle, List, ListItem, ListItemText } from '@mui/material'
 import React from 'react'
 import { useStats } from '../../hooks'
 

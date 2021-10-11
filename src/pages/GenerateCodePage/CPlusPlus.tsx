@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, Paper, Typography } from '@material-ui/core'
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, Paper, Typography } from '@mui/material'
 import download from 'downloadjs'
 import React, { ChangeEvent, useCallback, useMemo, useState } from 'react'
 import useLocalStorageState from 'use-local-storage-state'

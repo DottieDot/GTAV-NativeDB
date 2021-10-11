@@ -1,5 +1,5 @@
-import { darkScrollbar } from '@material-ui/core'
-import { createTheme, ThemeOptions, ThemeProvider, useMediaQuery } from '@material-ui/core'
+import { darkScrollbar } from '@mui/material'
+import { createTheme, ThemeOptions, ThemeProvider, useMediaQuery } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useMemo } from 'react'
 import { ReactNode } from 'react'

@@ -1,5 +1,5 @@
-import { AppBar as MaterialAppBar, Box, Button, Divider, IconButton, Link, Toolbar, Tooltip, Typography } from '@material-ui/core'
-import { GitHub as GithubIcon, Settings as SettingsIcon } from '@material-ui/icons'
+import { AppBar as MaterialAppBar, Box, Button, Divider, IconButton, Link, Toolbar, Tooltip, Typography } from '@mui/material'
+import { GitHub as GithubIcon, Settings as SettingsIcon } from '@mui/icons-material'
 import React, { useCallback, useMemo, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { AppBarAction as AppBarActionProps } from '.'

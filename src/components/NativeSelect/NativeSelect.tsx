@@ -1,4 +1,4 @@
-import { Autocomplete, AutocompleteProps, TextField, Typography, useMediaQuery, useTheme } from '@material-ui/core'
+import { Autocomplete, AutocompleteProps, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React, { memo, useMemo } from 'react'
 import { useNatives } from '../../hooks'
 import { FixedSizeList, ListChildComponentProps } from 'react-window'

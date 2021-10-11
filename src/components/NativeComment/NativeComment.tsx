@@ -1,4 +1,4 @@
-import { Typography, TypographyProps, Link } from '@material-ui/core'
+import { Typography, TypographyProps, Link } from '@mui/material'
 import React, { memo } from 'react'
 import Linkify from 'react-linkify'
 

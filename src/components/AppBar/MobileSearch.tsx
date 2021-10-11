@@ -1,5 +1,5 @@
-import { alpha, IconButton, InputBase, styled } from '@material-ui/core'
-import { Search as SearchIcon, Close as CancelIcon } from '@material-ui/icons'
+import { alpha, IconButton, InputBase, styled } from '@mui/material'
+import { Search as SearchIcon, Close as CancelIcon } from '@mui/icons-material'
 import { useCallback } from 'react'
 import { getOverlayAlpha } from '../../common'
 import { AppBarSearch } from './model'

@@ -1,5 +1,5 @@
-import { Grid, SwipeableDrawer, useTheme, IconButton, Box, Typography, Paper, alpha } from '@material-ui/core'
-import { Close as CloseIcon } from '@material-ui/icons'
+import { Grid, SwipeableDrawer, useTheme, IconButton, Box, Typography, Paper, alpha } from '@mui/material'
+import { Close as CloseIcon } from '@mui/icons-material'
 import React, { memo,useCallback } from 'react'
 import { useHistory, useParams } from 'react-router'
 import { useIsSmallDisplay } from '../../hooks'

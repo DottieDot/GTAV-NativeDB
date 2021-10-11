@@ -1,5 +1,5 @@
-import { Container, Paper, Typography, Tab, Divider, Box } from '@material-ui/core'
-import { TabContext, TabList, TabPanel } from '@material-ui/lab'
+import { Container, Paper, Typography, Tab, Divider, Box } from '@mui/material'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
 import React, { memo, SyntheticEvent } from 'react'
 import { useCallback } from 'react'
 import { useHistory, useParams } from 'react-router-dom'

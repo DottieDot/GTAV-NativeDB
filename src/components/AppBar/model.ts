@@ -1,4 +1,4 @@
-import { BoxProps } from '@material-ui/core'
+import { BoxProps } from '@mui/material'
 import { ElementType } from 'react'
 
 export interface AppBarAction {

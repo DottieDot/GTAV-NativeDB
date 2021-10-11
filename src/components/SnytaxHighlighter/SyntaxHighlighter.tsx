@@ -1,4 +1,4 @@
-import { useTheme } from '@material-ui/core'
+import { useTheme } from '@mui/material'
 import React, { memo } from 'react'
 import Highlighter from 'react-syntax-highlighter'
 import { atomOneDark as darkStyle, atomOneLight as lightStyle } from 'react-syntax-highlighter/dist/esm/styles/hljs'

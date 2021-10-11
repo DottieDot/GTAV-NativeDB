@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, DialogContent, Typography, styled, Divider, Box, DialogActions, Button } from '@material-ui/core'
+import { Dialog, DialogTitle, DialogContent, Typography, styled, Divider, Box, DialogActions, Button } from '@mui/material'
 import React, { memo } from 'react'
 import { useCallback } from 'react'
 import { ReactNode } from 'react'

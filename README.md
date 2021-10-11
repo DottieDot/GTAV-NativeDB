@@ -145,10 +145,11 @@ To get a local copy up and running follow these simple example steps.
 <!-- ROADMAP -->
 ## Roadmap
 
-- [] Fix layout issues
-- [] Provide Open Graph data
-- [] SEO
-- [] Code generation support for more languages
+- [x] Update to new MUI
+- [ ] Fix layout issues
+- [ ] Provide Open Graph data
+- [ ] SEO
+- [ ] Code generation support for more languages
 
 See the [open issues](https://github.com/DottieDot/GTAV-NativeDB/issues) for a full list of proposed features (and known issues).
 
