@@ -100,7 +100,7 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
             getChildren={getChildren}
             rowRenderer={renderRow}
             renderRoot={false}
-            overscanRowCount={20}
+            overscanRowCount={10}
           />
         )}
       </AutoSizer>
