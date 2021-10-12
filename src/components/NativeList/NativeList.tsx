@@ -21,7 +21,7 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
         node: {
           id: hash,
         },
-        height: 28,
+        height: 32,
         isSticky: false,
       }))
       return accumulator
@@ -100,7 +100,7 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
             getChildren={getChildren}
             rowRenderer={renderRow}
             renderRoot={false}
-            overscanRowCount={5}
+            overscanRowCount={20}
           />
         )}
       </AutoSizer>
