@@ -66,16 +66,12 @@ function UpdateDialog() {
         <Typography variant="body2">
           <UnorderedList>
             <ListItem>
-              <b>Mobile Interface</b><br />
-              It's now possible to browse natives from the comfort of your toilet seat.
-            </ListItem>
-            <ListItem>
-              <b>Theme colors for Safari 15</b><br />
-              Theme colors are now properly defined and change depending on the selected theme.
+              <b>Capturing links</b><br />
+               When you click on a native db link it should now open as a PWA, provided you have it installed as one. This feature requires the "enable-desktop-pwas-link-capturing" flag to be enabled.
             </ListItem>
           </UnorderedList>
         </Typography> 
-        <Header type="fix">
+        {/* <Header type="fix">
           Fixes and Changes
         </Header>
         <Typography variant="body2">
@@ -93,7 +89,7 @@ function UpdateDialog() {
               Selecting a native would clear your search results, this is now fixed.
             </ListItem>
           </UnorderedList>
-        </Typography>
+        </Typography> */}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>
