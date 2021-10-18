@@ -24,7 +24,7 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase implements ICodeGenerator
   addNative(native: CodeGenNative): this {
     return this
       .conditional(true /* generate comments? */, gen => gen.writeComment(''))
-      .writeLine(`${this.formatType(native.returnType)} ${native.name} ${native.params.map(({ type, name }) => `${this.formatType(type)} ${name}`).join(', ')}`)
+      .writeLine(`${this.formatType(native.returnType)} ${native.name}(${native.params.map(({ type, name }) => `${this.formatType(type)} ${name}`).join(', ')})`)
       .pushBranch(true)
       .writeLine(`return invoke(${[native.hash, ...native.params.map(({ name }) => name)].join(', ')});`)
       .popBranch()
@@ -37,7 +37,9 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase implements ICodeGenerator
   }
 
   popNamespace(): this {
-    return this.popBranch()
+    return this
+      .popBranch()
+      .writeLine('')
   }
 
   protected formatComment(comment: string): string {
@@ -53,6 +55,6 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase implements ICodeGenerator
   }
 
   private formatType(type: CodeGenType): string {
-    return `${type.isConst ? 'const ' : ''} ${type.baseType}${type.isPointer ? '*' : ''}`
+    return `${type.isConst ? 'const ' : ''}${type.baseType}${type.isPointer ? '*' : ''}`
   }
 }

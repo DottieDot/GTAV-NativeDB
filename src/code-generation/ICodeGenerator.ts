@@ -36,4 +36,6 @@ interface ICodeGenerator {
   popNamespace(): this
 
   transformBaseType(type: string): string
+
+  get(): string
 }

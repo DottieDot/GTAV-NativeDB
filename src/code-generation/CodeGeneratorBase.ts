@@ -22,6 +22,9 @@ abstract class CodeGeneratorBase {
   }
   
   private getIndentation(): string {
+    if (this.isOneLineBranch()) {
+      return ''
+    }
     return '\t'.repeat(this.branches.length)
   }
 
@@ -31,12 +34,12 @@ abstract class CodeGeneratorBase {
   }
 
   protected writeLine(line: string): this {
-    if (this.isNewLine()) {
+    if (!this.isOneLineBranch()) {
+      this.writeLineEnding()
       this.result += this.getIndentation()
-
-      if (!this.isOneLineBranch()) {
-        this.writeLineEnding()
-      }
+    }
+    else {
+      this.result += ' '
     }
     this.result += line
     return this
@@ -57,26 +60,37 @@ abstract class CodeGeneratorBase {
     return this
   }
 
-  protected pushBranch(one_line: boolean): this {
+  protected pushBranch(oneLine: boolean): this {
     const brace = this.getOpeningBracket()
     if (brace) {
-      if ((!one_line || !this.getClosingBracket()) && !this.isNewLine()) {
+      if ((!oneLine || !this.getClosingBracket()) && !this.isNewLine()) {
         this.writeLineEnding()
       }
-      this.result += `${this.getIndentation()}${brace}}`
+      this.result += `${oneLine ? ' ' : this.getIndentation()}${brace}`
     }
     this.branches.push({
-      one_line
+      one_line: oneLine
     })
     return this
   }
 
   protected popBranch(): this {
-    if (!_.last(this.branches)?.one_line && !this.isNewLine()) {
-      this.writeLineEnding()
+    const bracket = this.getClosingBracket()
+    if (!bracket) {
+      return this
     }
-    this.result += `${this.getIndentation()}${this.getClosingBracket()}`
-    this.branches.pop()
+
+    const oneLineBranch = this.isOneLineBranch()
+    if (!oneLineBranch) {
+      if (!this.isNewLine()) {
+        this.writeLineEnding()
+      }
+      this.branches.pop()
+    }
+    this.writeLine(bracket)
+    if (oneLineBranch) {
+      this.branches.pop()
+    }
     return this
   }
 
@@ -94,5 +108,9 @@ abstract class CodeGeneratorBase {
       return fn(this)
     }
     return this
+  }
+
+  get(): string {
+    return this.result
   }
 }

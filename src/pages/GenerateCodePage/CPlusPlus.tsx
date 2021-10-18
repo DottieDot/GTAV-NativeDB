@@ -2,10 +2,12 @@ import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, Paper, Typogr
 import download from 'downloadjs'
 import React, { ChangeEvent, useCallback, useMemo, useState } from 'react'
 import useLocalStorageState from 'use-local-storage-state'
-import { CPlusPlusCodeGenerator } from '../../code-generation'
+import { CPlusPlusCodeGenerator, NativeExporter } from '../../code-generation'
 import { gtaParamsToNativeParams, gtaTypeToNativeType, makeNativeNameCPlusPlusCompliant } from '../../common'
 import { CodeComment, NativeDefinition, NativeSelect } from '../../components'
 import { useNamespaces, useNative, useNatives } from '../../hooks'
+
+const cppNativeExporter = new NativeExporter(() => new CPlusPlusCodeGenerator())
 
 export default function CPlusPlus() {
   const natives = useNatives()
@@ -43,13 +45,12 @@ export default function CPlusPlus() {
   }, [settings, setSettings])
 
   const handleDownload = useCallback(() => {
-    const generator = new CPlusPlusCodeGenerator(settings, {
+    const code = cppNativeExporter.exportNatives({
       natives, 
       namespaces
     })
 
-    generator.generate()
-    download(generator.getCode(), 'natives.hpp', 'text/plain')
+    download(code, 'natives.hpp', 'text/plain')
   }, [settings, natives, namespaces])
 
   if (!nativeData) {
