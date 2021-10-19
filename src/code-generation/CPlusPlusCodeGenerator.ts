@@ -82,7 +82,6 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSet
       .writeLine(`${returnType} ${name}(${params})`)
       .pushBranch(this.settings.oneLineFunctions)
       .writeLine(`${returnString}${invoker}<${invokeReturn}>(${invokeParams});`)
-      .writeComment(`${native.hash} ${native.jhash} ${native.build}`)
       .popBranch()
   }
 
