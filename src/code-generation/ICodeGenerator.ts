@@ -1,8 +1,9 @@
+import { Native } from "../store";
 
 export interface CodeGenType {
-  isPointer: boolean
-  baseType : string
-  isConst  : boolean
+  pointers: number
+  baseType: string
+  isConst : boolean
 }
 
 export interface CodeGenParam {
@@ -29,13 +30,15 @@ export interface CodeGenFunction {
 
 export default 
 interface ICodeGenerator {
+  start(): this
+
+  nativeToCodeGenNative(native: Native): CodeGenNative
+
   addNative(native: CodeGenNative): this
 
   pushNamespace(name: string): this
 
   popNamespace(): this
-
-  transformBaseType(type: string): string
 
   get(): string
 }

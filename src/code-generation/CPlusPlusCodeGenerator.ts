@@ -1,9 +1,50 @@
-import CodeGeneratorBase from './CodeGeneratorBase'
-import ICodeGenerator, { CodeGenNative, CodeGenType } from './ICodeGenerator'
+import _ from 'lodash'
+import CodeGeneratorBase, { CodeGeneratorBaseSettings } from './CodeGeneratorBase'
+import ICodeGenerator, { CodeGenNative, CodeGenParam, CodeGenType } from './ICodeGenerator'
+
+export interface CPlusPlusCodeGeneratorSettings extends CodeGeneratorBaseSettings {
+  generateComments  : boolean
+  useNativeTypes    : boolean
+  cppCompliant      : boolean
+  includes          : string[]
+  invokeFunction    : string
+  invokeSupportsVoid: boolean
+  oneLineFunctions  : boolean
+}
 
 export default
-class CPlusPlusCodeGenerator extends CodeGeneratorBase implements ICodeGenerator {
+class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSettings> implements ICodeGenerator {
+  private transformNativeName(name: string): string {
+    if (name.startsWith('_0x')) {
+      return `N${name.substr(1)}`
+    }
+    else if (name.startsWith('_')) {
+      return `${name.substr(1)}_`
+    }
+    else {
+      return name
+    }
+  }
+
+  start(): this {
+    return super.start()
+      .writeLine('#pragma_once')
+      .conditional(_.isEmpty(this.settings.includes), gen => 
+        this.settings.includes.reduce((gen, include) => (
+          gen.writeLine(`#include ${include}`)
+        ), gen)
+      )
+      .writeBlankLine()
+      .writeComment(`Generated ${new Date().toLocaleString()}`)
+      .writeComment(`${window.location.origin}`)
+      .writeBlankLine()
+  }
+
   transformBaseType(type: string): string {
+    if (!this.settings.useNativeTypes) {
+      return type
+    }
+
     switch (type) {
       case 'Hash'      : return 'unsigned'
       case 'Ped'       : return 'int'
@@ -22,11 +63,21 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase implements ICodeGenerator
   }
 
   addNative(native: CodeGenNative): this {
+    const name         = this.transformNativeName(native.name)
+    const params       = native.params.map(({ type, name }) => `${this.formatType(type)} ${name}`).join(', ')
+    const invokeParams = [native.hash, ...native.params.map(this.formatInvokeParam)].join(', ')
+    const returnType   = this.formatType(native.returnType)
+    const returnString = returnType === 'void'
+      ? '' 
+      : 'return ' 
+    const invokeReturn = (returnType === 'void' && !this.settings.invokeSupportsVoid) ? 'int' : returnType
+    const invoker      = this.settings.invokeFunction
+
     return this
-      .conditional(true /* generate comments? */, gen => gen.writeComment(''))
-      .writeLine(`${this.formatType(native.returnType)} ${native.name}(${native.params.map(({ type, name }) => `${this.formatType(type)} ${name}`).join(', ')})`)
-      .pushBranch(true)
-      .writeLine(`return invoke(${[native.hash, ...native.params.map(({ name }) => name)].join(', ')});`)
+      .conditional(this.settings.generateComments, gen => gen.writeComment(native.comment))
+      .writeLine(`${returnType} ${name}(${params})`)
+      .pushBranch(this.settings.oneLineFunctions)
+      .writeLine(`${returnString}${invoker}<${invokeReturn}>(${invokeParams});`)
       .popBranch()
   }
 
@@ -39,7 +90,7 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase implements ICodeGenerator
   popNamespace(): this {
     return this
       .popBranch()
-      .writeLine('')
+      .writeBlankLine()
   }
 
   protected formatComment(comment: string): string {
@@ -55,6 +106,27 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase implements ICodeGenerator
   }
 
   private formatType(type: CodeGenType): string {
-    return `${type.isConst ? 'const ' : ''}${type.baseType}${type.isPointer ? '*' : ''}`
+    let { baseType } = type
+
+    if (type.pointers && baseType === 'Any') {
+      baseType = 'void'
+    }
+
+    return `${type.isConst ? 'const ' : ''}${baseType}${'*'.repeat(type.pointers)}`
+  }
+
+  private formatInvokeParam({ name, type }: CodeGenParam): string {
+    if (!type.pointers) {
+      switch (type.baseType) {
+        case 'Vector2':
+          return `${name}.x, ${name}.y`
+        case 'Vector3':
+          return `${name}.x, ${name}.y, ${name}.z`
+        case 'Vector4':
+          return `${name}.x, ${name}.y ${name}.z, ${name}.w`
+      }
+    }
+
+    return name
   }
 }

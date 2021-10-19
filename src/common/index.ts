@@ -12,4 +12,3 @@ export const buildDate: string = preval`module.exports = new Date().toString()`
 
 export { default as getOverlayAlpha } from './getOverlayAlpha'
 
-export * from './codeGenUtil'

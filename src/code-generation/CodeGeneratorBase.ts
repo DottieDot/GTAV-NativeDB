@@ -1,47 +1,75 @@
 import _ from 'lodash'
+import { Native, NativeParam } from '../store'
+import ICodeGenerator, { CodeGenNative, CodeGenType } from './ICodeGenerator'
 
 interface BranchInfo {
   one_line: boolean
 }
 
+export interface CodeGeneratorBaseSettings {
+  indentation   : string
+  lineEnding    : 'crlf' | 'lf'
+  compactVectors: boolean
+}
+
+function splitCamelCaseString(str: string): string[] {
+  return str.replace(/([A-Z0-9])/g, '_$1').toLowerCase().split('_')
+}
+
 export default
-abstract class CodeGeneratorBase {
-  private result  : string    = ''
-  private branches: BranchInfo[] = []
+abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> implements ICodeGenerator {
+  private _result   : string = ''
+  private _branches : BranchInfo[] = []
+  private _settings : TSettings
+  private _blankLine: boolean = false
+
+  protected get settings() {
+    return this._settings
+  }
+
+  constructor(settings: TSettings) {
+    this._settings = settings
+  }
 
   private getLineEnding(): string {
-    return '\n'
+    switch (this.settings.lineEnding) {
+      case 'lf':
+        return '\n'
+      case 'crlf':
+        return '\r\n'
+    }
   }
 
   private isNewLine(): boolean {
-    return _.last(this.result) === '\n'
+    return _.last(this._result) === '\n' || !this._result.length
   }
 
   private isOneLineBranch(): boolean {
-    return !!_.last(this.branches)?.one_line
+    return !!_.last(this._branches)?.one_line
   }
-  
+
   private getIndentation(): string {
     if (this.isOneLineBranch()) {
       return ''
     }
-    return '\t'.repeat(this.branches.length)
+    return this.settings.indentation.repeat(this._branches.length)
   }
 
-  private writeLineEnding(): this {
-    this.result += this.getLineEnding()
+  private writeLineEnding(blank: boolean = false): this {
+    if (!this.isOneLineBranch() && (!this.isNewLine() || this._blankLine)) {
+      this._result += this.getLineEnding()
+    }
+    this._blankLine = blank
     return this
   }
 
   protected writeLine(line: string): this {
-    if (!this.isOneLineBranch()) {
-      this.writeLineEnding()
-      this.result += this.getIndentation()
+    this.writeLineEnding()
+    this._result += this.getIndentation()
+    if (this.isOneLineBranch()) {
+      this._result += ' '
     }
-    else {
-      this.result += ' '
-    }
-    this.result += line
+    this._result += line
     return this
   }
 
@@ -49,14 +77,19 @@ abstract class CodeGeneratorBase {
   protected abstract getClosingBracket(): string | null
 
   protected abstract formatComment(comment: string): string
+  
+  abstract addNative(native: CodeGenNative): this
+  abstract pushNamespace(name: string): this
+  abstract popNamespace(): this
+  abstract transformBaseType(type: string): string
 
   protected pushIndentation(): this {
-    ++this.branches.length
+    ++this._branches.length
     return this
   }
 
   protected popIndentation(): this {
-    --this.branches.length
+    --this._branches.length
     return this
   }
 
@@ -66,9 +99,9 @@ abstract class CodeGeneratorBase {
       if ((!oneLine || !this.getClosingBracket()) && !this.isNewLine()) {
         this.writeLineEnding()
       }
-      this.result += `${oneLine ? ' ' : this.getIndentation()}${brace}`
+      this._result += `${oneLine ? ' ' : this.getIndentation()}${brace}`
     }
-    this.branches.push({
+    this._branches.push({
       one_line: oneLine
     })
     return this
@@ -85,13 +118,17 @@ abstract class CodeGeneratorBase {
       if (!this.isNewLine()) {
         this.writeLineEnding()
       }
-      this.branches.pop()
+      this._branches.pop()
     }
     this.writeLine(bracket)
     if (oneLineBranch) {
-      this.branches.pop()
+      this._branches.pop()
     }
     return this
+  }
+
+  protected writeBlankLine(): this {
+    return this.writeLineEnding(true)
   }
 
   protected writeComment(comment: string): this {
@@ -110,7 +147,98 @@ abstract class CodeGeneratorBase {
     return this
   }
 
+  private getParamGroup(params: NativeParam[]): [number, string] {
+    const set = ['x', 'y', 'z', 'w']
+
+    let group: string = splitCamelCaseString(params[0].name)
+      .filter(g => g !== 'x')
+      .join('')
+
+    const selected = _.takeWhile(params, ({ name, type }, index) => {
+      const split = splitCamelCaseString(name)
+
+      return (
+        split.includes(set[index]) &&
+        split.filter(g => g !== set[index]).join('') === group &&
+        type === 'float'
+      )
+    })
+
+    return [selected.length, group]
+  }
+
+  private getParamNameForParamGroup(nativeName: string, groupName: string) {
+    let defaultName = 'vec'
+    if (nativeName.includes('_COORDS')) {
+      defaultName = 'coords'
+    }
+    else if (nativeName.includes('_ROT')) {
+      defaultName = 'rot'
+    }
+    else if (nativeName.includes('_POS')) {
+      defaultName = 'pos'
+    }
+
+    return groupName
+      ? groupName.replace(/^(\d)$/, `${defaultName}$1`)
+      : defaultName
+  }
+
+  private compactParams(nativeName: string, params: NativeParam[]): NativeParam[] {
+    if (!this.settings.compactVectors) {
+      return params
+    }
+
+    let result: NativeParam[] = []
+
+    for (let i = 0; i < params.length; ++i) {
+      const [groupLength, groupName] = this.getParamGroup(params.slice(i))
+
+      if (groupLength >= 2) {
+        result.push({
+          type: `Vector${groupLength}`,
+          name: this.getParamNameForParamGroup(nativeName, groupName)
+        })
+        i += groupLength - 1
+      }
+      else {
+        result.push(params[i])
+      }
+    }
+
+    return result
+  }
+
+  private typeStringToCodeGenType(type: string): CodeGenType {
+    return {
+      pointers: _.sumBy(type, c => +(c === '*')),
+      isConst : type.includes('const '),
+      baseType: this.transformBaseType(type.replace(/(const|) (\w+)(\*|)/, '$2'))
+    }
+  }
+
+  public nativeToCodeGenNative(native: Native): CodeGenNative {
+    return {
+      name: native.name,
+      hash: native.hash,
+      jhash: native.jhash,
+      returnType: this.typeStringToCodeGenType(native.returnType),
+      oldNames: native.oldNames,
+      params: this.compactParams(native.name, native.params).map(({ type, name }) => ({
+        type: this.typeStringToCodeGenType(type),
+        name: name
+      })),
+      build: native.build,
+      comment: native.comment
+    }
+  }
+
+  start(): this {
+    this._result = ''
+    return this
+  }
+
   get(): string {
-    return this.result
+    return this._result
   }
 }

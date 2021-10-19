@@ -2,40 +2,42 @@ import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, Paper, Typogr
 import download from 'downloadjs'
 import React, { ChangeEvent, useCallback, useMemo, useState } from 'react'
 import useLocalStorageState from 'use-local-storage-state'
-import { CPlusPlusCodeGenerator, NativeExporter } from '../../code-generation'
-import { gtaParamsToNativeParams, gtaTypeToNativeType, makeNativeNameCPlusPlusCompliant } from '../../common'
-import { CodeComment, NativeDefinition, NativeSelect } from '../../components'
+import { CPlusPlusCodeGenerator, CPlusPlusCodeGeneratorSettings, NativeExporter } from '../../code-generation'
+import { NativeSelect, SyntaxHighlighter } from '../../components'
 import { useNamespaces, useNative, useNatives } from '../../hooks'
-
-const cppNativeExporter = new NativeExporter(() => new CPlusPlusCodeGenerator())
 
 export default function CPlusPlus() {
   const natives = useNatives()
   const namespaces = useNamespaces()
   const [previewNative, setPreviewNative] = useState('0xD49F9B0955C367DE')
   const nativeData = useNative(previewNative)
-  const [settings, setSettings] = useLocalStorageState('Pages.GenerateCode.CPlusPlus.Settings', {
-    comments: false,
-    typedefs: true,
-    cppCompliant: true,
-    shvIncludes: false
+  const [settings, setSettings] = useLocalStorageState<CPlusPlusCodeGeneratorSettings>('Pages.GenerateCode.CPlusPlus.Settings.wadawd', {
+    indentation       : '  ',
+    lineEnding        : 'lf',
+    compactVectors    : true,
+    generateComments  : true,
+    useNativeTypes    : false,
+    cppCompliant      : true,
+    includes          : [],
+    invokeFunction    : 'invoke',
+    invokeSupportsVoid: false,
+    oneLineFunctions  : true,
   })
-  const previewData = useMemo(() => {
-    if (!nativeData) return nativeData
-
-    return {
-      ...nativeData,
-      name: settings.cppCompliant
-        ? makeNativeNameCPlusPlusCompliant(nativeData.name)
-        : nativeData.name,
-      params: settings.typedefs
-        ? nativeData.params
-        : gtaParamsToNativeParams(nativeData.params),
-      returnType: settings.typedefs
-        ? nativeData.returnType
-        : gtaTypeToNativeType(nativeData.returnType)
-    }
-  }, [settings, nativeData])
+  const preview = useMemo(() => (
+    new NativeExporter(
+      new CPlusPlusCodeGenerator(settings)
+    ).exportNatives({
+      namespaces: {
+        [nativeData.namespace]: {
+          name: nativeData.namespace,
+          natives: [nativeData.hash]
+        }
+      },
+      natives: {
+        [nativeData.hash]: nativeData
+      }
+    })
+  ), [settings, nativeData])
 
   const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setSettings({
@@ -45,7 +47,11 @@ export default function CPlusPlus() {
   }, [settings, setSettings])
 
   const handleDownload = useCallback(() => {
-    const code = cppNativeExporter.exportNatives({
+    const exporter = new NativeExporter(
+      new CPlusPlusCodeGenerator(settings)
+    )
+
+    const code = exporter.exportNatives({
       natives, 
       namespaces
     })
@@ -72,9 +78,9 @@ export default function CPlusPlus() {
           <FormControlLabel
             control={
               <Checkbox
-                name="comments"
+                name="generateComments"
                 onChange={handleChange}
-                checked={settings.comments}
+                checked={settings.generateComments}
               />
             }
             label="Include Comments"
@@ -82,12 +88,32 @@ export default function CPlusPlus() {
           <FormControlLabel
             control={
               <Checkbox
-                name="typedefs"
+                name="useNativeTypes"
                 onChange={handleChange}
-                checked={settings.typedefs}
+                checked={settings.useNativeTypes}
               />
             }
-            label="Use Typedefs"
+            label="Use Native Types"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="compactVectors"
+                onChange={handleChange}
+                checked={settings.compactVectors}
+              />
+            }
+            label="Compact Vectors"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="oneLineFunctions"
+                onChange={handleChange}
+                checked={settings.oneLineFunctions}
+              />
+            }
+            label="One Line Functions"
           />
           <FormControlLabel
             control={
@@ -98,16 +124,6 @@ export default function CPlusPlus() {
               />
             }
             label="C++ Compliant"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="shvIncludes"
-                onChange={handleChange}
-                checked={settings.shvIncludes}
-              />
-            }
-            label="ScriptHookV Includes"
           />
         </FormGroup>
         <NativeSelect
@@ -133,21 +149,16 @@ export default function CPlusPlus() {
         >
           preview
         </Typography>
-        <Paper elevation={4} sx={{ p: 2, overflow: 'scroll', height: 400 }}>
-          <CodeComment noWrap>
-            {settings.shvIncludes && (
-              '#include "types.h"\n#include "nativeCaller.h"\n\n'
-            )}
-            {settings.comments && previewData.comment && (
-                previewData.comment.replace(/(^|\n)/g, '$1// ')
-            )}
-          </CodeComment>
-          <NativeDefinition
-            name={previewData.name}
-            params={previewData.params}
-            returnType={previewData.returnType}
-            noWrap
-          />
+        <Paper elevation={4} sx={{ p: 0 }}>
+          <SyntaxHighlighter 
+            language="cpp"
+            customStyle={{
+              height: 400,
+              overflow: 'scroll'
+            }}
+          >
+            {preview}
+          </SyntaxHighlighter>
         </Paper>
       </Grid>
     </Grid>
