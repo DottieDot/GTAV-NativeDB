@@ -10,6 +10,7 @@ export interface CPlusPlusCodeGeneratorSettings extends CodeGeneratorBaseSetting
   invokeFunction    : string
   invokeSupportsVoid: boolean
   oneLineFunctions  : boolean
+  includeNdbLinks   : boolean
 }
 
 export default
@@ -28,7 +29,7 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSet
 
   start(): this {
     return super.start()
-      .writeLine('#pragma_once')
+      .writeLine('#pragma once')
       .conditional(_.isEmpty(this.settings.includes), gen => 
         this.settings.includes.reduce((gen, include) => (
           gen.writeLine(`#include ${include}`)
@@ -72,12 +73,16 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSet
       : 'return ' 
     const invokeReturn = (returnType === 'void' && !this.settings.invokeSupportsVoid) ? 'int' : returnType
     const invoker      = this.settings.invokeFunction
+    const link         = `${window.location.origin}/natives/${native.hash}`
 
     return this
       .conditional(this.settings.generateComments, gen => gen.writeComment(native.comment))
+      .conditional(this.settings.generateComments && this.settings.includeNdbLinks, gen => gen.writeComment(' '))
+      .conditional(this.settings.includeNdbLinks, gen => gen.writeComment(link))
       .writeLine(`${returnType} ${name}(${params})`)
       .pushBranch(this.settings.oneLineFunctions)
       .writeLine(`${returnString}${invoker}<${invokeReturn}>(${invokeParams});`)
+      .writeComment(`${native.hash} ${native.jhash} ${native.build}`)
       .popBranch()
   }
 
