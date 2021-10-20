@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, Divider, FormControl, FormControlLabel, FormGroup, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Stack, TextField, Typography } from '@mui/material'
 import download from 'downloadjs'
 import { ChangeEvent, ChangeEventHandler, useCallback, useMemo, useState } from 'react'
 import useLocalStorageState from 'use-local-storage-state'
@@ -48,6 +48,7 @@ export function CodeGenOptionComponent<TSettings>(props:CodeGenOptionComponentPr
               onChange={onChange}
             />
           }
+          sx={{ userSelect: 'none' }}
           label={label}
         />
       )
@@ -175,7 +176,7 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
               />
             ))}
             <Collapsible label="Advanced">
-              <Stack gap={2} sx={{ pt: 1 }}>
+              <Stack gap={2} sx={{ pt: 1, mb: 2 }}>
                 {advancedOptions.map(props => (
                   <CodeGenOptionComponent 
                     value={settings[props.prop]}
@@ -188,14 +189,15 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
             </Collapsible>
           </Stack>
         </FormGroup>
+        <Box sx={{ flexGrow: 1 }} />
+        <Divider />
         <NativeSelect
+          sx={{ mt: 2 }}
           value={previewNative}
           onChange={setPreviewNative}
-          sx={{ mt: 2 }}
         />
-        <Box sx={{ flexGrow: 1 }} />
         <Button
-          sx={{ mt: 1 }}
+          sx={{ mt: 2 }}
           variant="contained"
           onClick={handleDownload}
           fullWidth

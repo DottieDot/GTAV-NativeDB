@@ -50,7 +50,7 @@ function UpdateDialog() {
 
   return (
     <Dialog 
-      open={closedChangelog !== buildDate}
+      open={false && closedChangelog !== buildDate}
       onClose={handleClose}
       maxWidth="sm" 
       scroll="paper" 
