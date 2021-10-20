@@ -29,10 +29,10 @@ function GenerateCodePage() {
               <Tab label="RPH" value="rph" />
             </TabList>
             <Divider />
-            <TabPanel value="cpp" sx={{ p: 2 }}>
+            <TabPanel value="cpp">
               <CPlusPlus />
             </TabPanel>
-            <TabPanel value="cs" sx={{ p: 2 }}>
+            <TabPanel value="cs">
               <CSharpEnum />
             </TabPanel>
             <TabPanel value="shvdn">
