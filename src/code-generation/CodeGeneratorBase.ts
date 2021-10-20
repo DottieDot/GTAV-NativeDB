@@ -22,6 +22,7 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
   private _branches : BranchInfo[] = []
   private _settings : TSettings
   private _blankLine: boolean = false
+  private _newLine  : boolean = true
 
   protected get settings() {
     return this._settings
@@ -41,7 +42,7 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
   }
 
   private isNewLine(): boolean {
-    return _.last(this._result) === '\n' || !this._result.length
+    return this._newLine
   }
 
   private isOneLineBranch(): boolean {
@@ -58,6 +59,7 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
   private writeLineEnding(blank: boolean = false): this {
     if (!this.isOneLineBranch() && (!this.isNewLine() || this._blankLine)) {
       this._result += this.getLineEnding()
+      this._newLine = true
     }
     this._blankLine = blank
     return this
@@ -65,11 +67,11 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
 
   protected writeLine(line: string): this {
     this.writeLineEnding()
-    this._result += this.getIndentation()
     if (this.isOneLineBranch()) {
       this._result += ' '
     }
-    this._result += line
+    this._result += `${this.getIndentation()}${line}`
+    this._newLine = false
     return this
   }
 
@@ -96,14 +98,17 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
   protected pushBranch(oneLine: boolean): this {
     const brace = this.getOpeningBracket()
     if (brace) {
-      if ((!oneLine || !this.getClosingBracket()) && !this.isNewLine()) {
+      if (!oneLine || !this.getClosingBracket()) {
         this.writeLineEnding()
       }
       this._result += `${oneLine ? ' ' : this.getIndentation()}${brace}`
+      this._newLine = false
     }
+
     this._branches.push({
       one_line: oneLine
     })
+
     return this
   }
 

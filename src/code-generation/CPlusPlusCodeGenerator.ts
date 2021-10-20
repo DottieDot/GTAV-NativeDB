@@ -64,7 +64,7 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSet
   }
 
   addNative(native: CodeGenNative): this {
-    const name         = this.transformNativeName(native.name)
+    const name         = this.settings.cppCompliant ? this.transformNativeName(native.name) : native.name
     const params       = native.params.map(({ type, name }) => `${this.formatType(type)} ${name}`).join(', ')
     const invokeParams = [native.hash, ...native.params.map(this.formatInvokeParam)].join(', ')
     const returnType   = this.formatType(native.returnType)
@@ -73,7 +73,7 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSet
       : 'return ' 
     const invokeReturn = (returnType === 'void' && !this.settings.invokeSupportsVoid) ? 'int' : returnType
     const invoker      = this.settings.invokeFunction
-    const link         = `${window.location.origin}/natives/${native.hash}`
+    const link         =  `${window.location.origin}/natives/${native.hash}`
 
     return this
       .conditional(this.settings.generateComments, gen => gen.writeComment(native.comment))
