@@ -157,7 +157,7 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
   }
 
   return (
-    <Grid spacing={2} container>
+    <Grid spacing={3} container>
       <Grid xs={12} md={6} item sx={{ display: 'flex', flexDirection: 'column' }}>
         <Typography 
           variant="h5" 
