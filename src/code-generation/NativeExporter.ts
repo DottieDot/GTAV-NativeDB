@@ -24,6 +24,7 @@ class NativeExporter {
       })
       this.codeGenerator.popNamespace()
     })
+    this.codeGenerator.end()
 
     return this.codeGenerator.get()
   }

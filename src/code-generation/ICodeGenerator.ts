@@ -32,6 +32,8 @@ export default
 interface ICodeGenerator {
   start(): this
 
+  end(): this
+
   nativeToCodeGenNative(native: Native): CodeGenNative
 
   addNative(native: CodeGenNative): this

@@ -65,12 +65,15 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
     return this
   }
 
-  protected writeLine(line: string): this {
+  protected writeLine(line: string, comment?: string): this {
     this.writeLineEnding()
     if (this.isOneLineBranch()) {
       this._result += ' '
     }
     this._result += `${this.getIndentation()}${line}`
+    if (comment) {
+      this._result += ` ${this.formatComment(comment)}`
+    }
     this._newLine = false
     return this
   }
@@ -84,6 +87,7 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
   abstract pushNamespace(name: string): this
   abstract popNamespace(): this
   abstract transformBaseType(type: string): string
+  abstract end(): this
 
   protected pushIndentation(): this {
     ++this._branches.length

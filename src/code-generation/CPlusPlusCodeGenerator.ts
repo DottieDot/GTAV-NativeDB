@@ -36,9 +36,13 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSet
         ), gen)
       )
       .writeBlankLine()
-      .writeComment(`Generated ${new Date().toLocaleString()}`)
+      .writeComment(`Generated on ${new Date().toLocaleString()}`)
       .writeComment(`${window.location.origin}`)
       .writeBlankLine()
+  }
+
+  end(): this {
+    return this
   }
 
   transformBaseType(type: string): string {
