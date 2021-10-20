@@ -6,9 +6,10 @@ import { atomOneDark as darkStyle, atomOneLight as lightStyle } from 'react-synt
 export interface SyntaxHighlighterProps {
   language: string
   children?: string
+  customStyle?: object
 }
 
-function SyntaxHighlighter({ language, children }: SyntaxHighlighterProps) {
+function SyntaxHighlighter({ language, children, customStyle }: SyntaxHighlighterProps) {
   const theme = useTheme()
 
   const highlighterStyle = theme.palette.mode === 'dark'
@@ -22,7 +23,8 @@ function SyntaxHighlighter({ language, children }: SyntaxHighlighterProps) {
       customStyle={{ 
         background: 'none', 
         padding: theme.spacing(2), 
-        margin: 0
+        margin: 0,
+        ...customStyle
       }}
     >
       {children}
