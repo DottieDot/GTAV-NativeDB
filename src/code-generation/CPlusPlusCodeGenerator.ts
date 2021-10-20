@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import CodeGeneratorBase, { CodeGeneratorBaseSettings } from './CodeGeneratorBase'
-import ICodeGenerator, { CodeGenNative, CodeGenParam, CodeGenType } from './ICodeGenerator'
+import { CodeGenNative, CodeGenParam, CodeGenType } from './ICodeGenerator'
 
 export interface CPlusPlusCodeGeneratorSettings extends CodeGeneratorBaseSettings {
   generateComments  : boolean
@@ -14,7 +14,7 @@ export interface CPlusPlusCodeGeneratorSettings extends CodeGeneratorBaseSetting
 }
 
 export default
-class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSettings> implements ICodeGenerator {
+class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSettings> {
   private transformNativeName(name: string): string {
     if (name.startsWith('_0x')) {
       return `N${name.substr(1)}`
@@ -77,12 +77,12 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSet
 
     return this
       .conditional(this.settings.generateComments, gen => gen.writeComment(native.comment))
-      .conditional(this.settings.generateComments && this.settings.includeNdbLinks, gen => gen.writeComment(' '))
+      .conditional(this.settings.generateComments && this.settings.includeNdbLinks && !!native.comment, gen => gen.writeComment(' '))
       .conditional(this.settings.includeNdbLinks, gen => gen.writeComment(link))
       .writeLine(`${returnType} ${name}(${params})`)
       .pushBranch(this.settings.oneLineFunctions)
       .writeLine(`${returnString}${invoker}<${invokeReturn}>(${invokeParams});`)
-      .popBranch()
+      .popBranchWithComment(`${native.hash} ${native.jhash} ${native.build ? `b${native.build}` : ''}`)
   }
 
   pushNamespace(name: string): this {
@@ -111,10 +111,6 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSet
 
   private formatType(type: CodeGenType): string {
     let { baseType } = type
-
-    if (type.pointers && baseType === 'Any') {
-      baseType = 'void'
-    }
 
     return `${type.isConst ? 'const ' : ''}${baseType}${'*'.repeat(type.pointers)}`
   }

@@ -115,12 +115,26 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
 
     const oneLineBranch = this.isOneLineBranch()
     if (!oneLineBranch) {
-      if (!this.isNewLine()) {
-        this.writeLineEnding()
-      }
       this._branches.pop()
     }
     this.writeLine(bracket)
+    if (oneLineBranch) {
+      this._branches.pop()
+    }
+    return this
+  }
+
+  protected popBranchWithComment(comment: string): this {
+    const bracket = this.getClosingBracket()
+    if (!bracket) {
+      return this
+    }
+
+    const oneLineBranch = this.isOneLineBranch()
+    if (!oneLineBranch) {
+      this._branches.pop()
+    }
+    this.writeLine(`${bracket} ${this.formatComment(comment)}`)
     if (oneLineBranch) {
       this._branches.pop()
     }
@@ -213,7 +227,7 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
     return {
       pointers: _.sumBy(type, c => +(c === '*')),
       isConst : type.includes('const '),
-      baseType: this.transformBaseType(type.replace(/(const|) (\w+)(\*|)/, '$2'))
+      baseType: this.transformBaseType(type.replace(/^(const|)([A-Z0-9]+).*$/i, '$2'))
     }
   }
 

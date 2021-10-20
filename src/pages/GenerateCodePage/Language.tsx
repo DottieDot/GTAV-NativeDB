@@ -1,11 +1,11 @@
-import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, Collapse, FormControl, FormControlLabel, FormGroup, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Stack, TextField, Typography } from '@mui/material'
 import download from 'downloadjs'
 import { ChangeEvent, ChangeEventHandler, useCallback, useMemo, useState } from 'react'
 import useLocalStorageState from 'use-local-storage-state'
 import { NativeExporter } from '../../code-generation'
 import { CodeGeneratorBaseSettings } from '../../code-generation/CodeGeneratorBase'
 import ICodeGenerator from '../../code-generation/ICodeGenerator'
-import { NativeSelect, SyntaxHighlighter } from '../../components'
+import { Collapsible, NativeSelect, SyntaxHighlighter } from '../../components'
 import { useNamespaces, useNative, useNatives } from '../../hooks'
 
 export interface CodeGenOption<TSettings> {
@@ -88,11 +88,12 @@ interface Props<TSettings extends CodeGeneratorBaseSettings> {
   generator      : { new(settings: TSettings): ICodeGenerator }
   defaultSettings: TSettings
   name           : string
-  options        : CodeGenOptions<TSettings>[] 
+  options        : CodeGenOptions<TSettings>[]
+  advancedOptions: CodeGenOptions<TSettings>[]
 }
 
 export default 
-function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSettings, generator, options }: Props<TSettings>) {
+function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSettings, generator, options, advancedOptions }: Props<TSettings>) {
   const natives = useNatives()
   const namespaces = useNamespaces()
   const [settings, setSettings] = useLocalStorageState(`Pages.GenerateCode.${name}`, defaultSettings)
@@ -173,6 +174,18 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
                 key={props.prop}
               />
             ))}
+            <Collapsible label="Advanced">
+              <Stack gap={2} sx={{ pt: 1 }}>
+                {advancedOptions.map(props => (
+                  <CodeGenOptionComponent 
+                    value={settings[props.prop]}
+                    onChange={handleChange}
+                    {...props}
+                    key={props.prop}
+                  />
+                ))}
+              </Stack>
+            </Collapsible>
           </Stack>
         </FormGroup>
         <NativeSelect
@@ -190,7 +203,7 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
           Download
         </Button>
       </Grid>
-      <Grid xs={12} md={6} item>
+      <Grid xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column' }} item>
         <Typography 
           variant="h5" 
           component="h2" 
@@ -198,11 +211,11 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
         >
           preview
         </Typography>
-        <Paper elevation={4} sx={{ p: 0 }}>
+        <Paper elevation={4} sx={{ p: 0, flexGrow: 1 }}>
           <SyntaxHighlighter 
             language="cpp"
             customStyle={{
-              height: 400,
+              height: '100%',
               overflow: 'scroll'
             }}
           >

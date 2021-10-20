@@ -23,6 +23,38 @@ export default function CPlusPlus() {
       }}
       options={[
         {
+          type : 'boolean',
+          label: 'Include Comments',
+          prop : 'generateComments'
+        },
+        {
+          type : 'boolean',
+          label: 'Include Links',
+          prop : 'includeNdbLinks'
+        },
+        {
+          type : 'boolean',
+          label: 'Native Types',
+          prop : 'useNativeTypes'
+        },
+        {
+          type : 'boolean',
+          label: 'Compact Vectors',
+          prop : 'compactVectors'
+        },
+        {
+          type : 'boolean',
+          label: 'One Line Functions',
+          prop : 'oneLineFunctions'
+        },
+        {
+          type : 'boolean',
+          label: 'C++ Compliant',
+          prop : 'cppCompliant'
+        }
+      ]}
+      advancedOptions={[
+        {
           type   : 'combo',
           label  : 'Indentation',
           prop   : 'indentation',
@@ -52,36 +84,6 @@ export default function CPlusPlus() {
           type : 'boolean',
           label: 'Invoke Supports Void',
           prop : 'invokeSupportsVoid'
-        },
-        {
-          type : 'boolean',
-          label: 'Include Comments',
-          prop : 'generateComments'
-        },
-        {
-          type : 'boolean',
-          label: 'Include Links',
-          prop : 'includeNdbLinks'
-        },
-        {
-          type : 'boolean',
-          label: 'Native Types',
-          prop : 'useNativeTypes'
-        },
-        {
-          type : 'boolean',
-          label: 'Compact Vectors',
-          prop : 'compactVectors'
-        },
-        {
-          type : 'boolean',
-          label: 'One Line Functions',
-          prop : 'oneLineFunctions'
-        },
-        {
-          type : 'boolean',
-          label: 'C++ Compliant',
-          prop : 'cppCompliant'
         }
       ]}
     />

@@ -46,3 +46,6 @@ export * from './SnytaxHighlighter'
 
 export { default as UpdateDialog } from './UpdateDialog'
 export * from './UpdateDialog'
+
+export { default as Collapsible } from './Collapsible'
+export * from './Collapsible'
