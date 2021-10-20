@@ -7,6 +7,7 @@ export default function CPlusPlus() {
   return (
     <Language
       name="cpp"
+      extension="hpp"
       generator={CPlusPlusCodeGenerator}
       defaultSettings={{
         indentation       : '  ',

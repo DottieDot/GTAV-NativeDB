@@ -91,10 +91,11 @@ interface Props<TSettings extends CodeGeneratorBaseSettings> {
   name           : string
   options        : CodeGenOptions<TSettings>[]
   advancedOptions: CodeGenOptions<TSettings>[]
+  extension      : string
 }
 
 export default 
-function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSettings, generator, options, advancedOptions }: Props<TSettings>) {
+function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSettings, generator, options, advancedOptions, extension }: Props<TSettings>) {
   const natives = useNatives()
   const namespaces = useNamespaces()
   const [settings, setSettings] = useLocalStorageState(`Pages.GenerateCode.${name}`, defaultSettings)
@@ -147,8 +148,8 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
       namespaces
     })
 
-    download(code, 'natives.hpp', 'text/plain')
-  }, [settings, natives, namespaces, generator])
+    download(code, `natives.${extension}`, 'text/plain')
+  }, [settings, natives, namespaces, generator, extension])
 
   if (!nativeData) {
     setPreviewNative('0x4EDE34FBADD967A6')

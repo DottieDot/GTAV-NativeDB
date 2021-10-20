@@ -7,6 +7,7 @@ export default function CSharpEnum() {
   return (
     <Language
       name="cs"
+      extension="cs"
       generator={CSharpCodeGenerator}
       defaultSettings={{
         indentation       : '  ',
