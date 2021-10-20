@@ -214,12 +214,12 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
         >
           preview
         </Typography>
-        <Paper elevation={4} sx={{ p: 0, flexGrow: 1 }}>
+        <Paper elevation={4} sx={{ p: 0, flexGrow: 1, overflow: 'hidden' }}>
           <SyntaxHighlighter 
             language="cpp"
             customStyle={{
               height: '100%',
-              overflow: 'scroll'
+              overflow: 'auto'
             }}
           >
             {preview}
