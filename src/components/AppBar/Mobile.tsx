@@ -140,9 +140,12 @@ function Mobile({ ...rest }: AppBarProps) {
             sx={{ display: 'flex', flex: 1 }}
           />
           <StatusButton />
-          <IconButton onClick={handleSearchOpen} aria-label="search">
-            <SearchIcon />
-          </IconButton>
+          {settings?.search && (
+            <IconButton onClick={handleSearchOpen} aria-label="search">
+              <SearchIcon />
+            </IconButton>
+          )}
+          
           <IconButton onClick={handleMenuOpen} aria-label="more">
             <MoreIcon />
           </IconButton>

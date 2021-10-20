@@ -16,11 +16,12 @@ export default function appBarReducer(state: AppBarReducerState = initialState, 
       }
     case REMOVE_APP_BAR_SETTINGS:
       return Object.keys(state).reduce<AppBarReducerState>((accumulator, id) => {
+        console.log(id, action.id, accumulator)
         if (id !== action.id) {
           accumulator[id] = state[id]
         }
         return accumulator
-      }, state)
+      }, {})
     default:
       return state
   }
