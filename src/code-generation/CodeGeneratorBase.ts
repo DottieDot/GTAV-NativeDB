@@ -12,7 +12,7 @@ export interface CodeGeneratorBaseSettings {
   compactVectors: boolean
 }
 
-function splitCamelCaseString(str: string): string[] {
+export function splitCamelCaseString(str: string): string[] {
   return str.replace(/([A-Z0-9])/g, '_$1').toLowerCase().split('_')
 }
 
@@ -190,20 +190,11 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
     return [selected.length, group]
   }
 
-  private getParamNameForParamGroup(nativeName: string, groupName: string) {
+  private getParamNameForParamGroup(_: string, groupName: string) {
     let defaultName = 'vec'
-    if (nativeName.includes('_COORDS')) {
-      defaultName = 'coords'
-    }
-    else if (nativeName.includes('_ROT')) {
-      defaultName = 'rot'
-    }
-    else if (nativeName.includes('_POS')) {
-      defaultName = 'pos'
-    }
 
     return groupName
-      ? groupName.replace(/^(\d)$/, `${defaultName}$1`)
+      ? `${groupName.replace(/^(\d)$/, `${defaultName}$1`)}_`
       : defaultName
   }
 
@@ -236,7 +227,7 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
     return {
       pointers: _.sumBy(type, c => +(c === '*')),
       isConst : type.includes('const '),
-      baseType: this.transformBaseType(type.replace(/^(const|)([A-Z0-9]+).*$/i, '$2'))
+      baseType: this.transformBaseType(type.replace(/^(const |)([A-Z0-9]+)\**$/i, '$2'))
     }
   }
 
