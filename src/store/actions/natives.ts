@@ -20,7 +20,7 @@ export function setNatives({ namespaces, natives }: NativeDataLoader): SetNative
       return accumulator
     }, 0),
     knownNames: Object.values(natives).reduce((accumulator, native) => {
-      accumulator.total += +(native.name.substr(0, 2) !== '_0')
+      accumulator.total += +(native.name.slice(0, 2) !== '_0')
       accumulator.confirmed += +(native.name[0] !== '_')
       return accumulator
     }, { total: 0, confirmed: 0 })

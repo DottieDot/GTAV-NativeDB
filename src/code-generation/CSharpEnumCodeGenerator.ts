@@ -77,7 +77,7 @@ class CSharpCodeGenerator extends CodeGeneratorBase<CSharpCodeGeneratorSettings>
 
   private transformNativeName(name: string): string {
     if (name.startsWith('_0x')) {
-      return `N${name.substr(1)}`
+      return `N${name.slice(1)}`
     }
     else {
       return name

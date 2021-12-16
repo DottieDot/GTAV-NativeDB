@@ -17,10 +17,10 @@ export default
 class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSettings> {
   private transformNativeName(name: string): string {
     if (name.startsWith('_0x')) {
-      return `N${name.substr(1)}`
+      return `N${name.slice(1)}`
     }
     else if (name.startsWith('_')) {
-      return `${name.substr(1)}_`
+      return `${name.slice(1)}_`
     }
     else {
       return name
