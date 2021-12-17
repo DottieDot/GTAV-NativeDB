@@ -1,30 +1,24 @@
 import React from 'react'
-import { CSharpCodeGenerator } from '../../code-generation'
+import { RustCodeGenerator } from '../../code-generation'
 import Language from './Language'
 
 
-export default function CSharpEnum() {
+export default function Rust() {
   return (
     <Language
-      name="csharp"
-      extension="cs"
-      generator={CSharpCodeGenerator}
+      name="rust"
+      extension="rs"
+      generator={RustCodeGenerator}
       defaultSettings={{
         indentation       : '  ',
         lineEnding        : 'lf',
-        generateComments  : false,
+        compactVectors    : true,
+        generateComments  : true,
+        oneLineFunctions  : true,
         includeNdbLinks   : false,
-        includeParams     : false,
-        enumName          : 'Hash',
-        namespaceName     : 'GTA.Native',
-        compactVectors    : false
+        rustNames         : true
       }}
       options={[
-        {
-          type : 'boolean',
-          label: 'Include Params',
-          prop : 'includeParams'
-        },
         {
           type : 'boolean',
           label: 'Include Comments',
@@ -34,7 +28,22 @@ export default function CSharpEnum() {
           type : 'boolean',
           label: 'Include Links',
           prop : 'includeNdbLinks'
-        }
+        },
+        {
+          type : 'boolean',
+          label: 'Compact Vectors',
+          prop : 'compactVectors'
+        },
+        {
+          type : 'boolean',
+          label: 'One Line Functions',
+          prop : 'oneLineFunctions'
+        },
+        {
+          type : 'boolean',
+          label: 'Rust names',
+          prop : 'rustNames'
+        },
       ]}
       advancedOptions={[
         {
@@ -57,16 +66,6 @@ export default function CSharpEnum() {
             { label: 'LF', value: 'lf' },
             { label: 'CR-LF', value: 'crlf' }
           ]
-        },
-        {
-          type : 'string',
-          label: 'Enum Name',
-          prop : 'enumName'
-        },
-        {
-          type : 'string',
-          label: 'Namespace Name',
-          prop : 'namespaceName'
         }
       ]}
     />

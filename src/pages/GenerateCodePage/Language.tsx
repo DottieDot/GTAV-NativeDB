@@ -216,7 +216,7 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
         </Typography>
         <Paper elevation={4} sx={{ p: 0, flexGrow: 1, overflow: 'hidden' }}>
           <SyntaxHighlighter 
-            language="cpp"
+            language={name}
             customStyle={{
               height: '100%',
               overflow: 'auto'

@@ -7,3 +7,6 @@ export * from './CSharpEnumCodeGenerator'
 
 export { default as NativeExporter } from './NativeExporter'
 export * from './NativeExporter'
+
+export { default as RustCodeGenerator } from './RustCodeGenerator'
+export * from './RustCodeGenerator'

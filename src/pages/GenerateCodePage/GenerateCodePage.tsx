@@ -5,6 +5,7 @@ import { useCallback } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import CPlusPlus from './CPlusPlus'
 import CSharpEnum from './CSharpEnum'
+import Rust from './Rust'
 
 function GenerateCodePage() {
   const { language } = useParams<{ language: string }>()
@@ -24,6 +25,7 @@ function GenerateCodePage() {
           <TabContext value={language}>
             <TabList onChange={onTabChange}>
               <Tab label="C++" value="cpp" />
+              <Tab label="Rust" value="rs" />
               <Tab label="C# Enum" value="cs" />
               <Tab label="SHV.NET" value="shvdn" />
               <Tab label="RPH" value="rph" />
@@ -31,6 +33,9 @@ function GenerateCodePage() {
             <Divider />
             <TabPanel value="cpp">
               <CPlusPlus />
+            </TabPanel>
+            <TabPanel value="rs">
+              <Rust />
             </TabPanel>
             <TabPanel value="cs">
               <CSharpEnum />
