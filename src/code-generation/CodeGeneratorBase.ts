@@ -65,14 +65,14 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
     return this
   }
 
-  protected writeLine(line: string, comment?: string): this {
+  protected writeLine(line: string, comment?: string, documentation: boolean = false): this {
     this.writeLineEnding()
     if (this.isOneLineBranch()) {
       this._result += ' '
     }
     this._result += `${this.getIndentation()}${line}`
     if (comment) {
-      this._result += ` ${this.formatComment(comment)}`
+      this._result += ` ${this.formatComment(comment, documentation)}`
     }
     this._newLine = false
     return this
@@ -81,12 +81,12 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
   protected abstract getOpeningBracket(): string | null
   protected abstract getClosingBracket(): string | null
 
-  protected abstract formatComment(comment: string): string
+  protected abstract formatComment(comment: string, documentation: boolean): string
   
   abstract addNative(native: CodeGenNative): this
   abstract pushNamespace(name: string): this
   abstract popNamespace(): this
-  abstract transformBaseType(type: string): string
+  abstract transformBaseType(type: string, isPointer: boolean): string
   abstract end(): this
 
   protected pushIndentation(): this {
@@ -133,7 +133,7 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
     return this
   }
 
-  protected popBranchWithComment(comment: string): this {
+  protected popBranchWithComment(comment: string, documentation: boolean = false): this {
     const bracket = this.getClosingBracket()
     if (!bracket) {
       return this
@@ -143,7 +143,7 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
     if (!oneLineBranch) {
       this._branches.pop()
     }
-    this.writeLine(`${bracket} ${this.formatComment(comment)}`)
+    this.writeLine(`${bracket} ${this.formatComment(comment, documentation)}`)
     if (oneLineBranch) {
       this._branches.pop()
     }
@@ -154,10 +154,10 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
     return this.writeLineEnding(true)
   }
 
-  protected writeComment(comment: string): this {
+  protected writeComment(comment: string, documentation: boolean = false): this {
     if (comment) {
       comment.split('\n')
-        .map(c => this.formatComment(c))
+        .map(c => this.formatComment(c, documentation))
         .forEach(c => this.writeLine(c))
     }
     return this
@@ -224,10 +224,11 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
   }
 
   private typeStringToCodeGenType(type: string): CodeGenType {
+    const pointers = _.sumBy(type, c => +(c === '*'))
     return {
-      pointers: _.sumBy(type, c => +(c === '*')),
+      pointers: pointers,
       isConst : type.includes('const '),
-      baseType: this.transformBaseType(type.replace(/^(const |)([A-Z0-9]+)\**$/i, '$2'))
+      baseType: this.transformBaseType(type.replace(/^(const |)([A-Z0-9]+)\**$/i, '$2'), !!pointers)
     }
   }
 

@@ -26,10 +26,10 @@ class RustCodeGenerator extends CodeGeneratorBase<RustCodeGeneratorSettings> {
     return this
   }
 
-  transformBaseType(type: string): string {
+  transformBaseType(type: string, isPointer: boolean): string {
     switch (type) {
       case 'void' : return 'Void'
-      case 'BOOL' : return 'Bool'
+      case 'BOOL' : return isPointer ? 'Bool'  : 'bool'
       case 'int'  : return 'i32'
       case 'float': return 'f32'
       case 'char' : return 'i8'
@@ -44,14 +44,15 @@ class RustCodeGenerator extends CodeGeneratorBase<RustCodeGeneratorSettings> {
     const invokeParams = [returnType, `${native.hash}u64`, ...native.params.map(p => this.formatInvokeParam(p))].join(', ')
     const invoker      = 'call_native!'
     const link         =  `${window.location.origin}/natives/${native.hash}`
+    const isVoid       = returnType === 'Void'
 
     return this
-      .conditional(this.settings.generateComments, gen => gen.writeComment(native.comment))
-      .conditional(this.settings.generateComments && this.settings.includeNdbLinks && !!native.comment, gen => gen.writeComment(' '))
-      .conditional(this.settings.includeNdbLinks, gen => gen.writeComment(link))
-      .writeLine(`pub unsafe fn ${name}(${params}) -> ${returnType}`)
+      .conditional(this.settings.generateComments, gen => gen.writeComment(native.comment, true))
+      .conditional(this.settings.generateComments && this.settings.includeNdbLinks && !!native.comment, gen => gen.writeComment(' ', true))
+      .conditional(this.settings.includeNdbLinks, gen => gen.writeComment(link, true))
+      .writeLine(`pub unsafe fn ${name}(${params})${isVoid ? '' : `-> ${returnType}`}`)
       .pushBranch(this.settings.oneLineFunctions)
-      .writeLine(`${invoker}(${invokeParams})`)
+      .writeLine(`${invoker}(${invokeParams})${isVoid ? ';' : ''}`)
       .popBranchWithComment(`${native.hash} ${native.jhash} ${native.build ? `b${native.build}` : ''}`)
   }
 
@@ -74,7 +75,11 @@ class RustCodeGenerator extends CodeGeneratorBase<RustCodeGeneratorSettings> {
       .writeBlankLine()
   }
 
-  protected formatComment(comment: string): string {
+  protected formatComment(comment: string, documentation: boolean): string {
+    if (documentation) {
+      return `/// ${comment}`
+    }
+
     return `// ${comment}`
   }
 
