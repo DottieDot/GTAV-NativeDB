@@ -6,6 +6,7 @@ export default function useAppBarSettings() {
   const raw = useTypedSelector(state => state.appBar)
   return useMemo(() => 
     Object.values(raw).reduce<AppBarSettings>((accumulator, { actions, ...rest }) => ({
+      ...accumulator,
       actions: [
         ...accumulator.actions!,
         ...(actions ?? [])
