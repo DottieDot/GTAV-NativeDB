@@ -29,6 +29,7 @@ function NativeListItem({ nativeHash }: NativeListItemProps) {
         name={native.name}
         returnType={native.returnType}
         params={native.params}
+        nameCopyable={false}
         noWrap
       />
     </ListItem>

@@ -3,15 +3,17 @@ import React, { memo, useMemo } from 'react'
 import { NativeParam } from '../../store'
 import NativeType from '../NativeType'
 import NativeParams from '../NativeParams'
+import CopyableText from '../CopyableText'
 
 export interface NativeDefinitionProps extends Omit<TypographyProps, 'children'> {
-  name      : string
-  params    : NativeParam[]
-  returnType: string
-  noWrap   ?: boolean
+  name         : string
+  params       : NativeParam[]
+  returnType   : string
+  noWrap      ?: boolean
+  nameCopyable?: boolean
 }
 
-function NativeDefinition({ name, params, returnType, sx, noWrap = false, ...rest }: NativeDefinitionProps) {
+function NativeDefinition({ name, params, returnType, sx, noWrap = false, nameCopyable = true, ...rest }: NativeDefinitionProps) {
   const nameWithBreaks = useMemo(() => name.replace(/_/g, '_\u200b'), [name])
   
   return (
@@ -25,10 +27,16 @@ function NativeDefinition({ name, params, returnType, sx, noWrap = false, ...res
       }} 
       {...rest}
     >
-      <NativeType>{returnType}</NativeType>
-      <span>
-        {' '}{nameWithBreaks}
-      </span>
+      <NativeType>{returnType}{' '}</NativeType>
+        {nameCopyable ? (
+          <CopyableText>
+            {nameWithBreaks}
+          </CopyableText>
+        ) : (
+          <span>
+            {nameWithBreaks}
+          </span>
+        )}
       <NativeParams params={params} />
     </Typography>
   )

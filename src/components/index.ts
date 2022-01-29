@@ -49,3 +49,6 @@ export * from './UpdateDialog'
 
 export { default as Collapsible } from './Collapsible'
 export * from './Collapsible'
+
+export { default as CopyableText } from './CopyableText'
+export * from './CopyableText'
