@@ -83,7 +83,7 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSet
       .conditional(this.settings.generateComments, gen => gen.writeComment(native.comment))
       .conditional(this.settings.generateComments && this.settings.includeNdbLinks && !!native.comment, gen => gen.writeComment(' '))
       .conditional(this.settings.includeNdbLinks, gen => gen.writeComment(link))
-      .writeLine(`${returnType} ${name}(${params})`)
+      .writeLine(`static ${returnType} ${name}(${params})`)
       .pushBranch(this.settings.oneLineFunctions)
       .writeLine(`${returnString}${invoker}<${invokeReturn}>(${invokeParams});`)
       .popBranchWithComment(`${native.hash} ${native.jhash} ${native.build ? `b${native.build}` : ''}`)
@@ -127,7 +127,7 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSet
         case 'Vector3':
           return `${name}.x, ${name}.y, ${name}.z`
         case 'Vector4':
-          return `${name}.x, ${name}.y ${name}.z, ${name}.w`
+          return `${name}.x, ${name}.y, ${name}.z, ${name}.w`
       }
     }
 
