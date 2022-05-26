@@ -15,7 +15,7 @@ export default function Router() {
         <GenerateCodePage />
       </Route>
       <Route path="/generate-code" exact>
-        <Redirect to="/generate-code/cpp" />
+        <Redirect to="/generate-code/lua" />
       </Route>
       <Route path="/generate-header">
         <Redirect to="/generate-code" />

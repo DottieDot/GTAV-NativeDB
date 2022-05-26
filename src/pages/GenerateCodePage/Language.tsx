@@ -164,7 +164,7 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
           component="h2" 
           gutterBottom
         >
-          settings
+          Settings
         </Typography>
         <FormGroup>
           <Stack gap={2}>
@@ -212,7 +212,7 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
           component="h2" 
           gutterBottom
         >
-          preview
+          Preview
         </Typography>
         <Paper elevation={4} sx={{ p: 0, flexGrow: 1, overflow: 'hidden' }}>
           <SyntaxHighlighter 

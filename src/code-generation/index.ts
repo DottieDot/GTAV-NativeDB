@@ -1,4 +1,7 @@
 
+export { default as LuaCodeGenerator }  from './LuaCodeGenerator'
+export * from './LuaCodeGenerator'
+
 export { default as CPlusPlusCodeGenerator }  from './CPlusPlusCodeGenerator'
 export * from './CPlusPlusCodeGenerator'
 

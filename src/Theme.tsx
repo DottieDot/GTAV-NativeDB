@@ -24,10 +24,10 @@ const darkTheme: ThemeOptions = {
   palette: {
     mode: 'dark',
     primary: {
-      main: '#20ba4e'
+      main: '#fd8ccc'
     },
     secondary: {
-      main: '#ff8c00'
+      main: '#f72585'
     }
   },
   components: {
@@ -50,7 +50,7 @@ function Theme({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', dark ? '#272727' :'#0e752e')
+      ?.setAttribute('content', dark ? '#000000' :'#a0e7e5')
   }, [dark])
 
   return (

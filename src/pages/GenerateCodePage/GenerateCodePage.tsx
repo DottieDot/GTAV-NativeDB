@@ -3,6 +3,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import React, { memo, SyntheticEvent } from 'react'
 import { useCallback } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
+import Lua from './Lua'
 import CPlusPlus from './CPlusPlus'
 import CSharpEnum from './CSharpEnum'
 import Rust from './Rust'
@@ -24,6 +25,7 @@ function GenerateCodePage() {
         <Paper>
           <TabContext value={language}>
             <TabList onChange={onTabChange}>
+              <Tab label="Lua" value="lua" />
               <Tab label="C++" value="cpp" />
               <Tab label="Rust" value="rs" />
               <Tab label="C# Enum" value="cs" />
@@ -31,6 +33,9 @@ function GenerateCodePage() {
               <Tab label="RPH" value="rph" />
             </TabList>
             <Divider />
+            <TabPanel value="lua">
+              <Lua />
+            </TabPanel>
             <TabPanel value="cpp">
               <CPlusPlus />
             </TabPanel>

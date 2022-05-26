@@ -98,14 +98,29 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
     --this._branches.length
     return this
   }
+  wackIndent(oneLine: boolean): this {
+    const brace = this.getOpeningBracket()
+    if (brace) {
+      if (!oneLine || !this.getClosingBracket()) {
+        this.writeLineEnding()
+      }
+      //this._result += `${brace}`
+      //this._newLine = false
+    }
 
+    this._branches.push({
+      one_line: oneLine
+    })
+
+    return this
+  }
   protected pushBranch(oneLine: boolean): this {
     const brace = this.getOpeningBracket()
     if (brace) {
       if (!oneLine || !this.getClosingBracket()) {
         this.writeLineEnding()
       }
-      this._result += `${oneLine ? ' ' : this.getIndentation()}${brace}`
+      this._result += `${brace}`
       this._newLine = false
     }
 
@@ -143,7 +158,7 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
     if (!oneLineBranch) {
       this._branches.pop()
     }
-    this.writeLine(`${bracket} ${this.formatComment(comment, documentation)}`)
+    this.writeLine(`${this.formatComment(comment, documentation)}`)
     if (oneLineBranch) {
       this._branches.pop()
     }
@@ -228,7 +243,7 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
     return {
       pointers: pointers,
       isConst : type.includes('const '),
-      baseType: this.transformBaseType(type.replace(/^(const |)([A-Z0-9]+)\**$/i, '$2'), !!pointers)
+      baseType: this.transformBaseType(type.replace(/^(--[] |)([A-Z0-9]+)\**$/i, '$2'), !!pointers)
     }
   }
 
