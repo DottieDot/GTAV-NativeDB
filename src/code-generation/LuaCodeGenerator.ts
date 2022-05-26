@@ -133,7 +133,7 @@ class LuaCodeGenerator extends CodeGeneratorBase<LuaCodeGeneratorSettings> {
   }
 
   protected getClosingBracket(): string | null {
-    return '},'
+    return '}'
   }
 
   private formatType(type: CodeGenType): string {
