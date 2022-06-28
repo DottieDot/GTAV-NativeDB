@@ -104,8 +104,6 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
       if (!oneLine || !this.getClosingBracket()) {
         this.writeLineEnding()
       }
-      //this._result += `${brace}`
-      //this._newLine = false
     }
 
     this._branches.push({
