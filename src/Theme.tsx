@@ -50,7 +50,7 @@ function Theme({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', dark ? '#000000' :'#a0e7e5')
+      ?.setAttribute('content', dark ? '#272727' :'#0e752e')
   }, [dark])
 
   return (
