@@ -25,8 +25,8 @@ function GenerateCodePage() {
         <Paper>
           <TabContext value={language}>
             <TabList onChange={onTabChange}>
-              <Tab label="Lua" value="lua" />
               <Tab label="C++" value="cpp" />
+              <Tab label="Lua" value="lua" />
               <Tab label="Rust" value="rs" />
               <Tab label="C# Enum" value="cs" />
               <Tab label="SHV.NET" value="shvdn" />
