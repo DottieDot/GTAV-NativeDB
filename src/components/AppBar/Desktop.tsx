@@ -1,5 +1,5 @@
 import { AppBar as MaterialAppBar, Box, Button, Divider, IconButton, Link, Toolbar, Tooltip, Typography } from '@mui/material'
-import { GitHub as GithubIcon, Settings as SettingsIcon } from '@mui/icons-material'
+import { GitHub as GithubIcon, Settings as SettingsIcon, Apps as AppsIcon } from '@mui/icons-material'
 import React, { useCallback, useMemo, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { AppBarAction as AppBarActionProps } from '.'
@@ -8,6 +8,7 @@ import DesktopSearch from './DesktopSearch'
 import { AppBarProps } from './model'
 import SettingsDrawer from './SettingsDrawer'
 import StatusButton from './StatusButton'
+import AppsPopover from './AppsPopover'
 
 function AppBarAction({ text, desktopIcon, buttonProps }: AppBarActionProps) {
   if (!desktopIcon) {
@@ -35,6 +36,15 @@ function Desktop({ ...rest }: AppBarProps) {
   const stats = useStats()
   const [settingsOpen, setSettingsOpen] = useState(false)
   const settings = useAppBarSettings()
+  const [appsAnchorEl, setAppsAnchorEl] = useState<HTMLButtonElement | null>(null)
+
+  const handleAppsOpen = useCallback(event => {
+    setAppsAnchorEl(event.currentTarget)
+  }, [setAppsAnchorEl])
+
+  const handleApsClose = useCallback(() => {
+    setAppsAnchorEl(null)
+  }, [setAppsAnchorEl])
 
   const handleSettingsOpen = useCallback(() => {
     setSettingsOpen(true)
@@ -54,6 +64,13 @@ function Desktop({ ...rest }: AppBarProps) {
       }
     },
     {
+      text: 'Apps',
+      desktopIcon: AppsIcon,
+      buttonProps: {
+        onClick: handleAppsOpen
+      }
+    },
+    {
       text: 'View on Github',
       desktopIcon: GithubIcon,
       buttonProps: {
@@ -61,11 +78,24 @@ function Desktop({ ...rest }: AppBarProps) {
         target: '_blank'
       }
     }
-  ], [settings, handleSettingsOpen])
+  ], [settings, handleSettingsOpen, handleAppsOpen])
 
   return (
     <Box {...rest}>
       <SettingsDrawer open={settingsOpen} onClose={handleSettingsClose} />
+      <AppsPopover
+        anchorEl={appsAnchorEl}
+        onClose={handleApsClose}
+        open={!!appsAnchorEl}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right'
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center'
+        }}
+      />
       <MaterialAppBar position="sticky">
         <Toolbar>
           <Typography variant="h6" component="div">

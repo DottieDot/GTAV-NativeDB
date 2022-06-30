@@ -1,5 +1,5 @@
 import { AppBar as MaterialAppBar, Box, IconButton, Link, ListItemIcon, Menu, MenuItem, Toolbar, Typography, Zoom } from '@mui/material'
-import { GitHub as GithubIcon, MoreVert as MoreIcon, Search as SearchIcon, Settings as SettingsIcon, ShowChart as StatsIcon, Code as CodeIcon } from '@mui/icons-material'
+import { GitHub as GithubIcon, MoreVert as MoreIcon, Search as SearchIcon, Settings as SettingsIcon, ShowChart as StatsIcon, Code as CodeIcon, Apps as AppsIcon } from '@mui/icons-material'
 import React, { MouseEvent, useCallback, useMemo, useState } from 'react'
 import { Link as RouterLink, useHistory } from 'react-router-dom'
 import { AppBarAction as AppBarActionProps } from '.'
@@ -9,11 +9,12 @@ import { AppBarProps } from './model'
 import SettingsDrawer from './SettingsDrawer'
 import StatsDialog from './StatsDialog'
 import StatusButton from './StatusButton'
+import AppsDialog from './AppsDialog'
 
 function AppBarAction({ text, mobileIcon, buttonProps: { href, target, onClick, ...buttonProps } }: AppBarActionProps) {
   const history = useHistory()
 
-  const handleClick = useCallback(() => {
+  const handleClick = useCallback(e => {
     if (href) {
       if (href.includes('://') || target) {
         window.open(href, target)
@@ -23,7 +24,7 @@ function AppBarAction({ text, mobileIcon, buttonProps: { href, target, onClick, 
       }
     }
 
-    onClick && onClick()
+    onClick && onClick(e)
   }, [href, target, onClick, history])
 
   return (
@@ -37,10 +38,11 @@ function AppBarAction({ text, mobileIcon, buttonProps: { href, target, onClick, 
 }
 
 function Mobile({ ...rest }: AppBarProps) {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [statsDialog, setStatsDialog] = useState(false)
+  const [appsDialog, setAppsDialog] = useState(false)
   const settings = useAppBarSettings()
 
   const handleSettingsOpen = useCallback(() => {
@@ -75,6 +77,14 @@ function Mobile({ ...rest }: AppBarProps) {
     setStatsDialog(false)
   }, [setStatsDialog])
 
+  const handleAppsDialogOpen = useCallback(() => {
+    setAppsDialog(true)
+  }, [setAppsDialog])
+
+  const handleAppsDialogClose = useCallback(() => {
+    setAppsDialog(false)
+  }, [setAppsDialog])
+
   const actions: AppBarActionProps[] = useMemo(() => [
     ...(settings.actions ?? []),
     {
@@ -99,6 +109,13 @@ function Mobile({ ...rest }: AppBarProps) {
       }
     },
     {
+      text: 'Apps',
+      mobileIcon: AppsIcon,
+      buttonProps: {
+        onClick: handleAppsDialogOpen
+      }
+    },
+    {
       text: 'View on Github',
       mobileIcon: GithubIcon,
       buttonProps: {
@@ -106,18 +123,19 @@ function Mobile({ ...rest }: AppBarProps) {
         target: '_blank'
       }
     }
-  ], [settings, handleSettingsOpen, handleStatsDialogOpen])
+  ], [settings, handleSettingsOpen, handleStatsDialogOpen, handleAppsDialogOpen])
 
   return (
     <Box {...rest}>
       <StatsDialog open={statsDialog} onClose={handleStatsDialogClose} />
+      <AppsDialog open={appsDialog} onClose={handleAppsDialogClose} />
       <SettingsDrawer open={settingsOpen} onClose={handleSettingsClose} />
       <MaterialAppBar position="sticky">
         {settings.search && (
           <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
             <Zoom in={searchOpen}>
               <Box sx={{ height: '100%', position: 'relative', zIndex: 1 }}>
-                <MobileSearch 
+                <MobileSearch
                   search={settings.search}
                   onClose={handleSearchClose}
                 />
@@ -145,7 +163,7 @@ function Mobile({ ...rest }: AppBarProps) {
               <SearchIcon />
             </IconButton>
           )}
-          
+
           <IconButton onClick={handleMenuOpen} aria-label="more">
             <MoreIcon />
           </IconButton>
@@ -158,7 +176,7 @@ function Mobile({ ...rest }: AppBarProps) {
             {actions.map(action => (
               <AppBarAction
                 key={action.text}
-                {...action} 
+                {...action}
               />
             ))}
           </Menu>

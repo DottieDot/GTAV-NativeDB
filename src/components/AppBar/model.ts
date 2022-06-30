@@ -2,28 +2,28 @@ import { BoxProps } from '@mui/material'
 import { ElementType } from 'react'
 
 export interface AppBarAction {
-  text        : string
+  text: string
   desktopIcon?: ElementType
-  mobileIcon ?: ElementType
+  mobileIcon?: ElementType
   buttonProps: {
-    onClick?: () => void,
-    href   ?: string, 
-    target ?: string 
+    onClick?: (e: any) => void,
+    href?: string,
+    target?: string
   }
 }
 
 export interface AppBarSearch {
-  value    ?: string
-  onChange ?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-  onBlur   ?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  value?: string
+  onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement | HTMLTextAreaElement>
-  ref      ?: React.RefObject<HTMLInputElement>
+  ref?: React.RefObject<HTMLInputElement>
 }
 
 export interface AppBarSettings {
-  title  ?: string
+  title?: string
   actions?: AppBarAction[]
-  search ?: AppBarSearch
+  search?: AppBarSearch
 }
 
 export interface AppBarProps extends BoxProps {
