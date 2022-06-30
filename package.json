@@ -26,10 +26,10 @@
     "react-linkify": "^1.0.0-alpha",
     "react-redux": "^7.2.5",
     "react-router-dom": "^5.3.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "5.0.1",
     "react-syntax-highlighter": "^15.4.4",
     "react-virtualized-auto-sizer": "^1.0.6",
-    "react-virtualized-sticky-tree": "^3.0.0-beta13",
+    "react-virtualized-sticky-tree": "github:DottieDot/react-virtualized-sticky-tree#fork",
     "react-window": "^1.8.6",
     "redux": "^4.1.1",
     "redux-devtools-extension": "^2.13.9",
@@ -73,6 +73,6 @@
     "@types/redux-persist": "^4.3.1"
   },
   "engines": {
-    "npm": "8.3.0"
+    "npm": "8.13.1"
   }
 }
