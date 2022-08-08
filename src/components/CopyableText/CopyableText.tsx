@@ -5,6 +5,10 @@ import { useCopyToClipboard } from '../../hooks'
 const StyledButtonBase = styled(ButtonBase)(({ theme }) => {
   const background = alpha(theme.palette.getContrastText(theme.palette.background.paper), .08)
   return {
+    font: 'inherit',
+    fontSize: 'inherit',
+    fontWeight: 'inherit',
+    userSelect: 'inherit',
     transition: 'all ease-in-out .1s',
     borderRadius: theme.shape.borderRadius,
     outline: `0px solid ${background}`,
@@ -32,7 +36,9 @@ export default function CopyableText({ children }: CopyableTextProps) {
   
   return (
     <Tooltip title="Copy to clipboard" placement="top" arrow>
-      <StyledButtonBase onClick={onClick}>
+      {/* https://github.com/mui/material-ui/issues/31194
+          @ts-ignore */}
+      <StyledButtonBase component="span" onClick={onClick}>
         {children}
       </StyledButtonBase>
     </Tooltip>

@@ -1,9 +1,9 @@
-import { RegisterAppBarSettings, REGISTER_APP_BAR_SETTINGS, RemoveAppBarSettings, REMOVE_APP_BAR_SETTINGS } from '..'
+import { RegisterAppBarSettings, REGISTER_APP_BAR_SETTINGS, RemoveAppBarSettings, REMOVE_APP_BAR_SETTINGS } from '../actions'
 import { AppBarSettings } from '../../components'
 
 export type AppBarReducerActions = RegisterAppBarSettings | RemoveAppBarSettings
 
-export type AppBarReducerState = { [id: string ]: AppBarSettings }
+export type AppBarReducerState = { [id: string]: AppBarSettings }
 
 const initialState: AppBarReducerState = {}
 

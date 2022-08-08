@@ -3,5 +3,6 @@
     "*.php": "php",
     ".php_cs": "php",
     "functional": "cpp"
-  }
+  },
+  "editor.formatOnSave": false
 }

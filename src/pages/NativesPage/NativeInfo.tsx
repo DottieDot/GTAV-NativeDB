@@ -5,15 +5,18 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { createShareUrl } from '../../common'
 import { CodeExamples, NativeComment, NativeDefinition, NativeDetails, NativeUsage } from '../../components'
-import { useCopyToClipboard, useNative, useSettings } from '../../hooks'
+import { useCopyToClipboard, useIsSmallDisplay, useLastNotNull, useNative, useSettings } from '../../hooks'
 import { NativeSources } from '../../store'
 import NativeNotFound from './NativeNotFound'
 import NoNativeSelected from './NoNativeSelected'
 
 export default function NativeInfo() {
-  const { native: nativeHash } = useParams<{ native?: string }>()
+  const { native: nativeHashParam } = useParams<{ native?: string }>()
+  const nativeHashNotNull = useLastNotNull(nativeHashParam)
   const [usageNotFound, setUsageNotFound] = useState(false)
   const settings = useSettings()
+  const isSmall = useIsSmallDisplay()
+  const nativeHash = isSmall ? nativeHashNotNull : nativeHashParam
   const native = useNative(nativeHash ?? '')
   const copyToClipboard = useCopyToClipboard()
 
