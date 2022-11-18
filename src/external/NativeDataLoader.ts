@@ -1,4 +1,5 @@
-import { Namespace, Native } from '../store'
+import _ from 'lodash'
+import { Namespace, Native, TypeDefinition } from '../store'
 import LoadAlloc8orNatives from './alloc8or-nativedb'
 import LoadDottieDotAdditionalData from './dottiedot-additional-data'
 import LoadFivemNatives from './fivem-nativedb'
@@ -11,6 +12,8 @@ interface AdditionalNativeData {
 export default class NativeDataLoader {
   natives   : { [hash: string]: Native } = {}
   namespaces: { [name: string]: Namespace } = {}
+  types     : { [name: string]: TypeDefinition } = {}
+  constants : { [name: string]: any } = {}
   
 
   addNative(native: Native) {
@@ -117,8 +120,8 @@ export default class NativeDataLoader {
     })
   }
 
-  async loadSpecialData() {
-    const data = await LoadSpecialData()
+  async loadSpecialData(source: string) {
+    const data = await LoadSpecialData(source)
     
     if (!data) {
       return
@@ -130,14 +133,64 @@ export default class NativeDataLoader {
       if (this.natives[hash]) {
         this.natives[hash] = {
           ...this.natives[hash],
+          // Alloc8or's native db has a typo for FORCE_SUBMARINE_NEUTRAL_BUOYANCY
+          // Technically the one with the typo is correct? But in the scripts it's used without the typo.
+          name: native.name,
           schComment: native.sch_comment,
           returnType: native.return_type,  
           params: native.params.map(p => ({
             type: p.type,
             name: p.name,
-            default: p.default
+            defaultValue: p.default
           }))
         }
+      }
+    })
+
+    Object.keys(data.constants).forEach(name => {
+      const constant = data.constants[name]
+
+      this.constants[name] = {
+        ...constant,
+        name
+      }
+    })
+
+    Object.keys(data.types).forEach(name => {
+      const type = data.types[name]
+
+      switch (type.type) {
+        case 'Enum':
+          this.types[name] = {
+            ...type,
+            name,
+            values: _.mapValues(type.values, (value, key) => ({
+              ...value,
+              name: key
+            }))
+          }
+          break
+        case 'Struct':
+          this.types[name] = {
+            type: 'Struct',
+            comment: type.comment,
+            fields:  _.mapValues(type.fields, (value, key) => ({
+              name: key,
+              comment: value.comment,
+              typeName: value.type_name,
+              arraySize: value.array_size,
+              defaultValue: value.default_value
+            })),
+            
+            name,
+          }
+          break
+        case 'NativeType':
+          this.types[name] = {
+            ...type,
+            name
+          }
+          break
       }
     })
   }

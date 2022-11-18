@@ -1,4 +1,4 @@
-import { Native, NativeStats } from '../model'
+import { ConstDefinition, Native, NativeStats, TypeDefinition } from '../model'
 import Namespace from '../model/Namespace'
 import { NativeDataLoader } from '../../external'
 
@@ -8,10 +8,12 @@ export interface SetNatives {
   type      : typeof SET_NATIVES
   natives   : { [hash: string]: Native }
   namespaces: { [name: string]: Namespace }
+  types     : { [name: string]: TypeDefinition }
+  consts    : { [name: string]: ConstDefinition }
   stats     : NativeStats
 }
 
-export function setNatives({ namespaces, natives }: NativeDataLoader): SetNatives {
+export function setNatives({ namespaces, natives, types, constants }: NativeDataLoader): SetNatives {
   const stats: NativeStats = {
     namespaces: Object.keys(namespaces).length,
     natives   : Object.keys(natives).length,
@@ -30,6 +32,8 @@ export function setNatives({ namespaces, natives }: NativeDataLoader): SetNative
     type: SET_NATIVES,
     natives,
     namespaces,
+    types,
+    consts: constants,
     stats
   }
 }

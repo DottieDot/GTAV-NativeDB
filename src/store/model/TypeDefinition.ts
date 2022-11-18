@@ -1,55 +1,35 @@
 
-export interface NativeParam {
-  type: string
-  name: string
-  default?: string
-}
-
-export interface Native {
-  name: string
-  sch_comment?: string
-  params: NativeParam[]
-  return_type: string
-}
-
 export interface EnumValue {
   comment?: string
   value?: string
+  name: string
 }
 
 export interface StructField {
+  name: string
   comment?: string
-  type_name: string,
-  array_size?: string
-  default_value?: string
+  typeName: string
+  arraySize?: string
+  defaultValue?: string
 }
 
 export interface TypeDefinitionEnum {
   type: 'Enum'
+  name: string
   comment?: string
   values: { [name: string]: EnumValue }
 }
 
 export interface TypeDefinitionStruct {
   type: 'Struct'
+  name: string
   comment?: string
   fields: { [name: string]: StructField }
 }
 
 export interface TypeDefinitionNativeType {
+  name: string
   type: 'NativeType'
 }
 
 export type TypeDefinition = TypeDefinitionEnum | TypeDefinitionStruct | TypeDefinitionNativeType
-
-export interface ConstDefinition {
-  comment?: string
-  type_name: string
-  value: string
-}
-
-export interface DocumentRoot {
-  types: { [name: string]: TypeDefinition }
-  constants: { [name: string]: ConstDefinition }
-  natives: { [hash: string]: Native }
-}

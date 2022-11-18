@@ -7,6 +7,8 @@ import namespaceReducer from './namespaceReducer'
 import nativeReducer from './nativeReducer'
 import settingsReducer from './settingsReducer'
 import statsReducer from './statsReducer'
+import typesReducer from './typesReducer'
+import constsReducer from './constsReducer'
 
 const settingsPersistConfig = {
   key: 'Settings',
@@ -17,6 +19,8 @@ const rootReducer = combineReducers({
   app       : appReducer,
   natives   : nativeReducer,
   namespaces: namespaceReducer,
+  types     : typesReducer,
+  constants : constsReducer,
   stats     : statsReducer,
   appBar    : appBarReducer,
   settings  : persistReducer(settingsPersistConfig, settingsReducer)
@@ -30,4 +34,4 @@ export * from './appReducer'
 export * from './namespaceReducer'
 export * from './nativeReducer'
 export * from './settingsReducer'
-
+export * from './typesReducer'

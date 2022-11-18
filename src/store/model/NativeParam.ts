@@ -4,5 +4,5 @@ export default interface NativeParam {
   name: string
 
   // Special data
-  default?: string
+  defaultValue?: string
 }

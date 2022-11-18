@@ -6,27 +6,27 @@ import {
   bindPopover,
 } from 'material-ui-popup-state/hooks'
 import PopupState from 'material-ui-popup-state'
-import TypeDefinition from '../TypeDefinition'
+import ConstDefinition from '../ConstDefinition'
 
-interface NativeTypeProps {
+export interface NativeConstProps {
+  constName: string
   popover?: boolean
-  type: string
 }
 
-export default function NativeType({ popover = false, type }: NativeTypeProps) {
+export default function NativeConst({ constName, popover }: NativeConstProps) {
   if (popover) {
     return (
       <PopupState variant="popover">
         {(popupState) => (
           <Fragment>
-            <Box sx={{ color: 'secondary.main' }} component="span" {...bindTrigger(popupState)}>
+            <Box sx={{ color: 'deepskyblue' }} component="span" {...bindTrigger(popupState)}>
               <InteractiveText>
-                {type}
+                {constName}
               </InteractiveText>
             </Box>
             <Popover
               {...bindPopover(popupState)}
-              PaperProps={{ sx: { border: 'solid 2px rgba(255, 255, 255, .5)' }}}
+              PaperProps={{ sx: { border: 'solid 2px rgba(255, 255, 255, .5)' } }}
               anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'center',
@@ -36,7 +36,7 @@ export default function NativeType({ popover = false, type }: NativeTypeProps) {
                 horizontal: 'center',
               }}
             >
-              <TypeDefinition type={type} />
+              <ConstDefinition constName={constName} />
             </Popover>
           </Fragment>
         )}
@@ -45,8 +45,8 @@ export default function NativeType({ popover = false, type }: NativeTypeProps) {
   }
 
   return (
-    <Box sx={{ color: 'secondary.main' }} component="span">
-      {type}
+    <Box sx={{ color: 'deepskyblue' }} component="span">
+      {constName}
     </Box>
   )
 }

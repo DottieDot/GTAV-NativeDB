@@ -1,8 +1,8 @@
 import { DocumentRoot } from './model'
 
-export default async function LoadSpecialData(): Promise<DocumentRoot | null> {
+export default async function LoadSpecialData(source: string): Promise<DocumentRoot | null> {
   try {
-    const response = await fetch('http://localhost:8080/natives.json')
+    const response = await fetch(source)
 
     if (!response.ok) {
       return null

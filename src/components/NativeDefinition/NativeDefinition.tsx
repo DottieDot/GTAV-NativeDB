@@ -28,7 +28,7 @@ function NativeDefinition({ name, params, returnType, sx, noWrap = false, nameCo
       }} 
       {...rest}
     >
-      <NativeType>{returnType}{' '}</NativeType>
+      <NativeType popover={!noWrap} type={returnType} />{' '}
       {nameCopyable ? (
         <CopyableText>
           {nameWithBreaks}
