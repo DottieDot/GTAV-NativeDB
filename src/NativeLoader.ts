@@ -6,7 +6,7 @@ import { NativeSources, setNatives } from './store'
 import _ from 'lodash'
 
 export default function NativeLoader() {
-  const { sources } = useSettings()
+  const { sources, specialDataSource } = useSettings()
   const dispatch = useDispatch()
   useEffect(() => {
     (async () => {
@@ -20,10 +20,13 @@ export default function NativeLoader() {
       if (_.includes(sources, NativeSources.DottieDot)) {
         await loader.loadDottieDot()
       }
+      if (_.includes(sources, NativeSources.SpecialData)) {
+        await loader.loadSpecialData(specialDataSource)
+      }
 
       dispatch(setNatives(loader))
     })()
-  }, [dispatch, sources])
+  }, [dispatch, sources, specialDataSource])
 
   return null
 }

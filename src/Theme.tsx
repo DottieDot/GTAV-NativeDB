@@ -1,9 +1,27 @@
 import { darkScrollbar } from '@mui/material'
 import { createTheme, ThemeOptions, ThemeProvider, useMediaQuery } from '@mui/material'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useMemo } from 'react'
 import { ReactNode } from 'react'
 import { useSettings } from './hooks'
+
+declare module '@mui/material/styles' {
+  interface Theme {
+    extensions: {
+      nativeValueHighlight: string
+      constantIdentifierHighlight: string
+      typeInfoBorderColor: string
+    }
+  }
+  // allow configuration using `createTheme`
+  interface ThemeOptions {
+    extensions: {
+      nativeValueHighlight: string
+      constantIdentifierHighlight: string
+      typeInfoBorderColor: string
+    }
+  }
+}
 
 const lightTheme: ThemeOptions = {
   palette: {
@@ -17,6 +35,11 @@ const lightTheme: ThemeOptions = {
     secondary: {
       main: '#ff3d00'
     }
+  },
+  extensions: {
+    nativeValueHighlight: '#bf360c',
+    constantIdentifierHighlight: '#870000',
+    typeInfoBorderColor: 'rgba(0,0,0,.25)'
   }
 }
 
@@ -36,6 +59,11 @@ const darkTheme: ThemeOptions = {
         body: darkScrollbar()
       }
     }
+  },
+  extensions: {
+    nativeValueHighlight: '#ffccbc',
+    constantIdentifierHighlight: '#ff9e80',
+    typeInfoBorderColor: 'rgba(255,255,255,.25)'
   }
 }
 

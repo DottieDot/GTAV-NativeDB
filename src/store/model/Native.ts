@@ -13,4 +13,7 @@ export default interface Native {
   jhash    ?: string
   apiSet   ?: string
   examples ?: CodeExample[]
+
+  // Special data
+  schComment?: string
 }

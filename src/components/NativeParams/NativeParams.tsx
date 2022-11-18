@@ -13,7 +13,7 @@ export default function NativeParams({ params, ...rest }: NativeParamsProps) {
         {'(\u200B'}
         {params.map(({ type, name }, index) => (
           <Fragment key={name}>
-            <NativeType>{type}</NativeType>
+            <NativeType type={type} />
             &nbsp;{name}
             {((index + 1) !== params.length) && ', '}
           </Fragment>
