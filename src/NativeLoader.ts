@@ -20,6 +20,9 @@ export default function NativeLoader() {
       if (_.includes(sources, NativeSources.DottieDot)) {
         await loader.loadDottieDot()
       }
+      if (_.includes(sources, NativeSources.SpecialData)) {
+        await loader.loadSpecialData()
+      }
 
       dispatch(setNatives(loader))
     })()

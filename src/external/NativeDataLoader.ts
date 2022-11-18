@@ -2,6 +2,7 @@ import { Namespace, Native } from '../store'
 import LoadAlloc8orNatives from './alloc8or-nativedb'
 import LoadDottieDotAdditionalData from './dottiedot-additional-data'
 import LoadFivemNatives from './fivem-nativedb'
+import LoadSpecialData from './special-data'
 
 interface AdditionalNativeData {
   examples?: Native['examples']
@@ -10,6 +11,7 @@ interface AdditionalNativeData {
 export default class NativeDataLoader {
   natives   : { [hash: string]: Native } = {}
   namespaces: { [name: string]: Namespace } = {}
+  
 
   addNative(native: Native) {
     if (this.natives[native.hash]) {
@@ -112,6 +114,31 @@ export default class NativeDataLoader {
       this.addAdditionalData(hash, {
         examples: native.examples
       })
+    })
+  }
+
+  async loadSpecialData() {
+    const data = await LoadSpecialData()
+    
+    if (!data) {
+      return
+    }
+
+    Object.keys(data.natives).forEach(hash => {
+      const native = data.natives[hash]
+
+      if (this.natives[hash]) {
+        this.natives[hash] = {
+          ...this.natives[hash],
+          schComment: native.sch_comment,
+          returnType: native.return_type,  
+          params: native.params.map(p => ({
+            type: p.type,
+            name: p.name,
+            default: p.default
+          }))
+        }
+      }
     })
   }
 }

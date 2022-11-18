@@ -75,10 +75,9 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
     }
     
     return (
-      <div style={style}>
+      <div style={style} key={id}>
         <NativeListItem
           nativeHash={id}
-          key={id}
         />
       </div>
     )

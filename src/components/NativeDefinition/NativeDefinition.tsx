@@ -1,9 +1,10 @@
 import { Typography, TypographyProps } from '@mui/material'
-import React, { memo, useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import { NativeParam } from '../../store'
 import NativeType from '../NativeType'
-import NativeParams from '../NativeParams'
 import CopyableText from '../CopyableText'
+import NativeParamsEx from '../NativeParamsEx'
+import NativeParams from '../NativeParams'
 
 export interface NativeDefinitionProps extends Omit<TypographyProps, 'children'> {
   name         : string
@@ -28,16 +29,20 @@ function NativeDefinition({ name, params, returnType, sx, noWrap = false, nameCo
       {...rest}
     >
       <NativeType>{returnType}{' '}</NativeType>
-        {nameCopyable ? (
-          <CopyableText>
-            {nameWithBreaks}
-          </CopyableText>
-        ) : (
-          <span>
-            {nameWithBreaks}
-          </span>
-        )}
-      <NativeParams params={params} />
+      {nameCopyable ? (
+        <CopyableText>
+          {nameWithBreaks}
+        </CopyableText>
+      ) : (
+        <span>
+          {nameWithBreaks}
+        </span>
+      )}
+      {noWrap ? (
+        <NativeParams params={params} />
+      ) : (
+        <NativeParamsEx params={params} />
+      )}
     </Typography>
   )
 }

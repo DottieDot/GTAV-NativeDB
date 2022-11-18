@@ -82,17 +82,29 @@ export default function NativeInfo() {
             variant="body2"
           />
         </Paper>
+        {native.schComment && (
+          <div>
+            <Typography variant="subtitle1" gutterBottom>
+              Rockstar Comment
+            </Typography>
+            <Paper sx={{ p: 2 }}>
+              <NativeComment variant="body2">
+                {native.schComment}
+              </NativeComment>
+            </Paper>
+          </div>
+        )}
         {native.comment && (
           <div>
-          <Typography variant="subtitle1" gutterBottom>
-            Comment
-          </Typography>
-          <Paper sx={{ p: 2 }}>
-            <NativeComment variant="body2">
-              {native.comment}
-            </NativeComment>
-          </Paper>
-        </div>
+            <Typography variant="subtitle1" gutterBottom>
+              Comment
+            </Typography>
+            <Paper sx={{ p: 2 }}>
+              <NativeComment variant="body2">
+                {native.comment}
+              </NativeComment>
+            </Paper>
+          </div>
         )}
         {native.examples && !_.isEmpty(native.examples) && (
           <div>

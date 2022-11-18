@@ -96,6 +96,9 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
               <ToggleButton value="fivem">
                 FiveM
               </ToggleButton>
+              <ToggleButton value="special">
+                Special Data
+              </ToggleButton>
             </ToggleButtonGroup>
           </div>
         </Stack>

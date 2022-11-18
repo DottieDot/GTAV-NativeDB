@@ -29,6 +29,9 @@ export * from './NativeList'
 export { default as NativeParams } from './NativeParams'
 export * from './NativeParams'
 
+export { default as NativeParamsEx } from './NativeParamsEx'
+export * from './NativeParamsEx'
+
 export { default as NativeSelect } from './NativeSelect'
 export * from './NativeSelect'
 
