@@ -14,10 +14,10 @@ export default function EnumDefinition({ type }: EnumDefinitionProps) {
   }, [type])
 
   return (
-    <Typography sx={{ p: 1, fontFamily: '"Roboto Mono", monospace' }} variant="body2">
+    <Typography sx={{ p: 1, fontFamily: '"Roboto Mono", monospace' }} component="div" variant="body2">
       enum&nbsp;<NativeType type={type.name} />&nbsp;&#123; <br />
       {values.map((value, i) => (
-        <Box sx={{ ml: 2 }}>
+        <Box sx={{ ml: 2 }} key={value.name}>
           {value.name}
           {value.value && (
             <Fragment>

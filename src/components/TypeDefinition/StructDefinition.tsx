@@ -14,10 +14,10 @@ export default function StructDefinition({ type }: StructDefinitionProps) {
   }, [type])
 
   return (
-    <Typography sx={{ p: 1, fontFamily: '"Roboto Mono", monospace' }} variant="body2">
+    <Typography sx={{ p: 1, fontFamily: '"Roboto Mono", monospace' }} variant="body2" component="div">
       struct&nbsp;<NativeType type={type.name} />&nbsp;&#123; <br />
       {fields.map((field, i) => (
-        <Box sx={{ ml: 2 }}>
+        <Box sx={{ ml: 2 }} key={field.name}>
           <NativeType type={field.typeName} popover />
           &nbsp;{field.name}
           {field.arraySize && (

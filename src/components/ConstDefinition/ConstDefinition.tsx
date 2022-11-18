@@ -21,7 +21,7 @@ export default function ConstDefinition({ constName }: ConstDefinitionProps) {
 
   return (
     <Typography sx={{ p: 1, fontFamily: '"Roboto Mono", monospace' }} variant="body2">
-      <NativeType type={constant.type_name} />&nbsp;{constant.name}&nbsp;=&nbsp;<NativeValue value={constant.value} />
+      <NativeType type={constant.type_name} popover />&nbsp;{constant.name}&nbsp;=&nbsp;<NativeValue value={constant.value} />
     </Typography>
   )
 }

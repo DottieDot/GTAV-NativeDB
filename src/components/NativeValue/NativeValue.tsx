@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, useTheme } from '@mui/material'
 import { useMemo, Fragment, memo } from 'react'
 import NativeConst from './NativeConst'
 
@@ -7,6 +7,8 @@ export interface NativeValueProps {
 }
 
 export default memo(function NativeValue({ value }: NativeValueProps) {
+  const theme = useTheme()
+
   let split = useMemo(() => {
     if (value === 'true' || value === 'false' || value.startsWith("NATIVE(")) {
       return [[value]]
@@ -18,7 +20,7 @@ export default memo(function NativeValue({ value }: NativeValueProps) {
   }, [value])
 
   return (
-    <Box sx={{ color: 'lightblue' }} component="span">
+    <Box sx={{ color: theme.extensions.nativeValueHighlight }} component="span">
       {split.map(([full, text, constant]) => (
         <Fragment>
           {text || (!constant && full)}

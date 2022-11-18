@@ -1,4 +1,4 @@
-import { Box, Popover } from '@mui/material'
+import { Box, Popover, useTheme } from '@mui/material'
 import InteractiveText from '../InteractiveText'
 import { Fragment } from 'react'
 import {
@@ -14,6 +14,8 @@ interface NativeTypeProps {
 }
 
 export default function NativeType({ popover = false, type }: NativeTypeProps) {
+  const theme = useTheme()
+
   if (popover) {
     return (
       <PopupState variant="popover">
@@ -26,7 +28,7 @@ export default function NativeType({ popover = false, type }: NativeTypeProps) {
             </Box>
             <Popover
               {...bindPopover(popupState)}
-              PaperProps={{ sx: { border: 'solid 2px rgba(255, 255, 255, .5)' }}}
+              PaperProps={{ sx: { border: `solid 1px ${theme.extensions.typeInfoBorderColor}` }}}
               anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'center',
