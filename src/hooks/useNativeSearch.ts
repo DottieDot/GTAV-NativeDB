@@ -58,7 +58,7 @@ function matchNativeLoose(search: string, native: Native) {
   const names = [...(native.oldNames ?? []), native.hash, native.jhash, native.name]
   const nameSearch = search.replace(/ |_/gm, '')
   for (const name of names) {
-    if (name && name.replace('_', '').toLowerCase().indexOf(nameSearch) !== -1) {
+    if (name && name.replaceAll('_', '').toLowerCase().indexOf(nameSearch) !== -1) {
       nameMatches = true
       break
     }
