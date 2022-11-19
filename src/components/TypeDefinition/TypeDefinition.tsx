@@ -3,6 +3,7 @@ import { memo } from 'react'
 import { useType } from '../../hooks'
 import NativeType from '../NativeType'
 import EnumDefinition from './EnumDefinition'
+import NativeTypeDefinition from './NativeTypeDefinition'
 import StructDefinition from './StructDefinition'
 
 export interface TypeDefinitionProps {
@@ -31,9 +32,7 @@ export default memo(function TypeDefinition({ type: typeName }: TypeDefinitionPr
       )
     case 'NativeType':
       return (
-        <Typography sx={{ p: 1 }} variant="body2">
-          <NativeType type={type.name} /> is a native type.
-        </Typography>
+        <NativeTypeDefinition type={type} />
       )
   }
 })

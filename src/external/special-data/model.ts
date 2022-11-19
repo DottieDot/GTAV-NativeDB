@@ -37,6 +37,8 @@ export interface TypeDefinitionStruct {
 }
 
 export interface TypeDefinitionNativeType {
+  comment?: string
+  alias_for?: string
   type: 'NativeType'
 }
 

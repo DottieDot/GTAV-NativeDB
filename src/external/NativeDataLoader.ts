@@ -187,7 +187,9 @@ export default class NativeDataLoader {
           break
         case 'NativeType':
           this.types[name] = {
-            ...type,
+            type: type.type,
+            aliasFor: type.alias_for,
+            comment: type.comment,
             name
           }
           break

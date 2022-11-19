@@ -15,9 +15,19 @@ export default function StructDefinition({ type }: StructDefinitionProps) {
 
   return (
     <Typography sx={{ p: 1, fontFamily: '"Roboto Mono", monospace' }} variant="body2" component="div">
+      {type.comment && (
+        <Fragment>
+          {'//'} {type.comment}<br />
+        </Fragment>
+      )}
       struct&nbsp;<NativeType type={type.name} />&nbsp;&#123; <br />
       {fields.map((field, i) => (
         <Box sx={{ ml: 2 }} key={field.name}>
+          {field.comment && (
+            <Fragment>
+              {(i !== 0) && <br />}{'//'} {field.comment}<br />
+            </Fragment>
+          )}
           <NativeType type={field.typeName} popover />
           &nbsp;{field.name}
           {field.arraySize && (

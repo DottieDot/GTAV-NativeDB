@@ -29,6 +29,8 @@ export interface TypeDefinitionStruct {
 
 export interface TypeDefinitionNativeType {
   name: string
+  comment?: string
+  aliasFor?: string
   type: 'NativeType'
 }
 
