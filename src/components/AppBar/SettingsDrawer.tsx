@@ -1,6 +1,6 @@
-import { Box, Divider, Drawer, IconButton, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
+import { Box, Divider, Drawer, IconButton, Link, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import { Brightness4 as DarkIcon, Brightness6 as SystemIcon, BrightnessHigh as LightIcon, CloseOutlined as CloseIcon } from '@mui/icons-material'
-import { MouseEvent as ReactMouseEvent, useCallback, FocusEventHandler, useState, ChangeEventHandler, useEffect } from 'react'
+import { MouseEvent as ReactMouseEvent, useCallback, FocusEventHandler, useState, ChangeEventHandler, useEffect, Fragment } from 'react'
 import { useDispatch } from 'react-redux'
 import { useIsSmallDisplay, useSettings } from '../../hooks'
 import { setSources, setSpecialSource as setSpecialSourceAction, setTheme } from '../../store'
@@ -43,13 +43,17 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
       anchor={smallDisplay ? 'bottom' : 'right' }
       open={open}
       onClose={onClose}
+      PaperProps={{
+        sx: {
+          width: smallDisplay ? undefined : 500
+        }
+      }}
     >
       <Box 
         sx={{ 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'space-between',
-          width: smallDisplay ? undefined : 400,
           p: 2
         }}
       >
@@ -122,7 +126,23 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
               variant="standard"
               placeholder="https://example.com"
               label="Source URL"
-              helperText="Make sure CORS is setup correctly"
+              FormHelperTextProps={{
+                sx: {
+                  "color": "red"
+                }
+              }}
+              helperText={(
+                <Fragment>
+                  Make sure CORS is setup correctly and the json returned matches{' '}
+                  <Link 
+                    href="https://github.com/DottieDot/GTAV-NativeDB/blob/master/special-schema.json" 
+                    target="_blank" 
+                    underline="hover"
+                  >
+                    this schema
+                  </Link>.
+                </Fragment>
+              )}
               onBlur={handleSpecialSourceBlur}
               value={specialSource}
               onChange={handleSpecialSourceChange}

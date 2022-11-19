@@ -1,0 +1,180 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "types": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^([_0-9A-Za-z]+)$": {
+          "anyOf": [
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "values"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "const": "Enum"
+                },
+                "comment": {
+                  "type": "string"
+                },
+                "values": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^([_0-9A-Za-z]+)$": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "value": {
+                          "type": "string"
+                        },
+                        "comment": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "fields"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "const": "Struct"
+                },
+                "comment": {
+                  "type": "string"
+                },
+                "fields": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^([_0-9A-Za-z]+)$": {
+                      "type": "object",
+                      "required": [
+                        "type_name"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "comment": {
+                          "type": "string"
+                        },
+                        "type_name": {
+                          "type": "string"
+                        },
+                        "array_size": {
+                          "type": "string"
+                        },
+                        "default_value": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "const": "NativeType"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "constants": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^([_0-9A-Za-z]+)$": {
+          "type": "object",
+          "required": [
+            "type_name",
+            "value"
+          ],
+          "additionalItems": false,
+          "properties": {
+            "type_name": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "natives": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^(0x[0-9A-F]{16})$": {
+          "type": "object",
+          "required": [
+            "name",
+            "params",
+            "return_type"
+          ],
+          "additionalItems": false,
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "sch_comment": {
+              "sch_comment": "string"
+            },
+            "return_type": {
+              "type": "string"
+            },
+            "params": {
+              "type": "array",
+              "additionalItems": false,
+              "items": {
+                "type": "object",
+                "required": [
+                  "type",
+                  "name"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "default": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
