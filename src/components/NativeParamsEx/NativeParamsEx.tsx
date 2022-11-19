@@ -18,7 +18,7 @@ export default function NativeParamsEx({ params, ...rest }: NativeParamsExProps)
             &nbsp;{name}
             {defaultValue && (
               <Fragment>
-                &nbsp;=&nbsp;<NativeValue value={defaultValue} />
+                &nbsp;=&nbsp;<NativeValue value={defaultValue} popover />
               </Fragment>
             )}
             {((index + 1) !== params.length) && ','}

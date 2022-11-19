@@ -22,12 +22,12 @@ export default function StructDefinition({ type }: StructDefinitionProps) {
           &nbsp;{field.name}
           {field.arraySize && (
             <Fragment>
-              [{field.arraySize}]
+              [<NativeValue value={field.arraySize} popover />]
             </Fragment>
           )}
           {field.defaultValue && (
             <Fragment>
-              &nbsp;=&nbsp;<NativeValue value={field.defaultValue} />
+              &nbsp;=&nbsp;<NativeValue value={field.defaultValue} popover />
             </Fragment>
           )}
           {(i + 1) !== fields.length && ','}
