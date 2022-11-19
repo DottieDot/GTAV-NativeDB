@@ -67,3 +67,6 @@ export * from './NativeValue'
 
 export { default as ConstDefinition } from './ConstDefinition'
 export * from './ConstDefinition'
+
+export { default as LocalFileUpload } from './LocalFileUpload'
+export * from './LocalFileUpload'

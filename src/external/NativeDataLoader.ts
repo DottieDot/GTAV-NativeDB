@@ -120,8 +120,8 @@ export default class NativeDataLoader {
     })
   }
 
-  async loadSpecialData(source: string) {
-    const data = await LoadSpecialData(source)
+  async loadSpecialData(dataString: string) {
+    const data = await LoadSpecialData(dataString)
     
     if (!data) {
       return

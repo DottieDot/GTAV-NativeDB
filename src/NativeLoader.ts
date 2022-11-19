@@ -4,9 +4,13 @@ import { NativeDataLoader } from './external'
 import { useSettings } from './hooks'
 import { NativeSources, setNatives } from './store'
 import _ from 'lodash'
+import useLocalStorageState from 'use-local-storage-state'
 
 export default function NativeLoader() {
-  const { sources, specialDataSource } = useSettings()
+  const { sources } = useSettings()
+  const [specialFile] = useLocalStorageState<string | null>('special.json', {
+    defaultValue: null
+  })
   const dispatch = useDispatch()
   useEffect(() => {
     (async () => {
@@ -20,13 +24,13 @@ export default function NativeLoader() {
       if (_.includes(sources, NativeSources.DottieDot)) {
         await loader.loadDottieDot()
       }
-      if (_.includes(sources, NativeSources.SpecialData)) {
-        await loader.loadSpecialData(specialDataSource)
+      if (_.includes(sources, NativeSources.SpecialData) && specialFile) {
+        await loader.loadSpecialData(specialFile)
       }
 
       dispatch(setNatives(loader))
     })()
-  }, [dispatch, sources, specialDataSource])
+  }, [dispatch, sources, specialFile])
 
   return null
 }

@@ -1,9 +1,10 @@
-import { Box, Divider, Drawer, IconButton, Link, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import { Brightness4 as DarkIcon, Brightness6 as SystemIcon, BrightnessHigh as LightIcon, CloseOutlined as CloseIcon } from '@mui/icons-material'
-import { MouseEvent as ReactMouseEvent, useCallback, FocusEventHandler, useState, ChangeEventHandler, useEffect, Fragment } from 'react'
+import { Box, Divider, Drawer, IconButton, Link, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
+import { Fragment, MouseEvent as ReactMouseEvent, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { useIsSmallDisplay, useSettings } from '../../hooks'
-import { setSources, setSpecialSource as setSpecialSourceAction, setTheme } from '../../store'
+import { setSources, setTheme } from '../../store'
+import LocalFileUpload from '../LocalFileUpload/LocalFileUpload'
 
 interface SettingsDrawerProps {
   open: boolean
@@ -14,11 +15,6 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
   const smallDisplay = useIsSmallDisplay()
   const settings = useSettings()
   const dispatch = useDispatch()
-  const [specialSource, setSpecialSource] = useState('')
-
-  useEffect(() => {
-    setSpecialSource(settings.specialDataSource)
-  }, [settings])
 
   const handleThemeChanged = useCallback((e: ReactMouseEvent<HTMLElement, MouseEvent>, value: any) => {
     if (value !== null) {
@@ -29,14 +25,6 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
   const handleSourcesChanged = useCallback((e: ReactMouseEvent<HTMLElement, MouseEvent>, value: any) => {
     dispatch(setSources(value))
   }, [dispatch])
-
-  const handleSpecialSourceBlur = useCallback<FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>>((e) => {
-    dispatch(setSpecialSourceAction(e.target.value))
-  }, [dispatch])
-
-  const handleSpecialSourceChange = useCallback<ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>>((e) => {
-    setSpecialSource(e.target.value)
-  }, [])
 
   return (
     <Drawer
@@ -120,28 +108,23 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
           </div>
           <div>
             <Typography variant="body1" gutterBottom>
-              Special Source
+              Special Data
             </Typography>
-            <TextField
-              variant="standard"
-              placeholder="https://example.com"
-              label="Source URL"
-              helperText={(
+            <LocalFileUpload 
+              storeAs="special.json"
+              label="special.json"
+              helpText={(
                 <Fragment>
-                  Make sure CORS is setup correctly and the json returned matches{' '}
-                  <Link 
-                    href="https://github.com/DottieDot/GTAV-NativeDB/blob/master/special-schema.json" 
-                    target="_blank" 
+                  Make sure the json matches{' '}
+                  <Link
+                    href="https://github.com/DottieDot/GTAV-NativeDB/blob/master/special-schema.json"
+                    target="_blank"
                     underline="hover"
                   >
                     this schema
                   </Link>.
                 </Fragment>
               )}
-              onBlur={handleSpecialSourceBlur}
-              value={specialSource}
-              onChange={handleSpecialSourceChange}
-              fullWidth
             />
           </div>
         </Stack>

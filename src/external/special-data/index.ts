@@ -1,14 +1,14 @@
 import { DocumentRoot } from './model'
 
-export default async function LoadSpecialData(source: string): Promise<DocumentRoot | null> {
+export default async function LoadSpecialData(dataString: string): Promise<DocumentRoot | null> {
   try {
-    const response = await fetch(source)
+    const data = JSON.parse(dataString)
 
-    if (!response.ok) {
+    if (typeof data !== 'object') {
       return null
     }
 
-    return await response.json()
+    return data as DocumentRoot
   }
   catch (e) {
     return null
