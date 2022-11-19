@@ -3,7 +3,7 @@ import React, { memo, useCallback, useMemo, useState, useEffect } from 'react'
 import { useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import { StickyTree } from 'react-virtualized-sticky-tree'
+import { StickyTree, StickyTreeRowRenderer, StickyTreeGetChildren, TreeNode } from 'react-virtualized-sticky-tree'
 import { Namespace } from '../../store'
 import NamespaceHeader from '../NamespaceHeader'
 import JumpToNamespace from './JumpToNamespace'
@@ -26,7 +26,7 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
       }))
       return accumulator
     }, {}), [namespaceArray])
-  const { native: selectedNativeHash } = useParams<{ native: string } >()
+  const { native: selectedNativeHash = '' } = useParams<{ native: string } >()
   const [hasScrolledToNative, setHasScrolledToNative] = useState(false)
   const [listLoaded, setListLoaded] = useState(false)
   const listRef = useRef<StickyTree>(null)
@@ -44,7 +44,11 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
     listRef.current?.scrollNodeIntoView(namespace)
   }, [listRef])
 
-  const getChildren = useCallback(({ id }) => {
+  const getChildren = useCallback<StickyTreeGetChildren<TreeNode>>(({ id }) => {
+    if (typeof id === 'number') {
+      id = id.toString()
+    }
+
     if (!listLoaded) {
       setListLoaded(true)
     }
@@ -63,7 +67,11 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
     }
   }, [namespaceData, namespaceArray, listLoaded, setListLoaded])
 
-  const renderRow = useCallback(({ node: { id }, style }) => {
+  const renderRow = useCallback<StickyTreeRowRenderer<TreeNode, any>>(({ node: { id }, style }) => {
+    if (typeof id === 'number') {
+      id = id.toString()
+    }
+
     if (id && (id[0] !== '0')) {
       return (
         <NamespaceHeader 

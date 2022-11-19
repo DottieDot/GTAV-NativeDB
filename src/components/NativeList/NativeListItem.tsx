@@ -1,7 +1,7 @@
 import { ListItem } from '@mui/material'
 import React, { memo } from 'react'
 import { useCallback } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useNative } from '../../hooks'
 import NativeDefinition from '../NativeDefinition'
 
@@ -11,12 +11,16 @@ interface NativeListItemProps {
 
 function NativeListItem({ nativeHash }: NativeListItemProps) {
   const native = useNative(nativeHash)
-  const history = useHistory()
+  const navigate = useNavigate()
+  const [search] = useSearchParams()
   const { native: selectedNativeHash } = useParams<{ native: string } >()
   
   const onClick = useCallback(() => {
-    history.push(`/natives/${nativeHash}${history.location.search}`)
-  }, [history, nativeHash])
+    navigate({
+      pathname: `/natives/${nativeHash}`,
+      search: search.toString()
+    })
+  }, [navigate, nativeHash, search])
 
   return (
     <ListItem

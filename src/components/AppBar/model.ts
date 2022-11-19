@@ -1,12 +1,12 @@
 import { BoxProps } from '@mui/material'
-import { ElementType } from 'react'
+import { ElementType, MouseEventHandler } from 'react'
 
 export interface AppBarAction {
   text: string
   desktopIcon?: ElementType
   mobileIcon?: ElementType
   buttonProps: {
-    onClick?: (e: any) => void,
+    onClick?: MouseEventHandler<HTMLElement>,
     href?: string,
     target?: string
   }

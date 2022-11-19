@@ -1,7 +1,7 @@
 import { AppBar as MaterialAppBar, Box, IconButton, Link, ListItemIcon, Menu, MenuItem, Toolbar, Typography, Zoom } from '@mui/material'
 import { GitHub as GithubIcon, MoreVert as MoreIcon, Search as SearchIcon, Settings as SettingsIcon, ShowChart as StatsIcon, Code as CodeIcon, Apps as AppsIcon } from '@mui/icons-material'
-import React, { MouseEvent, useCallback, useMemo, useState } from 'react'
-import { Link as RouterLink, useHistory } from 'react-router-dom'
+import React, { MouseEvent, MouseEventHandler, useCallback, useMemo, useState } from 'react'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { AppBarAction as AppBarActionProps } from '.'
 import { useAppBarSettings } from '../../hooks'
 import MobileSearch from './MobileSearch'
@@ -12,20 +12,20 @@ import StatusButton from './StatusButton'
 import AppsDialog from './AppsDialog'
 
 function AppBarAction({ text, mobileIcon, buttonProps: { href, target, onClick, ...buttonProps } }: AppBarActionProps) {
-  const history = useHistory()
+  const navigate = useNavigate()
 
-  const handleClick = useCallback(e => {
+  const handleClick = useCallback<MouseEventHandler<HTMLElement>>(e => {
     if (href) {
       if (href.includes('://') || target) {
         window.open(href, target)
       }
       else {
-        history.push(href)
+        navigate(href)
       }
     }
 
     onClick && onClick(e)
-  }, [href, target, onClick, history])
+  }, [href, target, onClick, navigate])
 
   return (
     <MenuItem onClick={handleClick}>

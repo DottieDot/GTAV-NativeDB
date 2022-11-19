@@ -1,10 +1,11 @@
 import { Button, ButtonProps, Collapse } from '@mui/material'
-import React, { Fragment, FunctionComponent, useCallback, useState } from 'react'
+import React, { Fragment, FunctionComponent, ReactElement, useCallback, useState } from 'react'
 
 interface CollapsibleProps {
   label     : string
   variant  ?: ButtonProps['variant']
   fullWidth?: boolean
+  children  : ReactElement
 }
 
 const Collapsible: FunctionComponent<CollapsibleProps> = ({ children, label, variant, fullWidth }) => {

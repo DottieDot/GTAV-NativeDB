@@ -98,7 +98,9 @@ export default
 function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSettings, generator, options, advancedOptions, extension }: Props<TSettings>) {
   const natives = useNatives()
   const namespaces = useNamespaces()
-  const [settings, setSettings] = useLocalStorageState(`Pages.GenerateCode.${name}`, defaultSettings)
+  const [settings, setSettings] = useLocalStorageState<TSettings>(`Pages.GenerateCode.${name}`, {
+    defaultValue: defaultSettings
+  })
   const [previewNative, setPreviewNative] = useState('0xD49F9B0955C367DE')
   const nativeData = useNative(previewNative)
 
