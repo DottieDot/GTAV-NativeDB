@@ -1,11 +1,12 @@
 import { Grid, SwipeableDrawer, useTheme, IconButton, Box, Typography, Paper, alpha } from '@mui/material'
 import { Close as CloseIcon } from '@mui/icons-material'
 import React, { memo,useCallback } from 'react'
-import { useHistory, useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { useIsSmallDisplay } from '../../hooks'
 import { getOverlayAlpha } from '../../common'
 import NativeInfo from './NativeInfo'
 import NativeList from './NativeList'
+import { useSearchParams } from 'react-router-dom'
 
 function Desktop() {
   return (
@@ -27,12 +28,16 @@ function Desktop() {
 
 function NativeInfoDrawer() {
   const { native: nativeHash } = useParams<{ native?: string }>()
-  const history = useHistory()
+  const [search] = useSearchParams()
+  const navigate = useNavigate()
   const theme = useTheme()
 
   const handleClose = useCallback(() => {
-    history.replace(`/natives${history.location.search}`)
-  }, [history])
+    navigate({
+      pathname: '/natives',
+      search: search.toString()
+    }, { replace: true })
+  }, [navigate, search])
 
   return (
     <SwipeableDrawer

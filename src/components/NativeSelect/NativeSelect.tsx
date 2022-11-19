@@ -1,5 +1,5 @@
 import { Autocomplete, AutocompleteProps, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
-import React, { memo, useMemo } from 'react'
+import React, { memo, ReactNode, useMemo } from 'react'
 import { useNatives } from '../../hooks'
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { Native } from '../../store'
@@ -28,9 +28,13 @@ function useResetCache(data: any) {
   return ref
 }
 
+interface Props {
+  children?: ReactNode
+};
+
 // Adapter for react-window
 const ListboxComponent = React.forwardRef<HTMLDivElement>(function ListboxComponent(
-  props,
+  props: Props,
   ref,
 ) {
   const { children, ...other } = props

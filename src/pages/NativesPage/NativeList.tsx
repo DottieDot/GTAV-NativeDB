@@ -1,6 +1,6 @@
 import React, { ChangeEvent, Fragment, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { useHistory } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { NativeList as NativeListComponent } from '../../components'
 import { useNativeSearch, useQuery, useSetAppBarSettings } from '../../hooks'
 
@@ -8,8 +8,8 @@ export default function NativeList() {
   const [filter, setFilter] = useState('')
   const namespaces = useNativeSearch(filter)
   const inputRef = useRef<HTMLInputElement>(null)
-  const history = useHistory()
   const query = useQuery()
+  const [, setSearch] = useSearchParams()
 
   useEffect(() => {
     const search = query.get('search')
@@ -25,12 +25,15 @@ export default function NativeList() {
 
   const handleSearchBlur = useCallback(() => {
     if (filter) {
-      history.replace(`${history.location.pathname}?search=${encodeURIComponent(filter)}`)
+      // history.replace(`${history.location.pathname}?search=${encodeURIComponent(filter)}`)
+      setSearch({
+        search: filter
+      })
     }
     else {
-      history.replace(history.location.pathname)
+      setSearch()
     }
-  }, [history, filter])
+  }, [setSearch, filter])
 
   const handleFilterChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFilter(e.target.value)
@@ -49,10 +52,7 @@ export default function NativeList() {
   useHotkeys('ctrl+k', () => {
     inputRef.current?.focus()
   }, {
-    filter: (event: globalThis.KeyboardEvent) => {
-      event.preventDefault()
-      return true
-    },
+    preventDefault: true
   }, [inputRef])
 
   return (

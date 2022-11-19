@@ -42,7 +42,9 @@ function Header({ children,  type }: HeaderProps) {
 }
 
 function UpdateDialog() {
-  const [closedChangelog, setClosedChangelog] = useLocalStorageState('UpdateDialog.Closed', '')
+  const [closedChangelog, setClosedChangelog] = useLocalStorageState('UpdateDialog.Closed', {
+    defaultValue: ''
+  })
 
   const handleClose = useCallback(() => {
     setClosedChangelog(buildDate)

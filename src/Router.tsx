@@ -1,28 +1,24 @@
-import React from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { GenerateCodePage, NativesPage } from './pages'
 
 export default function Router() {
   return (
-    <Switch>
-      <Route path="/natives/:native">
-        <NativesPage />
-      </Route>
-      <Route path="/natives" exact>
-        <NativesPage />
-      </Route>
-      <Route path="/generate-code/:language" exact>
-        <GenerateCodePage />
-      </Route>
-      <Route path="/generate-code" exact>
-        <Redirect to="/generate-code/cpp" />
-      </Route>
-      <Route path="/generate-header">
-        <Redirect to="/generate-code" />
-      </Route>
-      <Route path="*">
-        <Redirect to="/natives" />
-      </Route>
-    </Switch>
+    <Routes>
+      <Route 
+        path="/natives/:native" 
+        element={<NativesPage />}
+      />
+      <Route 
+        path="/natives"
+        element={<NativesPage />}
+      />
+      <Route 
+        path="/generate-code/:language"
+        element={<GenerateCodePage />}
+      />
+      <Route path="/generate-code" element={<Navigate to="/generate-code/cpp" replace />} />
+      <Route path="/generate-header" element={<Navigate to="/generate-code" replace />} />
+      <Route path="*" element={<Navigate to="/natives" replace />} />
+    </Routes>
   )
 }

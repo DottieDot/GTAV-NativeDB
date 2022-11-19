@@ -61,10 +61,7 @@ function JumpToNamespace({ namespaces, onNamespaceClicked }: Props) {
   useHotkeys('ctrl+g', () => {
     handleDialogOpen()
   }, {
-    filter: (event: globalThis.KeyboardEvent) => {
-      event.preventDefault()
-      return true
-    },
+    preventDefault: true
   }, [handleDialogOpen])
 
   return (

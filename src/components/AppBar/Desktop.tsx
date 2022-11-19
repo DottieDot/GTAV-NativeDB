@@ -1,6 +1,6 @@
 import { AppBar as MaterialAppBar, Box, Button, Divider, IconButton, Link, Toolbar, Tooltip, Typography } from '@mui/material'
 import { GitHub as GithubIcon, Settings as SettingsIcon, Apps as AppsIcon } from '@mui/icons-material'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState, MouseEventHandler } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { AppBarAction as AppBarActionProps } from '.'
 import { useAppBarSettings, useStats } from '../../hooks'
@@ -36,9 +36,9 @@ function Desktop({ ...rest }: AppBarProps) {
   const stats = useStats()
   const [settingsOpen, setSettingsOpen] = useState(false)
   const settings = useAppBarSettings()
-  const [appsAnchorEl, setAppsAnchorEl] = useState<HTMLButtonElement | null>(null)
+  const [appsAnchorEl, setAppsAnchorEl] = useState<HTMLElement | null>(null)
 
-  const handleAppsOpen = useCallback(event => {
+  const handleAppsOpen = useCallback<MouseEventHandler<HTMLElement>>(event => {
     setAppsAnchorEl(event.currentTarget)
   }, [setAppsAnchorEl])
 
