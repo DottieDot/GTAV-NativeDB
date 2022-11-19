@@ -126,11 +126,6 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
               variant="standard"
               placeholder="https://example.com"
               label="Source URL"
-              FormHelperTextProps={{
-                sx: {
-                  "color": "red"
-                }
-              }}
               helperText={(
                 <Fragment>
                   Make sure CORS is setup correctly and the json returned matches{' '}
