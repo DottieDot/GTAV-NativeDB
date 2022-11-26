@@ -28,7 +28,13 @@ export default function NativeType({ popover = false, type }: NativeTypeProps) {
             </Box>
             <Popover
               {...bindPopover(popupState)}
-              PaperProps={{ sx: { border: `solid 1px ${theme.extensions.typeInfoBorderColor}` }}}
+              PaperProps={{
+                sx: {
+                  border: `solid 1px ${theme.extensions.typeInfoBorderColor}`, 
+                  whiteSpace: 'nowrap',
+                  overflowX: 'auto' 
+                }
+              }}
               anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'center',

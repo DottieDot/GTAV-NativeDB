@@ -11,6 +11,8 @@ export interface NativeParamsExProps extends Omit<BoxProps, 'children'> {
 export default function NativeParamsEx({ params, ...rest }: NativeParamsExProps) {
   return (
     <Box component="span" {...rest}>
+      {params.length ? (
+        <Fragment>
         {'('}
         {params.map(({ type, name, defaultValue }, index) => (
           <Box sx={{ ml: 2 }} key={name}>
@@ -25,6 +27,12 @@ export default function NativeParamsEx({ params, ...rest }: NativeParamsExProps)
           </Box>
         ))}
         {')'}
+        </Fragment>
+      ) : (
+        <Fragment>
+          {'()'}
+        </Fragment>
+      )}
     </Box>
   )
 }
