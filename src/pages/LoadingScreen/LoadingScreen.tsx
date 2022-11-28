@@ -1,5 +1,8 @@
 import { LinearProgress, Typography, Box, Stack } from '@mui/material'
-import React, { memo } from 'react'
+import { memo } from 'react'
+import { getGame } from '../../constants'
+
+const image = `${getGame()}/splash.png`
 
 const LoadingPage = () => {
   return (
@@ -15,8 +18,8 @@ const LoadingPage = () => {
     >
       <Stack spacing={2}>
         <img 
-          src="/splash.png" 
-          alt="grand theft auto 5 logo" 
+          src={image}
+          alt="splash screen logo" 
           height="225"
           style={{ objectFit: 'contain' }}
         />

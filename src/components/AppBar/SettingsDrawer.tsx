@@ -2,6 +2,7 @@ import { Brightness4 as DarkIcon, Brightness6 as SystemIcon, BrightnessHigh as L
 import { Box, Divider, Drawer, IconButton, Link, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import { Fragment, MouseEvent as ReactMouseEvent, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
+import { getGame } from '../../constants'
 import { useIsSmallDisplay, useSettings } from '../../hooks'
 import { setSources, setTheme } from '../../store'
 import LocalFileUpload from '../LocalFileUpload/LocalFileUpload'
@@ -95,12 +96,16 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
               <ToggleButton value="alloc8or" disabled>
                 Alloc8or
               </ToggleButton>
-              <ToggleButton value="dottiedot">
-                DottieDot
-              </ToggleButton>
-              <ToggleButton value="fivem">
-                FiveM
-              </ToggleButton>
+              {getGame() === 'GTA5' && (
+                <Fragment>
+                  <ToggleButton value="dottiedot">
+                    DottieDot
+                  </ToggleButton>
+                  <ToggleButton value="fivem">
+                    FiveM
+                  </ToggleButton>
+                </Fragment>
+              )}
               <ToggleButton value="special">
                 Special
               </ToggleButton>

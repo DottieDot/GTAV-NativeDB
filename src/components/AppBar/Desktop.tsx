@@ -9,6 +9,7 @@ import { AppBarProps } from './model'
 import SettingsDrawer from './SettingsDrawer'
 import StatusButton from './StatusButton'
 import AppsPopover from './AppsPopover'
+import { TITLE } from '../../constants'
 
 function AppBarAction({ text, desktopIcon, buttonProps }: AppBarActionProps) {
   if (!desktopIcon) {
@@ -105,7 +106,7 @@ function Desktop({ ...rest }: AppBarProps) {
               underline="none"
               component={RouterLink}
             >
-              {settings?.title ?? 'GTA V Native Reference'}
+              {settings?.title ?? TITLE}
             </Link>
           </Typography>
           <Box
