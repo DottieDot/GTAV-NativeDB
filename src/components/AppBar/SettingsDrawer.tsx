@@ -97,14 +97,14 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
                 Alloc8or
               </ToggleButton>
               {getGame() === 'GTA5' && (
-                <Fragment>
-                  <ToggleButton value="dottiedot">
-                    DottieDot
-                  </ToggleButton>
-                  <ToggleButton value="fivem">
-                    FiveM
-                  </ToggleButton>
-                </Fragment>
+                <ToggleButton value="dottiedot">
+                  DottieDot
+                </ToggleButton>
+              )}
+              {getGame() === 'GTA5' && (
+                <ToggleButton value="fivem">
+                  FiveM
+                </ToggleButton>
               )}
               <ToggleButton value="special">
                 Special
