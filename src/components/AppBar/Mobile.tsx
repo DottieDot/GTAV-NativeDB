@@ -1,4 +1,4 @@
-import { AppBar as MaterialAppBar, Box, IconButton, Link, ListItemIcon, Menu, MenuItem, Slide, Toolbar, Typography, Zoom } from '@mui/material'
+import { AppBar as MaterialAppBar, Box, IconButton, Link, ListItemIcon, Menu, MenuItem, Slide, Toolbar, Typography } from '@mui/material'
 import { GitHub as GithubIcon, MoreVert as MoreIcon, Search as SearchIcon, Settings as SettingsIcon, ShowChart as StatsIcon, Code as CodeIcon, Apps as AppsIcon } from '@mui/icons-material'
 import React, { MouseEvent, MouseEventHandler, useCallback, useMemo, useState } from 'react'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'

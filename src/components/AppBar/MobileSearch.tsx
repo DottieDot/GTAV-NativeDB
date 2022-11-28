@@ -1,6 +1,6 @@
 import { alpha, IconButton, InputBase, styled } from '@mui/material'
 import { Search as SearchIcon, Close as CancelIcon } from '@mui/icons-material'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect } from 'react'
 import { getOverlayAlpha } from '../../common'
 import { AppBarSearch } from './model'
 
@@ -18,11 +18,12 @@ const Search = styled('div')(({ theme }) => ({
   height: '100%',
   alignItems: 'center',
   zIndex: 1,
-  padding: theme.spacing(0, 1)
+  padding: theme.spacing(0, 1),
+  color: theme.palette.getContrastText(theme.palette.background.paper)
 }))
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: theme.palette.getContrastText(theme.palette.background.paper),
+  color: 'inherit',
   flex: 1,
   padding: theme.spacing(0, 1),
   '& .MuiInputBase-input': {
@@ -49,7 +50,7 @@ export default function MobileSearch({ search, onClose, visible }: { search: App
 
   return (
     <Search>
-      <SearchIcon />
+      <SearchIcon color="inherit" />
       <StyledInputBase
         placeholder="Search…"
         inputProps={{ 'aria-label': 'search' }}
