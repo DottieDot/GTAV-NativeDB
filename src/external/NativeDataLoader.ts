@@ -96,7 +96,7 @@ export default class NativeDataLoader {
           comment   : native.comment,
           params    : native.params,
           returnType: native.return_type,
-          jhash     : native.jhash,
+          jhash     : native.jhash ?? native.gta_jhash,
           build     : native.build,
           oldNames  : native.old_names,
           gtaHash   : native.gta_hash
