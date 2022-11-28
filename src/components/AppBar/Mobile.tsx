@@ -1,4 +1,4 @@
-import { AppBar as MaterialAppBar, Box, IconButton, Link, ListItemIcon, Menu, MenuItem, Toolbar, Typography, Zoom } from '@mui/material'
+import { AppBar as MaterialAppBar, Box, IconButton, Link, ListItemIcon, Menu, MenuItem, Slide, Toolbar, Typography, Zoom } from '@mui/material'
 import { GitHub as GithubIcon, MoreVert as MoreIcon, Search as SearchIcon, Settings as SettingsIcon, ShowChart as StatsIcon, Code as CodeIcon, Apps as AppsIcon } from '@mui/icons-material'
 import React, { MouseEvent, MouseEventHandler, useCallback, useMemo, useState } from 'react'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
@@ -133,14 +133,15 @@ function Mobile({ ...rest }: AppBarProps) {
       <MaterialAppBar position="sticky">
         {settings.search && (
           <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
-            <Zoom in={searchOpen}>
+            <Slide in={searchOpen} timeout={100} direction="down">
               <Box sx={{ height: '100%', position: 'relative', zIndex: 1 }}>
                 <MobileSearch
                   search={settings.search}
                   onClose={handleSearchClose}
+                  visible={searchOpen}
                 />
               </Box>
-            </Zoom>
+            </Slide>
           </Box>
         )}
         <Toolbar>
@@ -159,12 +160,12 @@ function Mobile({ ...rest }: AppBarProps) {
           />
           <StatusButton />
           {settings?.search && (
-            <IconButton onClick={handleSearchOpen} aria-label="search">
+            <IconButton onClick={handleSearchOpen} color="inherit" aria-label="search">
               <SearchIcon />
             </IconButton>
           )}
 
-          <IconButton onClick={handleMenuOpen} aria-label="more">
+          <IconButton onClick={handleMenuOpen} color="inherit" aria-label="more">
             <MoreIcon />
           </IconButton>
           <Menu

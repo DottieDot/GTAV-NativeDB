@@ -1,5 +1,5 @@
-import { Box, IconButton, List, ListItem, ListItemText, Paper, Stack, Tooltip, Typography } from '@mui/material'
-import { LinkSharp as ShareIcon } from '@mui/icons-material'
+import { Box, Button, IconButton, List, ListItem, ListItemText, Paper, Stack, Tooltip, Typography } from '@mui/material'
+import { LinkSharp as ShareIcon, OpenInNewSharp as OpenInNewSharpIcon } from '@mui/icons-material'
 import _ from 'lodash'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -9,6 +9,7 @@ import { useCopyToClipboard, useIsSmallDisplay, useLastNotNull, useNative, useSe
 import { NativeSources } from '../../store'
 import NativeNotFound from './NativeNotFound'
 import NoNativeSelected from './NoNativeSelected'
+import { getGame } from '../../constants'
 
 export default function NativeInfo() {
   const { native: nativeHashParam } = useParams<{ native?: string }>()
@@ -126,7 +127,14 @@ export default function NativeInfo() {
             <Paper>
               <List>
                 {native.oldNames.map(oldName => (
-                  <ListItem key={oldName} dense>
+                  <ListItem 
+                    sx={{
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden'
+                    }}
+                    key={oldName} 
+                    dense
+                  >
                     <ListItemText primary={oldName} />
                   </ListItem>
                 ))}
@@ -146,6 +154,18 @@ export default function NativeInfo() {
               />
             </Paper>
           </div>
+        )}
+        {getGame() === 'RDR3' && native.gtaHash && (
+          <Button 
+            variant="text"
+            color="inherit"
+            component="a"
+            target="_blank"
+            href={`https://gta5.nativedb.dotindustries.dev/natives/${native.gtaHash}`}
+            startIcon={<OpenInNewSharpIcon />}
+          >
+            GTA5 Native Definition
+          </Button>
         )}
       </Stack>
     </Box>

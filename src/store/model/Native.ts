@@ -16,4 +16,7 @@ export default interface Native {
 
   // Special data
   schComment?: string
+
+  // RDR3
+  gtaHash?: string
 }

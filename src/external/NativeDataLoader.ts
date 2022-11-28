@@ -98,7 +98,8 @@ export default class NativeDataLoader {
           returnType: native.return_type,
           jhash     : native.jhash,
           build     : native.build,
-          oldNames  : native.old_names
+          oldNames  : native.old_names,
+          gtaHash   : native.gta_hash
         })
       })
     })

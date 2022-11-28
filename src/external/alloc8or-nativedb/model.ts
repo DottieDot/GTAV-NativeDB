@@ -12,6 +12,7 @@ export interface Alloc8orNative {
   return_type: string
   build      : string
   old_names  : string[]
+  gta_hash  ?: string
 }
 
 export type Alloc8orNamespace = { [hash: string]: Alloc8orNative }

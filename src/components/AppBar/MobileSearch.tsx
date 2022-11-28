@@ -1,6 +1,6 @@
 import { alpha, IconButton, InputBase, styled } from '@mui/material'
 import { Search as SearchIcon, Close as CancelIcon } from '@mui/icons-material'
-import { useCallback } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { getOverlayAlpha } from '../../common'
 import { AppBarSearch } from './model'
 
@@ -22,7 +22,7 @@ const Search = styled('div')(({ theme }) => ({
 }))
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
+  color: theme.palette.getContrastText(theme.palette.background.paper),
   flex: 1,
   padding: theme.spacing(0, 1),
   '& .MuiInputBase-input': {
@@ -31,7 +31,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }))
 
-export default function MobileSearch({ search, onClose }: { search: AppBarSearch, onClose: () => void }) {
+export default function MobileSearch({ search, onClose, visible }: { search: AppBarSearch, onClose: () => void, visible: boolean }) {
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
       onClose()
@@ -40,6 +40,12 @@ export default function MobileSearch({ search, onClose }: { search: AppBarSearch
       search.onKeyDown(e)
     }
   }, [onClose, search])
+
+  useEffect(() => {
+    if (visible) {
+      search.ref?.current?.focus()
+    }
+  }, [search, visible])
 
   return (
     <Search>

@@ -9,12 +9,30 @@ const Container = styled('div')(({ theme }) => ({
 const AppGrid = styled('div')(({ theme }) => ({
   display: 'grid',
   gridTemplateColumns: 'repeat(2, 1fr)',
-  gap: theme.spacing(2)
+  gap: theme.spacing(2),
+
+  '&:not(:last-of-type)': {
+    marginBottom: theme.spacing(2)
+  }
 }))
 
 export default function Apps() {
   return (
     <Container>
+      <Typography variant="overline" component="h2">Dot Industries</Typography>
+      <Divider sx={{ mb: 2 }} />
+      <AppGrid>
+        <AppTile
+          icon={<span>V</span>}
+          text="GTA5 Native Reference"
+          url="https://gta5.nativedb.dotindustries.dev"
+        />
+        <AppTile
+          icon={<span>II</span>}
+          text="RDR3 Native Reference"
+          url="https://rdr3.nativedb.dotindustries.dev"
+        />
+      </AppGrid>
       <Typography variant="overline" component="h2">External Tools</Typography>
       <Divider sx={{ mb: 2 }} />
       <AppGrid>
