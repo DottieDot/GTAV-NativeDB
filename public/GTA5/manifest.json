@@ -1,0 +1,27 @@
+{
+  "short_name": "GTA5 NativeDB",
+  "name": "Grand Theft Auto 5 Native Reference",
+  "description": "A native database viewer for Grand Theft Auto 5",
+  "icons": [
+    {
+      "src": "GTA5/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "GTA5/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "GTA5/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "..",
+  "display": "standalone",
+  "theme_color": "#20ba4e",
+  "background_color": "#ff7c3f",
+  "capture_links": "existing-client-navigate"
+}
