@@ -80,6 +80,7 @@ export default function LocalFileUpload({ storeAs, label, helpText }: LocalFileU
         <input
           type="file"
           onChange={handleInputChanged}
+          accept="application/json"
           hidden
         />
       </StyledPaper>
