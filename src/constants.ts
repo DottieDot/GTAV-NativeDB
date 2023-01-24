@@ -12,4 +12,3 @@ export function getGame(): 'GTA5' | 'RDR3' {
   
   throw new Error("Invalid game")
 }
-

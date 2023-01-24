@@ -3,6 +3,7 @@ import { Search as SearchIcon, Close as CancelIcon } from '@mui/icons-material'
 import { useCallback, useEffect } from 'react'
 import { getOverlayAlpha } from '../../common'
 import { AppBarSearch } from './model'
+import { usePrevious } from '../../hooks'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -41,12 +42,12 @@ export default function MobileSearch({ search, onClose, visible }: { search: App
       search.onKeyDown(e)
     }
   }, [onClose, search])
-
+  const wasVisible = usePrevious(visible)
   useEffect(() => {
-    if (visible) {
+    if (visible && !wasVisible) {
       search.ref?.current?.focus()
     }
-  }, [search, visible])
+  }, [search, visible, wasVisible])
 
   return (
     <Search>
