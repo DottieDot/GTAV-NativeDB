@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { NamespaceReducerState, NativeReducerState } from '../store'
-import ICodeGenerator from './ICodeGenerator'
+import ICodeGenerator, {CodeGeneratorFile} from './ICodeGenerator'
 
 export interface NativeData {
   natives   : NativeReducerState,
@@ -27,5 +27,9 @@ class NativeExporter {
     this.codeGenerator.end()
 
     return this.codeGenerator.get()
+  }
+
+  getExtraFiles(): CodeGeneratorFile[] {
+    return this.codeGenerator.getExtraFiles();
   }
 }

@@ -28,6 +28,13 @@ export interface CodeGenFunction {
   params    : CodeGenParam
 }
 
+export interface CodeGeneratorFile {
+  name: string
+  extension: string
+  content: string
+  mimeType: string
+}
+
 export default 
 interface ICodeGenerator {
   start(): this
@@ -43,4 +50,8 @@ interface ICodeGenerator {
   popNamespace(): this
 
   get(): string
+
+  submitExtraFile(file: CodeGeneratorFile): void
+  getExtraFiles(): CodeGeneratorFile[]
+  clearExtraFiles(): void
 }

@@ -94,6 +94,17 @@ interface Props<TSettings extends CodeGeneratorBaseSettings> {
   extension      : string
 }
 
+interface PreviewDataExtraFile {
+  name: string
+  content: string
+  language: string
+}
+
+interface PreviewData {
+  main: string
+  extra_files: PreviewDataExtraFile[]
+}
+
 export default 
 function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSettings, generator, options, advancedOptions, extension }: Props<TSettings>) {
   const natives = useNatives()
@@ -104,10 +115,12 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
   const [previewNative, setPreviewNative] = useState('0xD49F9B0955C367DE')
   const nativeData = useNative(previewNative)
 
-  const preview = useMemo(() => (
-    new NativeExporter(
+  const preview = useMemo(() => {
+    const exporter = new NativeExporter(
       new generator(settings)
-    ).exportNatives({
+    )
+
+    const main_code = exporter.exportNatives({
       namespaces: {
         [nativeData.namespace]: {
           name: nativeData.namespace,
@@ -117,8 +130,20 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
       natives: {
         [nativeData.hash]: nativeData
       }
+    });
+
+    let res: PreviewData = {main: main_code, extra_files: []};
+    exporter.getExtraFiles().forEach(file => {
+      const language = file.mimeType.slice(file.mimeType.indexOf('/') + 1);
+      res.extra_files.push({
+        name: `${file.name}.${file.extension}`,
+        content: file.content,
+        language: language
+      });
     })
-  ), [settings, nativeData, generator])
+
+    return res;
+  }, [settings, nativeData, generator])
 
   const handleChange = useCallback((event: ChangeEvent<HTMLInputElement> | SelectChangeEvent) => {
     if (!(event.target.name in settings)) {
@@ -151,6 +176,9 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
     })
 
     download(code, `natives.${extension}`, 'text/plain')
+    exporter.getExtraFiles().forEach(file => {
+      download(file.content, `${file.name}.${file.extension}`, file.mimeType);
+    });
   }, [settings, natives, namespaces, generator, extension])
 
   if (!nativeData) {
@@ -223,7 +251,7 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
               overflow: 'auto'
             }}
           >
-            {preview}
+            {preview.main}
           </SyntaxHighlighter>
         </Paper>
       </Grid>

@@ -13,14 +13,15 @@ export default function CPlusPlus() {
         indentation       : '  ',
         lineEnding        : 'lf',
         compactVectors    : true,
-        generateComments  : true,
+        generateComments  : false,
         useNativeTypes    : false,
         cppCompliant      : true,
         includes          : [],
         invokeFunction    : 'invoke',
-        invokeSupportsVoid: false,
+        invokeSupportsVoid: true,
         oneLineFunctions  : true,
-        includeNdbLinks   : false
+        includeNdbLinks   : false,
+        sol2Bindings      : false,
       }}
       options={[
         {
@@ -52,6 +53,11 @@ export default function CPlusPlus() {
           type : 'boolean',
           label: 'C++ Compliant',
           prop : 'cppCompliant'
+        },
+        {
+          type : 'boolean',
+          label: 'Sol 2 Bindings',
+          prop :'sol2Bindings'
         }
       ]}
       advancedOptions={[

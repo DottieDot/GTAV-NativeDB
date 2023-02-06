@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { Native, NativeParam } from '../store'
-import ICodeGenerator, { CodeGenNative, CodeGenType } from './ICodeGenerator'
+import ICodeGenerator, {CodeGeneratorFile, CodeGenNative, CodeGenType} from './ICodeGenerator'
 
 interface BranchInfo {
   one_line: boolean
@@ -19,6 +19,7 @@ export function splitCamelCaseString(str: string): string[] {
 export default
 abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> implements ICodeGenerator {
   private _result   : string = ''
+  private _extraFiles : CodeGeneratorFile[] = []
   private _branches : BranchInfo[] = []
   private _settings : TSettings
   private _blankLine: boolean = false
@@ -255,5 +256,17 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
 
   get(): string {
     return this._result
+  }
+
+  submitExtraFile(file: CodeGeneratorFile) {
+    this._extraFiles.push(file);
+  }
+
+  getExtraFiles(): CodeGeneratorFile[] {
+    return this._extraFiles;
+  }
+
+  clearExtraFiles() {
+    this._extraFiles = [];
   }
 }
