@@ -17,8 +17,8 @@ function GenerateCodePage() {
 
   return (
     <Box sx={{ py: 2, overflow: 'hidden scroll', flexGrow: 1 }}>
-      <Container maxWidth="lg">
-        <Typography variant="h4" component="h1" gutterBottom>
+      <Container maxWidth="xl">
+        <Typography variant="h4" component="h1" align='center' gutterBottom>
           Generate Code
         </Typography>
         <Paper>
@@ -27,8 +27,6 @@ function GenerateCodePage() {
               <Tab label="C++" value="cpp" />
               <Tab label="Rust" value="rs" />
               <Tab label="C# Enum" value="cs" />
-              <Tab label="SHV.NET" value="shvdn" />
-              <Tab label="RPH" value="rph" />
             </TabList>
             <Divider />
             <TabPanel value="cpp">
@@ -39,12 +37,6 @@ function GenerateCodePage() {
             </TabPanel>
             <TabPanel value="cs">
               <CSharpEnum />
-            </TabPanel>
-            <TabPanel value="shvdn">
-              Soon&trade;
-            </TabPanel>
-            <TabPanel value="rph">
-              Soon&trade;
             </TabPanel>
           </TabContext>
         </Paper>
