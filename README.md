@@ -22,7 +22,7 @@
     A native database viewing client for Grand Theft Auto V
     <br />
     <br />
-    <a href="https://nativedb.dotindustries.dev">Live Page</a>
+    <a href="https://nativedb.scheenen.dev">Live Page</a>
     ·
     <a href="https://github.com/X-rays5/GTAV-NativeDB/issues">Report Bug</a>
     ·
