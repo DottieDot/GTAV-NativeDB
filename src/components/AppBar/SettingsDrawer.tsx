@@ -122,7 +122,7 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
                 <Fragment>
                   Make sure the json matches{' '}
                   <Link
-                    href="https://github.com/DottieDot/GTAV-NativeDB/blob/master/special-schema.json"
+                    href="https://github.com/X-rays5/GTAV-NativeDB/blob/master/special-schema.json"
                     target="_blank"
                     underline="hover"
                   >

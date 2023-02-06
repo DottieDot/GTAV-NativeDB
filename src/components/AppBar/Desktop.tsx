@@ -75,7 +75,7 @@ function Desktop({ ...rest }: AppBarProps) {
       text: 'View on Github',
       desktopIcon: GithubIcon,
       buttonProps: {
-        href: 'https://github.com/DottieDot/GTAV-NativeDB',
+        href: 'https://github.com/X-rays5/GTAV-NativeDB',
         target: '_blank'
       }
     }

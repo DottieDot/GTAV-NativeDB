@@ -12,8 +12,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/DottieDot/GTAV-NativeDB">
-    <img src="public/logo192.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/X-rays5/GTAV-NativeDB">
+    <img src="public/GTA5/logo192.png" alt="Logo" width="80" height="80">
   </a>
 
   <h1 align="center">Grand Theft Auto V Native Database</h3>
@@ -24,9 +24,9 @@
     <br />
     <a href="https://nativedb.dotindustries.dev">Live Page</a>
     ·
-    <a href="https://github.com/DottieDot/GTAV-NativeDB/issues">Report Bug</a>
+    <a href="https://github.com/X-rays5/GTAV-NativeDB/issues">Report Bug</a>
     ·
-    <a href="https://github.com/DottieDot/GTAV-NativeDB/issues">Request Feature</a>
+    <a href="https://github.com/X-rays5/GTAV-NativeDB/issues">Request Feature</a>
   </p>
 </div>
 
@@ -127,7 +127,7 @@ To get a local copy up and running follow these simple example steps.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/DottieDot/GTAV-NativeDB.git
+   git clone https://github.com/X-rays5/GTAV-NativeDB.git
    ```
 2. Install NPM packages
    ```sh
@@ -141,17 +141,6 @@ To get a local copy up and running follow these simple example steps.
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [x] Update to new MUI
-- [ ] Fix layout issues
-- [ ] Provide Open Graph data
-- [ ] SEO
-- [ ] Code generation support for more languages
-
-See the [open issues](https://github.com/DottieDot/GTAV-NativeDB/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -178,14 +167,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<!-- CONTACT -->
-## Contact
-
-To contact me refer to the socials on my Github profile:<br />
-[https://github.com/DottieDot](https://github.com/DottieDot)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
@@ -196,18 +177,18 @@ To contact me refer to the socials on my Github profile:<br />
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/DottieDot/GTAV-NativeDB.svg?style=for-the-badge
-[contributors-url]: https://github.com/DottieDot/GTAV-NativeDB/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/DottieDot/GTAV-NativeDB.svg?style=for-the-badge
-[forks-url]: https://github.com/DottieDot/GTAV-NativeDB/network/members
-[stars-shield]: https://img.shields.io/github/stars/DottieDot/GTAV-NativeDB.svg?style=for-the-badge
-[stars-url]: https://github.com/DottieDot/GTAV-NativeDB/stargazers
-[issues-shield]: https://img.shields.io/github/issues/DottieDot/GTAV-NativeDB.svg?style=for-the-badge
-[issues-url]: https://github.com/DottieDot/GTAV-NativeDB/issues
-[license-shield]: https://img.shields.io/github/license/DottieDot/GTAV-NativeDB.svg?style=for-the-badge
-[license-url]: https://github.com/DottieDot/GTAV-NativeDB/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/X-rays5/GTAV-NativeDB.svg?style=for-the-badge
+[contributors-url]: https://github.com/X-rays5/GTAV-NativeDB/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/X-rays5/GTAV-NativeDB.svg?style=for-the-badge
+[forks-url]: https://github.com/X-rays5/GTAV-NativeDB/network/members
+[stars-shield]: https://img.shields.io/github/stars/X-rays5/GTAV-NativeDB.svg?style=for-the-badge
+[stars-url]: https://github.com/X-rays5/GTAV-NativeDB/stargazers
+[issues-shield]: https://img.shields.io/github/issues/X-rays5/GTAV-NativeDB.svg?style=for-the-badge
+[issues-url]: https://github.com/X-rays5/GTAV-NativeDB/issues
+[license-shield]: https://img.shields.io/github/license/X-rays5/GTAV-NativeDB.svg?style=for-the-badge
+[license-url]: https://github.com/X-rays5/GTAV-NativeDB/blob/master/LICENSE.txt
 
-[issues-url]: https://github.com/DottieDot/GTAV-NativeDB/issues
+[issues-url]: https://github.com/X-rays5/GTAV-NativeDB/issues
 [desktop-dark-screenshot]: screenshots/desktop_dark.png
 [desktop-light-screenshot]: screenshots/desktop_light.png
 [mobile-dark-screenshot]: screenshots/mobile_light.png
