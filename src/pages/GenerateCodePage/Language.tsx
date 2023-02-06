@@ -188,13 +188,13 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
 
   return (
     <Grid spacing={3} container>
-      <Grid xs={12} md={6} item sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Grid xs={12} md={preview.extra_files.length > 0 ? 4 : 6} item>
         <Typography 
           variant="h5" 
           component="h2" 
           gutterBottom
         >
-          Settings
+         Settings
         </Typography>
         <FormGroup>
           <Stack gap={2}>
@@ -235,7 +235,7 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
           Download
         </Button>
       </Grid>
-      <Grid xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column' }} item>
+      <Grid xs={12} md={preview.extra_files.length > 0 ? 4 : 6} item>
         <Typography 
           variant="h5" 
           component="h2" 
@@ -243,7 +243,7 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
         >
           Preview
         </Typography>
-        <Paper elevation={4} sx={{ p: 0, flexGrow: 1, overflow: 'hidden' }}>
+        <Paper elevation={4}>
           <SyntaxHighlighter 
             language={name}
             customStyle={{
@@ -255,6 +255,34 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
           </SyntaxHighlighter>
         </Paper>
       </Grid>
+      {preview.extra_files.length > 0 &&
+          <Grid xs={12} md={4} item>
+            <Typography
+                variant="h5"
+                component="h2"
+                gutterBottom
+            >
+              Extra files
+            </Typography>
+          {preview.extra_files.map(function(obj, i) {
+            return (
+                <Collapsible label={obj.name}>
+                  <Paper elevation={4} sx={{ p: 0, flexGrow: 1, overflow: 'hidden' }}>
+                    <SyntaxHighlighter
+                        language={obj.language}
+                        customStyle={{
+                          height: '100%',
+                          overflow: 'auto'
+                        }}
+                    >
+                      {obj.content}
+                    </SyntaxHighlighter>
+                  </Paper>
+                </Collapsible>
+            );
+            })}
+          </Grid>
+      }
     </Grid>
   )
 }
