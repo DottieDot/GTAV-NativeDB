@@ -47,6 +47,7 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSet
     return super.start()
       .writeLine('#pragma once')
       .conditional(this.settings.useNativeTypes, gen => this.settings.cppCompliant ? gen.writeLine('#include <cstdint>') : gen.writeLine('#include <stdint.h>'))
+      .conditional(this.settings.sol2Bindings, gen => gen.writeLine('#include <sol/sol.hpp>'))
       .conditional(_.isEmpty(this.settings.includes), gen => 
         this.settings.includes.reduce((gen, include) => (
           gen.writeLine(`#include ${include}`)
@@ -186,7 +187,7 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSet
     this.writeLine('}');
 
     writer.writeLine('#pragma once');
-    writer.writeLine('#include <sol/sol.hpp>');
+    writer.writeLine('#include "natives.hpp"');
     writer.writeBlankLine();
 
     writer.writeLine('namespace lua_natives {');
