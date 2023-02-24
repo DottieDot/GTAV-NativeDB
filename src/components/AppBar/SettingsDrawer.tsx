@@ -1,10 +1,10 @@
 import { Brightness4 as DarkIcon, Brightness6 as SystemIcon, BrightnessHigh as LightIcon, CloseOutlined as CloseIcon } from '@mui/icons-material'
-import { Box, Divider, Drawer, IconButton, Link, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
-import { Fragment, MouseEvent as ReactMouseEvent, useCallback } from 'react'
+import { Box, Checkbox, Divider, Drawer, FormControlLabel, IconButton, Link, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
+import { Fragment, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { getGame } from '../../constants'
 import { useIsSmallDisplay, useSettings } from '../../hooks'
-import { setSources, setTheme } from '../../store'
+import { setSettings } from '../../store'
 import LocalFileUpload from '../LocalFileUpload/LocalFileUpload'
 
 interface SettingsDrawerProps {
@@ -17,14 +17,32 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
   const settings = useSettings()
   const dispatch = useDispatch()
 
-  const handleThemeChanged = useCallback((e: ReactMouseEvent<HTMLElement, MouseEvent>, value: any) => {
+  const handleThemeChanged = useCallback((_: unknown, value: any) => {
     if (value !== null) {
-      dispatch(setTheme(value))
+      dispatch(setSettings({
+        theme: value
+      }))
     }
   }, [dispatch])
 
-  const handleSourcesChanged = useCallback((e: ReactMouseEvent<HTMLElement, MouseEvent>, value: any) => {
-    dispatch(setSources(value))
+  const handleSourcesChanged = useCallback((_: unknown, value: any) => {
+    dispatch(setSettings({
+      sources: value
+    }))
+  }, [dispatch])
+
+  const handleListDisplayModeChanged = useCallback((e: unknown, value: unknown) => {
+    if (value === 'C' || value === 'UML') {
+      dispatch(setSettings({
+        nativeDisplayMode: value
+      }))
+    }
+  }, [dispatch])
+
+  const handleDisplayVoidReturnTypeChanged = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSettings({
+      displayVoidReturnType: e.target.checked
+    }))
   }, [dispatch])
 
   return (
@@ -110,6 +128,38 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
                 Special
               </ToggleButton>
             </ToggleButtonGroup>
+          </div>
+          <div>
+            <Typography variant="body1" gutterBottom>
+              Native Display Mode
+            </Typography>
+            <ToggleButtonGroup
+              color="primary"
+              value={settings.nativeDisplayMode}
+              onChange={handleListDisplayModeChanged}
+              exclusive
+              fullWidth
+            >
+              <ToggleButton value="C">
+                C Style
+              </ToggleButton>
+              <ToggleButton value="UML">
+                UML Style
+              </ToggleButton>
+            </ToggleButtonGroup>
+
+            {settings.nativeDisplayMode === 'UML' && (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={settings.displayVoidReturnType}
+                    onChange={handleDisplayVoidReturnTypeChanged}
+                  />
+                }
+                sx={{ userSelect: 'none' }}
+                label="Display void return type"
+              />
+            )}
           </div>
           <div>
             <Typography variant="body1" gutterBottom>

@@ -1,28 +1,21 @@
-import { NativeSources, Theme } from '../model'
+import { NativeDisplayMode, NativeSources, Theme } from '../model'
 
-export const SET_THEME = 'SET_THEME'
-export const SET_SOURCES = 'SET_SOURCES'
-
-export interface SetTheme {
-  type : typeof SET_THEME
-  theme: Theme
+export interface SetSettingsSettings {
+  theme?: Theme
+  sources?: NativeSources[]
+  nativeDisplayMode?: NativeDisplayMode
+  displayVoidReturnType?: boolean
 }
 
-export interface SetSources {
-  type   : typeof SET_SOURCES
-  sources: NativeSources[]
+export const SET_SETTINGS = 'SET_SETTINGS'
+export interface SetSettings {
+  type: typeof SET_SETTINGS,
+  settings: SetSettingsSettings
 }
 
-export function setTheme(theme: Theme): SetTheme {
+export function setSettings(settings: SetSettingsSettings): SetSettings {
   return {
-    type: SET_THEME,
-    theme
-  }
-}
-
-export function setSources(sources: NativeSources[]): SetSources {
-  return {
-    type: SET_SOURCES,
-    sources
+    type: SET_SETTINGS,
+    settings
   }
 }
