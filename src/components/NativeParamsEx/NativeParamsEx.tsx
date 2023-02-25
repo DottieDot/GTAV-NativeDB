@@ -1,4 +1,4 @@
-import { Box, BoxProps } from '@mui/material'
+import { Box, BoxProps, useTheme } from '@mui/material'
 import { Fragment } from 'react'
 import { useSettings } from '../../hooks'
 import { NativeParam } from '../../store'
@@ -10,62 +10,46 @@ export interface NativeParamsExProps extends Omit<BoxProps, 'children'> {
 }
 
 export default function NativeParamsEx({ params, ...rest }: NativeParamsExProps) {
-  const { nativeDisplayMode: listDisplayMode } = useSettings()
+  const { nativeDisplayMode } = useSettings()
+  const { extensions } = useTheme()
 
-  if (listDisplayMode === 'C') {
-    return (
-      <Box component="span" {...rest}>
-        {params.length ? (
-          <Fragment>
-          {'('}
-          {params.map(({ type, name, defaultValue }, index) => (
-            <Box sx={{ ml: 2 }} key={name}>
-              <NativeType popover type={type} />
-              &nbsp;{name}
-              {defaultValue && (
-                <Fragment>
-                  &nbsp;=&nbsp;<NativeValue value={defaultValue} popover />
-                </Fragment>
-              )}
-              {((index + 1) !== params.length) && ','}
+  return (
+    <Box component="span" sx={{ color: extensions.symbolColor }} {...rest}>
+      {params.length ? (
+        <Fragment>
+        {'('}
+        {params.map(({ type, name, defaultValue }, index) => (
+          <Box sx={{ ml: 2 }} key={name}>
+            {(nativeDisplayMode === 'C') && (
+              <Fragment>
+                <NativeType type={type} popover />
+                &nbsp;
+              </Fragment>
+            )}
+            <Box component="span" sx={{ color: extensions.parameterColor }}>
+              {name}
             </Box>
-          ))}
-          {')'}
-          </Fragment>
-        ) : (
-          <Fragment>
-            {'()'}
-          </Fragment>
-        )}
-      </Box>
-    )
-  }
-  else {
-    return (
-      <Box component="span" {...rest}>
-        {params.length ? (
-          <Fragment>
-            {'('}
-            {params.map(({ type, name, defaultValue }, index) => (
-              <Box sx={{ ml: 2 }} key={name}>
-                {name}:&nbsp;
-                <NativeType popover type={type} />
-                {defaultValue && (
-                  <Fragment>
-                    &nbsp;=&nbsp;<NativeValue value={defaultValue} popover />
-                  </Fragment>
-                )}
-                {((index + 1) !== params.length) && ','}
-              </Box>
-            ))}
-            {')'}
-          </Fragment>
-        ) : (
-          <Fragment>
-            {'()'}
-          </Fragment>
-        )}
-      </Box>
-    ) 
-  }
+            {(nativeDisplayMode === 'UML') && (
+              <Fragment>
+                :&nbsp;
+                <NativeType type={type} popover />
+              </Fragment>
+            )}
+            {defaultValue && (
+              <Fragment>
+                &nbsp;=&nbsp;<NativeValue value={defaultValue} popover />
+              </Fragment>
+            )}
+            {((index + 1) !== params.length) && ','}
+          </Box>
+        ))}
+        {')'}
+        </Fragment>
+      ) : (
+        <Fragment>
+          {'()'}
+        </Fragment>
+      )}
+    </Box>
+  )
 }

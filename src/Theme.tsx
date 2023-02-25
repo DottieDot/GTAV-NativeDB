@@ -12,6 +12,8 @@ declare module '@mui/material/styles' {
       nativeValueHighlight: string
       constantIdentifierHighlight: string
       typeInfoBorderColor: string
+      parameterColor: string
+      symbolColor: string
     }
   }
   // allow configuration using `createTheme`
@@ -20,6 +22,8 @@ declare module '@mui/material/styles' {
       nativeValueHighlight: string
       constantIdentifierHighlight: string
       typeInfoBorderColor: string
+      parameterColor: string
+      symbolColor: string
     }
   }
 }
@@ -43,7 +47,9 @@ function getLightTheme(): ThemeOptions {
         extensions: {
           nativeValueHighlight: '#bf360c',
           constantIdentifierHighlight: '#870000',
-          typeInfoBorderColor: 'rgba(0,0,0,.25)'
+          typeInfoBorderColor: 'rgba(0,0,0,.25)',
+          symbolColor: '#bf360c',
+          parameterColor: '#870000'
         }
       }
     case "RDR3":
@@ -63,7 +69,9 @@ function getLightTheme(): ThemeOptions {
         extensions: {
           nativeValueHighlight: '#bf360c',
           constantIdentifierHighlight: '#870000',
-          typeInfoBorderColor: 'rgba(0,0,0,.25)'
+          typeInfoBorderColor: 'rgba(0,0,0,.25)',
+          symbolColor: '#bf360c',
+          parameterColor: '#870000'
         }
       }
   }
@@ -94,7 +102,9 @@ function getDarkTheme(): ThemeOptions {
         extensions: {
           nativeValueHighlight: '#ffccbc',
           constantIdentifierHighlight: '#ff9e80',
-          typeInfoBorderColor: 'rgba(255,255,255,.25)'
+          typeInfoBorderColor: 'rgba(255,255,255,.25)',
+          symbolColor: '#ffab91',
+          parameterColor: '#ffcc80'
         }
       }
     case "RDR3":
@@ -118,7 +128,9 @@ function getDarkTheme(): ThemeOptions {
         extensions: {
           nativeValueHighlight: '#ffccbc',
           constantIdentifierHighlight: '#ff9e80',
-          typeInfoBorderColor: 'rgba(255,255,255,.25)'
+          typeInfoBorderColor: 'rgba(255,255,255,.25)',
+          symbolColor: '#ffab91',
+          parameterColor: '#ffcc80'
         }
       }
   }
