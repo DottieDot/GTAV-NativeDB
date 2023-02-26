@@ -1,4 +1,4 @@
-import { Brightness4 as DarkIcon, Brightness6 as SystemIcon, BrightnessHigh as LightIcon, CloseOutlined as CloseIcon } from '@mui/icons-material'
+import { CloseOutlined as CloseIcon } from '@mui/icons-material'
 import { Box, Checkbox, Divider, Drawer, FormControlLabel, IconButton, Link, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import { Fragment, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
@@ -6,6 +6,8 @@ import { getGame } from '../../constants'
 import { useIsSmallDisplay, useSettings } from '../../hooks'
 import { setSettings } from '../../store'
 import LocalFileUpload from '../LocalFileUpload/LocalFileUpload'
+import ThemeManager from '../ThemeManager'
+import ThemeSelector from '../ThemeSelector'
 
 interface SettingsDrawerProps {
   open: boolean
@@ -17,21 +19,13 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
   const settings = useSettings()
   const dispatch = useDispatch()
 
-  const handleThemeChanged = useCallback((_: unknown, value: any) => {
-    if (value !== null) {
-      dispatch(setSettings({
-        theme: value
-      }))
-    }
-  }, [dispatch])
-
   const handleSourcesChanged = useCallback((_: unknown, value: any) => {
     dispatch(setSettings({
       sources: value
     }))
   }, [dispatch])
 
-  const handleListDisplayModeChanged = useCallback((e: unknown, value: unknown) => {
+  const handleListDisplayModeChanged = useCallback((_: unknown, value: unknown) => {
     if (value === 'C' || value === 'UML') {
       dispatch(setSettings({
         nativeDisplayMode: value
@@ -80,26 +74,7 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
             <Typography variant="body1" gutterBottom>
               Theme
             </Typography>
-            <ToggleButtonGroup
-              color="primary"
-              value={settings.theme}
-              onChange={handleThemeChanged}
-              exclusive
-              fullWidth
-            >
-              <ToggleButton value="light">
-                <LightIcon sx={{ mr: 1 }} /> 
-                Light
-              </ToggleButton>
-              <ToggleButton value="system">
-                <SystemIcon sx={{ mr: 1 }} /> 
-                System
-              </ToggleButton>
-              <ToggleButton value="dark">
-                <DarkIcon sx={{ mr: 1 }} />
-                Dark
-              </ToggleButton>
-            </ToggleButtonGroup>
+            <ThemeSelector />
           </div>
           <div>
             <Typography variant="body1" gutterBottom>
@@ -181,6 +156,12 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
                 </Fragment>
               )}
             />
+          </div>
+          <div>
+            <Typography variant="body1" gutterBottom>
+              Custom Theme
+            </Typography>
+            <ThemeManager />
           </div>
         </Stack>
       </Box>

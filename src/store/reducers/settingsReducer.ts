@@ -7,13 +7,17 @@ export interface SettingsReducerState {
   sources              : NativeSources[]
   nativeDisplayMode    : NativeDisplayMode
   displayVoidReturnType: boolean
+  lightTheme           : string
+  darkTheme            : string
 }
 
 const initialState: SettingsReducerState = {
   theme: 'system',
-  sources: [NativeSources.Alloc8or],
+  sources: [NativeSources.Alloc8or, NativeSources.DottieDot],
   nativeDisplayMode: 'C',
-  displayVoidReturnType: true
+  displayVoidReturnType: true,
+  lightTheme: 'Default',
+  darkTheme: 'Default'
 }
 
 export default function settingsReducer(state: SettingsReducerState = initialState, action: SettingsReducerActions): SettingsReducerState {

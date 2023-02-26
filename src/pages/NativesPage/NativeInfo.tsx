@@ -53,7 +53,7 @@ export default function NativeInfo() {
     <Box sx={{ p: 2 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, pb: 1 }}>
         <Tooltip title="Copy Link">
-          <IconButton onClick={onShare} size="small" aria-label="copy link">
+          <IconButton onClick={onShare} size="small" aria-label="copy link" color="inherit">
             <ShareIcon />
           </IconButton>
         </Tooltip>

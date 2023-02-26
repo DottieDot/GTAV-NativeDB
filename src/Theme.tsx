@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useMemo } from 'react'
 import { ReactNode } from 'react'
 import { getGame } from './constants'
-import { useSettings } from './hooks'
+import { useSettings, useThemes } from './hooks'
 
 declare module '@mui/material/styles' {
   interface Theme {
@@ -47,7 +47,7 @@ function getLightTheme(): ThemeOptions {
         extensions: {
           nativeValueHighlight: '#bf360c',
           constantIdentifierHighlight: '#870000',
-          typeInfoBorderColor: 'rgba(0,0,0,.25)',
+          typeInfoBorderColor: '#565656',
           symbolColor: '#bf360c',
           parameterColor: '#870000'
         }
@@ -69,7 +69,7 @@ function getLightTheme(): ThemeOptions {
         extensions: {
           nativeValueHighlight: '#bf360c',
           constantIdentifierHighlight: '#870000',
-          typeInfoBorderColor: 'rgba(0,0,0,.25)',
+          typeInfoBorderColor: '#565656',
           symbolColor: '#bf360c',
           parameterColor: '#870000'
         }
@@ -102,7 +102,7 @@ function getDarkTheme(): ThemeOptions {
         extensions: {
           nativeValueHighlight: '#ffccbc',
           constantIdentifierHighlight: '#ff9e80',
-          typeInfoBorderColor: 'rgba(255,255,255,.25)',
+          typeInfoBorderColor: '#565656',
           symbolColor: '#ffab91',
           parameterColor: '#ffcc80'
         }
@@ -128,7 +128,7 @@ function getDarkTheme(): ThemeOptions {
         extensions: {
           nativeValueHighlight: '#ffccbc',
           constantIdentifierHighlight: '#ff9e80',
-          typeInfoBorderColor: 'rgba(255,255,255,.25)',
+          typeInfoBorderColor: '#565656',
           symbolColor: '#ffab91',
           parameterColor: '#ffcc80'
         }
@@ -138,19 +138,66 @@ function getDarkTheme(): ThemeOptions {
 
 const darkTheme = getDarkTheme()
 
+function useSelectedColorScheme(dark: boolean): ThemeOptions {
+  const themes = useThemes()
+  const settings = useSettings()
+
+  const key = dark ? settings.darkTheme : settings.lightTheme
+  const theme = themes[key]
+  if (key === 'Default' || !theme) {
+    return dark ? darkTheme : lightTheme
+  }
+
+  const colors = theme.colors
+  return {
+    palette: {
+      mode: theme.mode,
+      primary: {
+        main: colors.primary
+      },
+      secondary: {
+        main: colors.secondary
+      },
+      background: {
+        default: colors.background,
+        paper: colors.paper
+      },
+      text: {
+        primary: colors.text
+      }
+    },
+    extensions: {
+      nativeValueHighlight: colors.nativeValueHighlight,
+      constantIdentifierHighlight: colors.constantIdentifierHighlight,
+      typeInfoBorderColor: colors.typeInfoBorderColor,
+      symbolColor: colors.symbolColor,
+      parameterColor: colors.parameterColor
+    },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: theme.mode === 'dark' ? darkScrollbar() : undefined
+        }
+      }
+    }
+  }
+}
+
 function Theme({ children }: { children: ReactNode }) {
   const settings = useSettings()
   const systemIsDark = useMediaQuery('(prefers-color-scheme: dark)')
   const dark = settings.theme === 'dark' || (settings.theme === 'system' && systemIsDark)
+  const scheme = useSelectedColorScheme(dark)
+
   const theme = useMemo(
-    () => createTheme(dark ? darkTheme : lightTheme),
-    [dark]
+    () => createTheme(scheme),
+    [scheme]
   )
 
   useEffect(() => {
     document.querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', dark ? '#272727' :'#0e752e')
-  }, [dark])
+      ?.setAttribute('content', dark ? theme.palette.background.paper : theme.palette.primary.main)
+  }, [dark, theme])
 
   return (
     <ThemeProvider theme={theme}>

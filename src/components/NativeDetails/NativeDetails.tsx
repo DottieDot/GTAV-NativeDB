@@ -10,7 +10,7 @@ export interface NativeDetailsProps extends TypographyProps {
 
 function NativeDetails({ hash, jhash, build, children, sx, ...rest }: NativeDetailsProps) {
   return (
-    <Typography sx={{ fontFamily: '"Roboto Mono", monospace', ...sx }} {...rest}>
+    <Typography sx={{ fontFamily: '"Roboto Mono", monospace', opacity: .7, ...sx }} {...rest}>
       {'//'}&nbsp;<CopyableText>{hash}</CopyableText> <CopyableText>{jhash}</CopyableText> {build && (<Fragment>b{build}</Fragment>) }
     </Typography>
   )

@@ -9,4 +9,5 @@ export type { default as CodeExample       } from './CodeExample'
 export type { default as ConstDefinition   } from './ConstDefinition'
 export type { default as NativeDisplayMode } from './NativeDisplayMode'
 
+export * from './CustomTheme'
 export * from './TypeDefinition'
