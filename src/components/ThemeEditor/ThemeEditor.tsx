@@ -1,9 +1,10 @@
-import { Brightness6 as SystemIcon, Delete as DeleteIcon } from '@mui/icons-material'
-import { Autocomplete, Box, IconButton, Paper, styled, TextField, Typography } from '@mui/material'
+import { Brightness6 as ModeIcon, Delete as DeleteIcon } from '@mui/icons-material'
+import { Autocomplete, Box, IconButton, styled, TextField } from '@mui/material'
 import { ChangeEvent, Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useCustomTheme } from '../../hooks'
 import { CustomThemeColors, patchTheme, removeTheme } from '../../store'
+import SettingsControl from '../SettingsControl'
 import ThemeColor from './ThemeColor'
 
 const ColorGrid = styled('div')(({theme}) => ({
@@ -132,31 +133,21 @@ function ThemeEditor({ themeId }: ThemeEditorProps) {
           <DeleteIcon />
         </IconButton>
       </Box>
-      <Paper
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          background: 'none',
-          p: 1,
-          pl: 2
-        }}
-        variant="outlined"
+      <SettingsControl
+        label="Mode"
+        icon={ModeIcon}
       >
-        <Typography sx={{ flex: 1, display: 'flex', alignItems: 'center' }} variant="body1">
-          <SystemIcon fontSize="small" sx={{ mr: 1 }} /> Mode
-        </Typography>
         <Autocomplete
           options={['dark', 'light']}
           value={theme.mode}
           onChange={handleModeChanged}
-          renderInput={(params) => <TextField {...params} sx={{ textTransform: 'capitalize' }} />}
+          renderInput={(params) => <TextField {...params} />}
           size="small"
           sx={{ width: 200 }}
           disableClearable
           disablePortal
         />
-      </Paper>
+      </SettingsControl>
       <ColorGrid>
         {colors.map(({ label, prop }) => (
           <ThemeColor

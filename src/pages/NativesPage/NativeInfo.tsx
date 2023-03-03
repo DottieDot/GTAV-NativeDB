@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, List, ListItem, ListItemText, Paper, Stack, Tooltip, Typography } from '@mui/material'
+import { Box, Button, IconButton, List, ListItem, ListItemText, Paper, Stack, Tooltip, Typography, useTheme } from '@mui/material'
 import { LinkSharp as ShareIcon, OpenInNewSharp as OpenInNewSharpIcon } from '@mui/icons-material'
 import _ from 'lodash'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -10,6 +10,7 @@ import { NativeSources } from '../../store'
 import NativeNotFound from './NativeNotFound'
 import NoNativeSelected from './NoNativeSelected'
 import { getGame } from '../../constants'
+import Giscus from '@giscus/react'
 
 export default function NativeInfo() {
   const { native: nativeHashParam } = useParams<{ native?: string }>()
@@ -20,6 +21,7 @@ export default function NativeInfo() {
   const nativeHash = isSmall ? nativeHashNotNull : nativeHashParam
   const native = useNative(nativeHash ?? '')
   const copyToClipboard = useCopyToClipboard()
+  const theme = useTheme()
 
   const onShare = useCallback(() => {
     copyToClipboard(createShareUrl(`/natives/${nativeHash}`))
@@ -86,7 +88,7 @@ export default function NativeInfo() {
         {native.schComment && (
           <div>
             <Typography variant="subtitle1" gutterBottom>
-              Rockstar Comment
+              Rockstar Description
             </Typography>
             <Paper sx={{ p: 2 }}>
               <NativeComment variant="body2">
@@ -98,7 +100,7 @@ export default function NativeInfo() {
         {native.comment && (
           <div>
             <Typography variant="subtitle1" gutterBottom>
-              Comment
+              Description
             </Typography>
             <Paper sx={{ p: 2 }}>
               <NativeComment variant="body2">
@@ -167,6 +169,28 @@ export default function NativeInfo() {
             GTA5 Native Definition
           </Button>
         )}
+        <div>
+          <Typography variant="subtitle1" gutterBottom>
+            Comments
+          </Typography>
+          <Paper sx={{ p: 2 }}>
+            <Giscus
+              id="comments"
+              repo="DottieDot/GTAV-NativeDB"
+              repoId="MDEwOlJlcG9zaXRvcnkyODQ1MTYyMTQ="
+              category="Native Comments"
+              categoryId="DIC_kwDOEPVfds4CUoSH"
+              mapping="specific"
+              term={native.hash}
+              reactionsEnabled="1"
+              emitMetadata="0"
+              inputPosition="top"
+              theme={theme.palette.mode}
+              lang="en"
+              loading="lazy"
+            />
+          </Paper>
+        </div>
       </Stack>
     </Box>
   )
