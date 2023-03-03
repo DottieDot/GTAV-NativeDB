@@ -37,7 +37,7 @@ function NamespaceHeader({ namespace, nativeCount, ...rest }: NativeHeaderProps)
   return (
     <StyledBox {...rest}>
       <Tooltip title="Copy Link">
-        <IconButton onClick={onShare} size="small" aria-label="copy link">
+        <IconButton onClick={onShare} size="small" aria-label="copy link" sx={{ color: 'inherit' }}>
           <ShareIcon />
         </IconButton>
       </Tooltip>

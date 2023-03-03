@@ -1,28 +1,31 @@
-import { SetSources, SetTheme, SET_SOURCES, SET_THEME } from '../actions'
-import { Theme, NativeSources } from '../model'
+import { SetSettings, SET_SETTINGS } from '../actions'
+import { Theme, NativeSources, NativeDisplayMode } from '../model'
 
-export type SettingsReducerActions = SetTheme | SetSources
+export type SettingsReducerActions = SetSettings
 export interface SettingsReducerState {
-  theme               : Theme
-  sources             : NativeSources[]
+  theme                : Theme
+  sources              : NativeSources[]
+  nativeDisplayMode    : NativeDisplayMode
+  displayVoidReturnType: boolean
+  lightTheme           : string
+  darkTheme            : string
 }
 
 const initialState: SettingsReducerState = {
   theme: 'system',
-  sources: [NativeSources.Alloc8or]
+  sources: [NativeSources.Alloc8or, NativeSources.DottieDot],
+  nativeDisplayMode: 'C',
+  displayVoidReturnType: true,
+  lightTheme: 'Default',
+  darkTheme: 'Default'
 }
 
 export default function settingsReducer(state: SettingsReducerState = initialState, action: SettingsReducerActions): SettingsReducerState {
   switch(action.type) {
-    case SET_THEME:
+    case SET_SETTINGS:
       return {
         ...state,
-        theme: action.theme
-      }
-    case SET_SOURCES:
-      return {
-        ...state,
-        sources: action.sources
+        ...action.settings
       }
     default:
       return state

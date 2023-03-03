@@ -47,6 +47,9 @@ export default function MobileSearch({ search, onClose, visible }: { search: App
     if (visible && !wasVisible) {
       search.ref?.current?.focus()
     }
+    else if (!visible && wasVisible) {
+      search.ref?.current?.blur()
+    }
   }, [search, visible, wasVisible])
 
   return (

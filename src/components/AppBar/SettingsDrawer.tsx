@@ -1,11 +1,13 @@
-import { Brightness4 as DarkIcon, Brightness6 as SystemIcon, BrightnessHigh as LightIcon, CloseOutlined as CloseIcon } from '@mui/icons-material'
-import { Box, Divider, Drawer, IconButton, Link, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
-import { Fragment, MouseEvent as ReactMouseEvent, useCallback } from 'react'
+import { CloseOutlined as CloseIcon } from '@mui/icons-material'
+import { Box, Checkbox, Divider, Drawer, FormControlLabel, IconButton, Link, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
+import { Fragment, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { getGame } from '../../constants'
 import { useIsSmallDisplay, useSettings } from '../../hooks'
-import { setSources, setTheme } from '../../store'
+import { setSettings } from '../../store'
 import LocalFileUpload from '../LocalFileUpload/LocalFileUpload'
+import ThemeManager from '../ThemeManager'
+import ThemeSelector from '../ThemeSelector'
 
 interface SettingsDrawerProps {
   open: boolean
@@ -17,14 +19,24 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
   const settings = useSettings()
   const dispatch = useDispatch()
 
-  const handleThemeChanged = useCallback((e: ReactMouseEvent<HTMLElement, MouseEvent>, value: any) => {
-    if (value !== null) {
-      dispatch(setTheme(value))
+  const handleSourcesChanged = useCallback((_: unknown, value: any) => {
+    dispatch(setSettings({
+      sources: value
+    }))
+  }, [dispatch])
+
+  const handleListDisplayModeChanged = useCallback((_: unknown, value: unknown) => {
+    if (value === 'C' || value === 'UML') {
+      dispatch(setSettings({
+        nativeDisplayMode: value
+      }))
     }
   }, [dispatch])
 
-  const handleSourcesChanged = useCallback((e: ReactMouseEvent<HTMLElement, MouseEvent>, value: any) => {
-    dispatch(setSources(value))
+  const handleDisplayVoidReturnTypeChanged = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSettings({
+      displayVoidReturnType: e.target.checked
+    }))
   }, [dispatch])
 
   return (
@@ -62,26 +74,7 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
             <Typography variant="body1" gutterBottom>
               Theme
             </Typography>
-            <ToggleButtonGroup
-              color="primary"
-              value={settings.theme}
-              onChange={handleThemeChanged}
-              exclusive
-              fullWidth
-            >
-              <ToggleButton value="light">
-                <LightIcon sx={{ mr: 1 }} /> 
-                Light
-              </ToggleButton>
-              <ToggleButton value="system">
-                <SystemIcon sx={{ mr: 1 }} /> 
-                System
-              </ToggleButton>
-              <ToggleButton value="dark">
-                <DarkIcon sx={{ mr: 1 }} />
-                Dark
-              </ToggleButton>
-            </ToggleButtonGroup>
+            <ThemeSelector />
           </div>
           <div>
             <Typography variant="body1" gutterBottom>
@@ -113,6 +106,38 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
           </div>
           <div>
             <Typography variant="body1" gutterBottom>
+              Native Display Mode
+            </Typography>
+            <ToggleButtonGroup
+              color="primary"
+              value={settings.nativeDisplayMode}
+              onChange={handleListDisplayModeChanged}
+              exclusive
+              fullWidth
+            >
+              <ToggleButton value="C">
+                C Style
+              </ToggleButton>
+              <ToggleButton value="UML">
+                UML Style
+              </ToggleButton>
+            </ToggleButtonGroup>
+
+            {settings.nativeDisplayMode === 'UML' && (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={settings.displayVoidReturnType}
+                    onChange={handleDisplayVoidReturnTypeChanged}
+                  />
+                }
+                sx={{ userSelect: 'none' }}
+                label="Display void return type"
+              />
+            )}
+          </div>
+          <div>
+            <Typography variant="body1" gutterBottom>
               Special Data
             </Typography>
             <LocalFileUpload 
@@ -131,6 +156,12 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
                 </Fragment>
               )}
             />
+          </div>
+          <div>
+            <Typography variant="body1" gutterBottom>
+              Custom Theme
+            </Typography>
+            <ThemeManager />
           </div>
         </Stack>
       </Box>

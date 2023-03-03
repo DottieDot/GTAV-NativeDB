@@ -9,9 +9,15 @@ import settingsReducer from './settingsReducer'
 import statsReducer from './statsReducer'
 import typesReducer from './typesReducer'
 import constsReducer from './constsReducer'
+import themesReducer from './themesReducer'
 
 const settingsPersistConfig = {
   key: 'Settings',
+  storage: storage
+}
+
+const themesPersistConfig = {
+  key: 'Themes',
   storage: storage
 }
 
@@ -23,7 +29,8 @@ const rootReducer = combineReducers({
   constants : constsReducer,
   stats     : statsReducer,
   appBar    : appBarReducer,
-  settings  : persistReducer(settingsPersistConfig, settingsReducer)
+  settings  : persistReducer(settingsPersistConfig, settingsReducer),
+  themes    : persistReducer(themesPersistConfig, themesReducer)
 })
 
 export type RootState = ReturnType<typeof rootReducer>
