@@ -1,15 +1,16 @@
-import { AppBar as MaterialAppBar, Box, IconButton, Link, ListItemIcon, Menu, MenuItem, Slide, Toolbar, Typography } from '@mui/material'
-import { GitHub as GithubIcon, MoreVert as MoreIcon, Search as SearchIcon, Settings as SettingsIcon, ShowChart as StatsIcon, Code as CodeIcon, Apps as AppsIcon } from '@mui/icons-material'
+import { AppBar as MaterialAppBar, Box, IconButton, Link, ListItemIcon, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
+import { GitHub as GithubIcon, MoreVert as MoreIcon,  Settings as SettingsIcon, ShowChart as StatsIcon, Code as CodeIcon, Apps as AppsIcon } from '@mui/icons-material'
 import React, { MouseEvent, MouseEventHandler, useCallback, useMemo, useState } from 'react'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { AppBarAction as AppBarActionProps } from '.'
 import { useAppBarSettings } from '../../hooks'
-import MobileSearch from './MobileSearch'
 import { AppBarProps } from './model'
 import SettingsDrawer from './SettingsDrawer'
 import StatsDialog from './StatsDialog'
 import StatusButton from './StatusButton'
 import AppsDialog from './AppsDialog'
+import { SHORT_TITLE } from '../../constants'
+import DesktopSearch from './DesktopSearch'
 
 function AppBarAction({ text, mobileIcon, buttonProps: { href, target, onClick, ...buttonProps } }: AppBarActionProps) {
   const navigate = useNavigate()
@@ -131,19 +132,6 @@ function Mobile({ ...rest }: AppBarProps) {
       <AppsDialog open={appsDialog} onClose={handleAppsDialogClose} />
       <SettingsDrawer open={settingsOpen} onClose={handleSettingsClose} />
       <MaterialAppBar position="sticky">
-        {settings.search && (
-          <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
-            <Slide in={searchOpen} timeout={100} direction="down">
-              <Box sx={{ height: '100%', position: 'relative', zIndex: 1 }}>
-                <MobileSearch
-                  search={settings.search}
-                  onClose={handleSearchClose}
-                  visible={searchOpen}
-                />
-              </Box>
-            </Slide>
-          </Box>
-        )}
         <Toolbar>
           <Typography variant="h6" component="div">
             <Link
@@ -152,17 +140,19 @@ function Mobile({ ...rest }: AppBarProps) {
               underline="none"
               component={RouterLink}
             >
-              {settings?.title ?? 'GTA V Native Reference'}
+              {settings?.title ?? SHORT_TITLE}
             </Link>
           </Typography>
-          <Box
-            sx={{ display: 'flex', flex: 1 }}
-          />
           <StatusButton />
-          {settings?.search && (
-            <IconButton onClick={handleSearchOpen} color="inherit" aria-label="search">
-              <SearchIcon />
-            </IconButton>
+          {settings.search && (
+          <Box sx={{ flex: 1, ml: 2 }}>
+              <DesktopSearch 
+                expanded={searchOpen} 
+                search={settings.search} 
+                onBlur={handleSearchClose} 
+                onFocus={handleSearchOpen} 
+              />
+          </Box>
           )}
 
           <IconButton onClick={handleMenuOpen} color="inherit" aria-label="more">
