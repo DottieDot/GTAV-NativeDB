@@ -94,7 +94,7 @@ export default function DesktopSearch({ search, onBlur, onFocus, expanded = fals
       width: 0,
     }
   })
-  const [searchIsEmpty, setSearchIsEmpty] = useState(false)
+  const [searchIsEmpty, setSearchIsEmpty] = useState(true)
 
   if (!extraSmallDisplay) {
     expanded = false
