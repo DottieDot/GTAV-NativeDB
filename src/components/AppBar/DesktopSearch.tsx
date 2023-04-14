@@ -13,13 +13,10 @@ const Search = styled('div')(({ theme }) => ({
   '&:hover': {
     backgroundColor: theme.extensions.typeInfoBorderColor
   },
-  '&.expanded': {
-    position: 'absolute',
-    zIndex: 1
-  },
   '&.mobile': {
     position: 'absolute',
-    margin: 'unset'
+    margin: 'unset',
+    zIndex: 1
   },
   flex: 1,
   display: 'flex'
