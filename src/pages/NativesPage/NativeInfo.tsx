@@ -171,25 +171,6 @@ export default function NativeInfo() {
         )}
         <div>
           <Typography variant="subtitle1" gutterBottom>
-            Ad
-          </Typography>
-          <Paper>
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3911431115142791"
-              crossOrigin="anonymous"></script>
-            
-            <ins className="adsbygoogle"
-              style={{ display: 'block' }}
-              data-ad-client="ca-pub-3911431115142791"
-              data-ad-slot="7706226240"
-              data-ad-format="auto"
-              data-full-width-responsive="true"></ins>
-            <script>
-              (adsbygoogle = window.adsbygoogle || []).push({ });
-            </script>
-          </Paper>
-        </div>
-        <div>
-          <Typography variant="subtitle1" gutterBottom>
             Comments
           </Typography>
           <Paper sx={{ p: 2 }}>
