@@ -203,6 +203,9 @@ export default function DesktopSearch({ search }: DesktopSearchProps) {
         onChange={search.onChange}
         onBlur={search.onBlur}
         onKeyDown={handleKeyDown}
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
       />
       <ClearIconWrapper className="clear-button">
         <IconButton sx={{ mt: '2px' }} size="small" onClick={handleClear}>
