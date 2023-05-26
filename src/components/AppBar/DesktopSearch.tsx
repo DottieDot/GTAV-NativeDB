@@ -1,10 +1,23 @@
-import { Box, IconButton, InputBase, styled, SxProps, useTheme } from '@mui/material'
+import { Box, IconButton, InputBase, styled, useTheme } from '@mui/material'
 import { Search as SearchIcon, Clear as ClearIcon } from '@mui/icons-material'
 import { AppBarSearch } from './model'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useIsExtraSmallDisplay } from '../../hooks'
 
-const Search = styled('div')(({ theme }) => ({
+interface StyleProps {
+  inner: {
+    top: number,
+    left: number,
+    width: number
+  },
+  outer: {
+    top: number,
+    left: number,
+    width: number
+  }
+}
+
+const Search = styled('div')<StyleProps>(({ theme, inner, outer }) => ({
   position: 'relative',
   margin: theme.spacing(0, 2),
   borderRadius: theme.shape.borderRadius,
@@ -13,10 +26,30 @@ const Search = styled('div')(({ theme }) => ({
   '&:hover': {
     backgroundColor: theme.extensions.typeInfoBorderColor
   },
+  '& .clear-button': {
+    display: 'none'
+  },
+  '&:not(.mobile)': {
+    '&:not(:has(input:placeholder-shown))': {
+      '& .clear-button': {
+        display: 'block'
+      },
+    }
+  },
   '&.mobile': {
     position: 'absolute',
     margin: 'unset',
-    zIndex: 1
+    zIndex: 1,
+    ...outer,
+    top: theme.spacing(1),
+    '&:focus-within, &:hover': {
+      ...inner,
+      '&:not(:has(input:placeholder-shown))': {
+        '& .clear-button': {
+          display: 'block'
+        },
+      }
+    }
   },
   flex: 1,
   display: 'flex'
@@ -58,9 +91,6 @@ const ClearIconWrapper = styled('div')(({ theme }) => ({
 
 export interface DesktopSearchProps {
   search: AppBarSearch
-  expanded?: boolean
-  onBlur?: () => void
-  onFocus?: () => void
 }
 
 function setNativeValue(element: HTMLInputElement, value: string) {
@@ -76,12 +106,11 @@ function setNativeValue(element: HTMLInputElement, value: string) {
 }
 
 // Absolutely horrendous code, please fix.
-export default function DesktopSearch({ search, onBlur, onFocus, expanded = false }: DesktopSearchProps) {
+export default function DesktopSearch({ search }: DesktopSearchProps) {
   const theme = useTheme()
   const extraSmallDisplay = useIsExtraSmallDisplay()
   const outerBox = useRef<HTMLDivElement>(null)
   const innerBox = useRef<HTMLDivElement>(null)
-  const clearButton = useRef<HTMLButtonElement>(null)
   const [state, setState] = useState({
     inner: {
       top: 0,
@@ -94,21 +123,13 @@ export default function DesktopSearch({ search, onBlur, onFocus, expanded = fals
       width: 0,
     }
   })
-  const [searchIsEmpty, setSearchIsEmpty] = useState(true)
-
-  if (!extraSmallDisplay) {
-    expanded = false
-  }
 
   const handleClear = useCallback(() => {
     const current = search.ref?.current
     if (current) {
       setNativeValue(current, '')
       current.dispatchEvent(new Event('change', { bubbles: true }))
-    }
-    
-    if (search.ref?.current) {
-      search.ref.current.value = ''
+      current.focus()
     }
   }, [search])
   
@@ -121,23 +142,6 @@ export default function DesktopSearch({ search, onBlur, onFocus, expanded = fals
       search.onKeyDown(e)
     }
   }, [search])
-
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setSearchIsEmpty(!e.target.value)
-    search?.onChange && search.onChange(e)
-  }, [search])
-
-  const handleBlur = useCallback((e: React.FocusEvent<HTMLDivElement>) => { 
-    if (!clearButton.current || e.relatedTarget !== clearButton.current) {
-      onBlur && onBlur()
-    } else if (e.target === search?.ref?.current) {
-      e.target.focus()
-    }
-  }, [onBlur, search])
-
-  const handleFocus = useCallback((e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>) => {
-    onFocus && onFocus()
-  }, [onFocus])
 
   useEffect(() => {
     if (!outerBox.current || !innerBox.current) {
@@ -174,19 +178,11 @@ export default function DesktopSearch({ search, onBlur, onFocus, expanded = fals
     }
   }, [])
 
-  const style: SxProps = expanded ? {
-    ...state.inner
-  } : {
-    ...state.outer,
-    top: theme.spacing(1)
-  }
-
-  const showClearIcon = (expanded || !extraSmallDisplay) && !searchIsEmpty
   const searchContent = (
-    <Search 
-      sx={extraSmallDisplay ? style : undefined} 
-      className={`${expanded ? 'expanded' : ''} ${extraSmallDisplay ? 'mobile' : ''} ${showClearIcon ? 'show-clear' : ''}`}
-      onBlur={handleBlur}
+    <Search
+      className={`${extraSmallDisplay ? 'mobile' : ''}`}
+      inner={state.inner}
+      outer={state.outer}
     >
       <SearchIconWrapper>
         <SearchIcon />
@@ -196,18 +192,15 @@ export default function DesktopSearch({ search, onBlur, onFocus, expanded = fals
         inputProps={{ 'aria-label': 'search' }}
         value={search.value}
         inputRef={search.ref}
-        onChange={handleChange}
+        onChange={search.onChange}
         onBlur={search.onBlur}
         onKeyDown={handleKeyDown}
-        onFocus={handleFocus}
       />
-      {(showClearIcon) && (
-        <ClearIconWrapper>
-          <IconButton ref={clearButton} size="small" onClick={handleClear}>
-            <ClearIcon />
-          </IconButton>
-        </ClearIconWrapper>
-      )}
+      <ClearIconWrapper className="clear-button">
+        <IconButton sx={{ mt: '2px' }} size="small" onClick={handleClear}>
+          <ClearIcon />
+        </IconButton>
+      </ClearIconWrapper>
     </Search>
   )
 

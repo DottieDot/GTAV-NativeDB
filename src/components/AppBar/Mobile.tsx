@@ -41,7 +41,6 @@ function AppBarAction({ text, mobileIcon, buttonProps: { href, target, onClick, 
 function Mobile({ ...rest }: AppBarProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [settingsOpen, setSettingsOpen] = useState(false)
-  const [searchOpen, setSearchOpen] = useState(false)
   const [statsDialog, setStatsDialog] = useState(false)
   const [appsDialog, setAppsDialog] = useState(false)
   const settings = useAppBarSettings()
@@ -61,14 +60,6 @@ function Mobile({ ...rest }: AppBarProps) {
   const handleMenuClose = useCallback(() => {
     setAnchorEl(null)
   }, [setAnchorEl])
-
-  const handleSearchOpen = useCallback(() => {
-    setSearchOpen(true)
-  }, [setSearchOpen])
-
-  const handleSearchClose = useCallback(() => {
-    setSearchOpen(false)
-  }, [setSearchOpen])
 
   const handleStatsDialogOpen = useCallback(() => {
     setStatsDialog(true)
@@ -143,18 +134,12 @@ function Mobile({ ...rest }: AppBarProps) {
               {settings?.title ?? SHORT_TITLE}
             </Link>
           </Typography>
-          <StatusButton />
           {settings.search && (
-          <Box sx={{ flex: 1, ml: 2 }}>
-              <DesktopSearch 
-                expanded={searchOpen} 
-                search={settings.search} 
-                onBlur={handleSearchClose} 
-                onFocus={handleSearchOpen} 
-              />
-          </Box>
+            <Box sx={{ flex: 1, ml: 2 }}>
+              <DesktopSearch search={settings.search} />
+            </Box>
           )}
-
+          <StatusButton />
           <IconButton onClick={handleMenuOpen} color="inherit" aria-label="more">
             <MoreIcon />
           </IconButton>
