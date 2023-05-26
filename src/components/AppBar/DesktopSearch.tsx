@@ -109,8 +109,8 @@ function setNativeValue(element: HTMLInputElement, value: string) {
 export default function DesktopSearch({ search }: DesktopSearchProps) {
   const theme = useTheme()
   const extraSmallDisplay = useIsExtraSmallDisplay()
-  const outerBox = useRef<HTMLDivElement>(null)
-  const innerBox = useRef<HTMLDivElement>(null)
+  const [outerBox, setOuterBox] = useState<HTMLDivElement|null>(null)
+  const [innerBox, setInnerBox] = useState<HTMLDivElement | null>(null)
   const [state, setState] = useState({
     inner: {
       top: 0,
@@ -143,18 +143,26 @@ export default function DesktopSearch({ search }: DesktopSearchProps) {
     }
   }, [search])
 
+  const handleInner = useCallback((e: HTMLDivElement) => {
+    setInnerBox(e)
+  }, [])
+
+  const handleOuter = useCallback((e: HTMLDivElement) => {
+    setOuterBox(e)
+  }, [])
+
   useEffect(() => {
-    if (!outerBox.current || !innerBox.current) {
+    if (!outerBox || !innerBox) {
       return
     }
 
     const observer = new ResizeObserver(() => {
-      if (!outerBox.current || !innerBox.current) {
+      if (!outerBox || !innerBox) {
         return
       }
 
-      const outer = outerBox.current.getBoundingClientRect()
-      const inner = innerBox.current.getBoundingClientRect()
+      const outer = outerBox.getBoundingClientRect()
+      const inner = innerBox.getBoundingClientRect()
 
       setState({
         inner: {
@@ -170,13 +178,13 @@ export default function DesktopSearch({ search }: DesktopSearchProps) {
       })
     })
 
-    observer.observe(outerBox.current)
-    observer.observe(innerBox.current)
+    observer.observe(outerBox)
+    observer.observe(innerBox)
 
     return () => {
       observer.disconnect()
     }
-  }, [])
+  }, [outerBox, innerBox])
 
   const searchContent = (
     <Search
@@ -214,7 +222,7 @@ export default function DesktopSearch({ search }: DesktopSearchProps) {
         margin: theme.spacing(0, 2),
         height: '100%'
       }}
-      ref={outerBox}
+      ref={handleOuter}
     >
       <Box
         sx={{
@@ -225,7 +233,7 @@ export default function DesktopSearch({ search }: DesktopSearchProps) {
           margin: theme.spacing(0, 2),
           zIndex: 1
         }}
-        ref={innerBox}
+        ref={handleInner}
       />
       {!!state.outer.width && searchContent}
     </Box>
