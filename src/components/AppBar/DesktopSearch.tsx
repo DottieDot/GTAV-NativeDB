@@ -1,7 +1,7 @@
 import { Box, IconButton, InputBase, styled, useTheme } from '@mui/material'
 import { Search as SearchIcon, Clear as ClearIcon } from '@mui/icons-material'
 import { AppBarSearch } from './model'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useIsExtraSmallDisplay } from '../../hooks'
 
 interface StyleProps {
