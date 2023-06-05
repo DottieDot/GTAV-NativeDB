@@ -82,3 +82,6 @@ export * from './ThemeSelector'
 
 export { default as ThemeJsonEditor } from './ThemeJsonEditor'
 export * from './ThemeJsonEditor'
+
+export { default as SettingsControl } from './SettingsControl'
+export * from './SettingsControl'

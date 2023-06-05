@@ -1,9 +1,10 @@
 import { Brightness4 as DarkIcon, Brightness6 as SystemIcon, BrightnessHigh as LightIcon } from '@mui/icons-material'
-import { Autocomplete, Paper, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
+import { Autocomplete, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material'
 import { Fragment, useCallback, useEffect, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSettings, useThemes } from '../../hooks'
 import { setSettings } from '../../store'
+import SettingsControl from '../SettingsControl'
 
 
 export default function ThemeSelector() {
@@ -69,21 +70,10 @@ export default function ThemeSelector() {
         </ToggleButton>
       </ToggleButtonGroup>
 
-      <Paper
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          background: 'none',
-          mt: 1,
-          p: 1,
-          pl: 2
-        }}
-        variant="outlined"
+      <SettingsControl
+        label="Light Theme"
+        icon={LightIcon}
       >
-        <Typography sx={{ flex: 1, display: 'flex', alignItems: 'center' }} variant="body1">
-          <LightIcon fontSize="small" sx={{ mr: 1 }} /> Light Theme
-        </Typography>
         <Autocomplete 
           options={themeIds}
           value={settings.lightTheme}
@@ -95,22 +85,11 @@ export default function ThemeSelector() {
           disableClearable
           disablePortal
         />
-      </Paper>
-      <Paper
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          background: 'none',
-          mt: 1,
-          p: 1,
-          pl: 2
-        }}
-        variant="outlined"
+      </SettingsControl>
+      <SettingsControl 
+        label="Dark Theme"
+        icon={DarkIcon}
       >
-        <Typography sx={{ flex: 1, display: 'flex', alignItems: 'center' }} variant="body1">
-          <DarkIcon fontSize="small" sx={{ mr: 1 }} /> Dark Theme
-        </Typography>
         <Autocomplete
           options={themeIds}
           value={settings.darkTheme}
@@ -122,7 +101,7 @@ export default function ThemeSelector() {
           disableClearable
           disablePortal
         />
-      </Paper>
+      </SettingsControl>
     </Fragment>
   )
 }

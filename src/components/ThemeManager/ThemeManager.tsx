@@ -1,6 +1,6 @@
 import { Add as AddIcon, DataObject as JsonIcon, GridView as GuiIcon } from '@mui/icons-material'
 import { Autocomplete, Box, Stack, TextField, ToggleButton, ToggleButtonGroup, useTheme } from '@mui/material'
-import { uniqueId } from 'lodash'
+import { v4 as uuidv4 } from 'uuid'
 import { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useThemes } from '../../hooks'
@@ -29,7 +29,7 @@ function useCreateTheme(setSelectedTheme: (id: string) => void) {
   }, [themes])
 
   return useCallback(() => {
-    const id = uniqueId()
+    const id = uuidv4()
     dispatch(setTheme({
       id,
       name: `New Theme ${numNewThemes + 1}`,
