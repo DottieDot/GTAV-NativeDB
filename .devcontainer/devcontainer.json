@@ -1,0 +1,21 @@
+{
+	"name": "Node.js",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {  }
+	},
+
+	"workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=delegated",
+	"workspaceFolder": "/app",
+
+	// Add the IDs of extensions you want installed when the container is created.
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint"
+            ]
+        }
+    },
+
+	"remoteUser": "node"
+}
