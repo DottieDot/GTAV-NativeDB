@@ -9,11 +9,12 @@ export interface TSCodeGeneratorSettings extends CodeGeneratorBaseSettings {
   includes: string[]
   invokeFunction: string
   invokeSupportsVoid: boolean
+  convertHashes: boolean
   oneLineFunctions: boolean
   includeNdbLinks: boolean
 }
 
-export function convertTypeToTS(type: string, useNativeTypes: boolean) {
+export function convertTypeToTS(type: string, useNativeTypes: boolean, convertHashes = true) {
   type = type.replaceAll("*", "").replaceAll("const", "").trim()
 
   switch (type) {
@@ -30,7 +31,7 @@ export function convertTypeToTS(type: string, useNativeTypes: boolean) {
   }
 
   switch (type) {
-    case 'Hash': return 'number | string'
+    case 'Hash': return convertHashes ? 'number | string' : 'number'
     case 'Ped': return 'number'
     case 'Vehicle': return 'number'
     case 'Blip': return 'number'
@@ -60,7 +61,7 @@ export default
   }
 
   transformBaseType(type: string): string {
-    return convertTypeToTS(type, this.settings.useNativeTypes);
+    return convertTypeToTS(type, this.settings.useNativeTypes, this.settings.convertHashes);
   }
 
   private transformReturnType(type: string): string {
@@ -85,7 +86,7 @@ export default
   addNative(native: CodeGenNative): this {
     const name = toPascalCase(native.name)
     const params = native.params.map((param) => this.formatParam(param)).join(', ')
-    const invokeParams = [native.hash, ...native.params.map(this.formatInvokeParam)].join(', ')
+    const invokeParams = [native.hash, ...native.params.map((v) => this.formatInvokeParam(v, this.settings.convertHashes))].join(', ')
     const returnType = this.transformReturnType(this.formatType(native.returnType))
     const returnString = returnType === 'void'
       ? ''
@@ -130,8 +131,10 @@ export default
     return `${baseType}`
   }
 
-  private formatInvokeParam({ name, type }: CodeGenParam): string {
+  private formatInvokeParam({ name, type }: CodeGenParam, convertHashes: boolean): string {
     if (name === "var") name = "variable"
+
+    console.log(convertHashes);
 
     switch (type.baseType) {
       case 'Vector2':
@@ -142,7 +145,7 @@ export default
         return `${name}.x, ${name}.y, ${name}.z, ${name}.w`
       case 'number | string':
       case 'Hash':
-        return `toHash(${name})`
+        return convertHashes ? `_ch(${name})` : name
     }
 
     return name

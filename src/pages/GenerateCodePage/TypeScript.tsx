@@ -19,7 +19,8 @@ export default function CPlusPlus() {
         invokeFunction    : '_in',
         invokeSupportsVoid: false,
         oneLineFunctions  : true,
-        includeNdbLinks   : false
+        includeNdbLinks   : false,
+        convertHashes     : true
       }}
       options={[
         {
@@ -46,6 +47,11 @@ export default function CPlusPlus() {
           type : 'boolean',
           label: 'One Line Functions',
           prop : 'oneLineFunctions'
+        },
+        {
+          type : 'boolean',
+          label: 'Convert Hashes (String -> Hash)',
+          prop : 'convertHashes'
         },
       ]}
       advancedOptions={[
