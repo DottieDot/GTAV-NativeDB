@@ -6,6 +6,8 @@ export interface SettingsReducerState {
   theme                : Theme
   sources              : NativeSources[]
   nativeDisplayMode    : NativeDisplayMode
+  nativeTypes          : boolean
+  compactVectors       : boolean
   displayVoidReturnType: boolean
   lightTheme           : string
   darkTheme            : string
@@ -15,6 +17,8 @@ const initialState: SettingsReducerState = {
   theme: 'system',
   sources: [NativeSources.Alloc8or, NativeSources.DottieDot],
   nativeDisplayMode: 'C',
+  nativeTypes: true,
+  compactVectors: false,
   displayVoidReturnType: true,
   lightTheme: 'Default',
   darkTheme: 'Default'

@@ -26,7 +26,7 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
   }, [dispatch])
 
   const handleListDisplayModeChanged = useCallback((_: unknown, value: unknown) => {
-    if (value === 'C' || value === 'UML') {
+    if (value === 'C' || value === 'UML' || value === 'TS') {
       dispatch(setSettings({
         nativeDisplayMode: value
       }))
@@ -39,9 +39,21 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
     }))
   }, [dispatch])
 
+  const handleNativeTypesChanged = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSettings({
+      nativeTypes: e.target.checked
+    }))
+  }, [dispatch])
+
+  const handleCompactVectorsChanged = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSettings({
+      compactVectors: e.target.checked
+    }))
+  }, [dispatch])
+
   return (
     <Drawer
-      anchor={smallDisplay ? 'bottom' : 'right' }
+      anchor={smallDisplay ? 'bottom' : 'right'}
       open={open}
       onClose={onClose}
       PaperProps={{
@@ -50,10 +62,10 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
         }
       }}
     >
-      <Box 
-        sx={{ 
-          display: 'flex', 
-          alignItems: 'center', 
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
           justifyContent: 'space-between',
           p: 2
         }}
@@ -121,9 +133,23 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
               <ToggleButton value="UML">
                 UML Style
               </ToggleButton>
+              <ToggleButton value="TS">
+                TypeScript
+              </ToggleButton>
             </ToggleButtonGroup>
 
-            {settings.nativeDisplayMode === 'UML' && (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={settings.compactVectors}
+                  onChange={handleCompactVectorsChanged}
+                />
+              }
+              sx={{ userSelect: 'none' }}
+              label="Compact Vectors"
+            />
+
+            {(settings.nativeDisplayMode === 'UML' || settings.nativeDisplayMode === 'TS') && (
               <FormControlLabel
                 control={
                   <Checkbox
@@ -135,12 +161,27 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
                 label="Display void return type"
               />
             )}
+
+            {settings.nativeDisplayMode === 'TS' && (
+              <Fragment>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={settings.nativeTypes}
+                      onChange={handleNativeTypesChanged}
+                    />
+                  }
+                  sx={{ userSelect: 'none' }}
+                  label="Use Native Types"
+                />
+              </Fragment>
+            )}
           </div>
           <div>
             <Typography variant="body1" gutterBottom>
               Special Data
             </Typography>
-            <LocalFileUpload 
+            <LocalFileUpload
               storeAs="special.json"
               label="special.json"
               helpText={(

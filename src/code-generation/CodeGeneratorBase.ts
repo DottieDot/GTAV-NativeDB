@@ -16,6 +16,61 @@ export function splitCamelCaseString(str: string): string[] {
   return str.replace(/([A-Z0-9])/g, '_$1').toLowerCase().split('_')
 }
 
+function getParamGroup(params: NativeParam[]): [number, string] {
+  const set = ['x', 'y', 'z', 'w']
+
+  let group: string = splitCamelCaseString(params[0].name)
+    .filter(g => g !== 'x')
+    .join('')
+
+  const selected = _.takeWhile(params, ({ name, type }, index) => {
+    const split = splitCamelCaseString(name)
+
+    return (
+      split.includes(set[index]) &&
+      split.filter(g => g !== set[index]).join('') === group &&
+      type === 'float'
+    )
+  })
+
+  return [selected.length, group]
+}
+
+function getParamNameForParamGroup(groupName: string) {
+  let defaultName = 'vec'
+
+  return groupName
+    ? `${groupName.replace(/^(\d)$/, `${defaultName}$1`)}_`
+    : defaultName
+}
+
+
+export function compactParams(params: NativeParam[], compact: boolean): NativeParam[] {
+  if (!compact) {
+    return params
+  }
+
+  let result: NativeParam[] = []
+
+  for (let i = 0; i < params.length; ++i) {
+    const [groupLength, groupName] = getParamGroup(params.slice(i))
+
+    if (groupLength >= 2) {
+      result.push({
+        type: `Vector${groupLength}`,
+        name: getParamNameForParamGroup(groupName)
+      })
+      i += groupLength - 1
+    }
+    else {
+      result.push(params[i])
+    }
+  }
+
+  return result
+}
+
+
 export default
 abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> implements ICodeGenerator {
   private _result   : string = ''
@@ -170,59 +225,6 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
     return this
   }
 
-  private getParamGroup(params: NativeParam[]): [number, string] {
-    const set = ['x', 'y', 'z', 'w']
-
-    let group: string = splitCamelCaseString(params[0].name)
-      .filter(g => g !== 'x')
-      .join('')
-
-    const selected = _.takeWhile(params, ({ name, type }, index) => {
-      const split = splitCamelCaseString(name)
-
-      return (
-        split.includes(set[index]) &&
-        split.filter(g => g !== set[index]).join('') === group &&
-        type === 'float'
-      )
-    })
-
-    return [selected.length, group]
-  }
-
-  private getParamNameForParamGroup(_: string, groupName: string) {
-    let defaultName = 'vec'
-
-    return groupName
-      ? `${groupName.replace(/^(\d)$/, `${defaultName}$1`)}_`
-      : defaultName
-  }
-
-  private compactParams(nativeName: string, params: NativeParam[]): NativeParam[] {
-    if (!this.settings.compactVectors) {
-      return params
-    }
-
-    let result: NativeParam[] = []
-
-    for (let i = 0; i < params.length; ++i) {
-      const [groupLength, groupName] = this.getParamGroup(params.slice(i))
-
-      if (groupLength >= 2) {
-        result.push({
-          type: `Vector${groupLength}`,
-          name: this.getParamNameForParamGroup(nativeName, groupName)
-        })
-        i += groupLength - 1
-      }
-      else {
-        result.push(params[i])
-      }
-    }
-
-    return result
-  }
-
   private typeStringToCodeGenType(type: string): CodeGenType {
     const pointers = _.sumBy(type, c => +(c === '*'))
     return {
@@ -239,7 +241,7 @@ abstract class CodeGeneratorBase<TSettings extends CodeGeneratorBaseSettings> im
       jhash: native.jhash,
       returnType: this.typeStringToCodeGenType(native.returnType),
       oldNames: native.oldNames,
-      params: this.compactParams(native.name, native.params).map(({ type, name }) => ({
+      params: compactParams(native.params, this.settings.compactVectors).map(({ type, name }) => ({
         type: this.typeStringToCodeGenType(type),
         name: name
       })),
