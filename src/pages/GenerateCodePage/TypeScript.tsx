@@ -3,7 +3,7 @@ import { TSCodeGenerator } from '../../code-generation'
 import Language from './Language'
 
 
-export default function CPlusPlus() {
+export default function TypeScript() {
   return (
     <Language
       name="ts"

@@ -27,6 +27,6 @@ export const buildDate: string = preval`module.exports = new Date().toString()`
 
 export { default as getOverlayAlpha } from './getOverlayAlpha'
 
-export function toPascalCase(name: string): string {
-  return name.toLocaleLowerCase().split('_').map((part, i) => upperFirst(part)).join('')
+export function toPascalCase(name: string, joinChar = ''): string {
+  return name.toLocaleLowerCase().split('_').map((part, i) => upperFirst(part)).join(joinChar)
 }

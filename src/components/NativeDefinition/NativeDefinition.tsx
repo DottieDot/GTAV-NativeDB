@@ -21,7 +21,7 @@ function NativeDefinition({ name, params, returnType, sx, noWrap = false, nameCo
   const { nativeDisplayMode, nativeTypes, displayVoidReturnType } = useSettings()
   const nameWithBreaks = useMemo(() => {
     if (nativeDisplayMode === 'TS') {
-      return toPascalCase(name)
+      return toPascalCase(name, '\u200b')
     }
     return name.replace(/_/g, '_\u200b')
   }, [name, nativeDisplayMode])

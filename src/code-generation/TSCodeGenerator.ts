@@ -134,8 +134,6 @@ export default
   private formatInvokeParam({ name, type }: CodeGenParam, convertHashes: boolean): string {
     if (name === "var") name = "variable"
 
-    console.log(convertHashes);
-
     switch (type.baseType) {
       case 'Vector2':
         return `${name}.x, ${name}.y`
