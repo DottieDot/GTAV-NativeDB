@@ -6,7 +6,7 @@ import Language from './Language'
 export default function TypeScript() {
   return (
     <Language
-      name="ts"
+      name="typescript"
       extension="ts"
       generator={TSCodeGenerator}
       defaultSettings={{
