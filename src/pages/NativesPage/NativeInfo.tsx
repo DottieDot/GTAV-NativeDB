@@ -3,7 +3,7 @@ import { LinkSharp as ShareIcon, OpenInNewSharp as OpenInNewSharpIcon } from '@m
 import _ from 'lodash'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { createShareUrl } from '../../common'
+import { createShareUrl, toPascalCase } from '../../common'
 import { CodeExamples, NativeComment, NativeDefinition, NativeDetails, NativeUsage } from '../../components'
 import { useCopyToClipboard, useIsSmallDisplay, useLastNotNull, useNative, useSettings } from '../../hooks'
 import { NativeSources } from '../../store'
@@ -67,7 +67,7 @@ export default function NativeInfo() {
           variant="h5" 
           component="h1" 
         >
-          {native.name}
+          {settings.nativeDisplayMode === 'TS' ? toPascalCase(native.name) : native.name}
         </Typography>
       </Box>
       <Stack spacing={2}>

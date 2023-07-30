@@ -10,3 +10,6 @@ export * from './NativeExporter'
 
 export { default as RustCodeGenerator } from './RustCodeGenerator'
 export * from './RustCodeGenerator'
+
+export { default as TSCodeGenerator } from './TSCodeGenerator'
+export * from './TSCodeGenerator'

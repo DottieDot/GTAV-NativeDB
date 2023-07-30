@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import CPlusPlus from './CPlusPlus'
 import CSharpEnum from './CSharpEnum'
 import Rust from './Rust'
+import TypeScript from './TypeScript'
 
 function GenerateCodePage() {
   const { language = 'cpp' } = useParams<{ language: string }>()
@@ -27,6 +28,7 @@ function GenerateCodePage() {
               <Tab label="C++" value="cpp" />
               <Tab label="Rust" value="rs" />
               <Tab label="C# Enum" value="cs" />
+              <Tab label="TS" value="ts" />
               <Tab label="SHV.NET" value="shvdn" />
               <Tab label="RPH" value="rph" />
             </TabList>
@@ -39,6 +41,9 @@ function GenerateCodePage() {
             </TabPanel>
             <TabPanel value="cs">
               <CSharpEnum />
+            </TabPanel>
+            <TabPanel value="ts">
+              <TypeScript />
             </TabPanel>
             <TabPanel value="shvdn">
               Soon&trade;
