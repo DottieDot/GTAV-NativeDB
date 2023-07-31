@@ -4,7 +4,7 @@ import { AppBar } from './components'
 import { Game, SelectedGameProvider } from './context'
 
 
-function GameNdb({ game }: { game: Game }) {
+function GameNdb({ base, game }: { base: string, game: Game }) {
   return (
     <SelectedGameProvider game={game}>
       <AppBar />
@@ -23,6 +23,7 @@ function GameNdb({ game }: { game: Game }) {
         />
         <Route path="/generate-code" element={<Navigate to="../generate-code/cpp" replace />} />
         <Route path="/generate-header" element={<Navigate to="../generate-code" replace />} />
+        <Route path="*" element={<Navigate to={`${base}/natives`} replace />} />
       </Routes>
     </SelectedGameProvider>
   )
@@ -31,8 +32,8 @@ function GameNdb({ game }: { game: Game }) {
 export default function Router() {
   return (
     <Routes>
-      <Route path="/gta5/*" element={<GameNdb game={Game.GrandTheftAuto5} />} />
-      <Route path="/rdr3/*" element={<GameNdb game={Game.RedDeadRedemption2} />} />
+      <Route path="/gta5/*" element={<GameNdb base="/gta5" game={Game.GrandTheftAuto5} />} />
+      <Route path="/rdr3/*" element={<GameNdb base="/rdr3" game={Game.RedDeadRedemption2} />} />
       <Route path="/hash" element={<Hashing />} />
       <Route path="*" element={<Navigate to="../gta5/natives" replace />} />
     </Routes>

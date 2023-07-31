@@ -61,10 +61,10 @@ export default function AppRibbon({ children }: AppRibbonProps) {
       <Ribbon elevation={4}>
         <Stack gap={1}>
           <Logo src="/GTA5/android-chrome-192x192.png" alt="app logo" />
-          <RibbonButton href="/gta5/natives">
+          <RibbonButton href="/gta5/natives" activeHref="/gta5">
             V
           </RibbonButton>
-          <RibbonButton href="/rdr3/natives">
+          <RibbonButton href="/rdr3/natives" activeHref="/rdr3">
             II
           </RibbonButton>
           <RibbonButton href="/hash">

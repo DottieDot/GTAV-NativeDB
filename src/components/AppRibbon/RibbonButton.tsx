@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 
 interface RibbonButtonLink {
   href: string
+  activeHref?: string
   target?: undefined
   onClick?: undefined
 }
@@ -12,12 +13,14 @@ interface RibbonButtonExternalLink {
   href: string
   target: string
   onClick?: undefined
+  activeHref?: undefined
 }
 
 interface RibbonButtonAction {
   onClick: MouseEventHandler<HTMLElement>
   href?: undefined
   target?: undefined
+  activeHref?: undefined
 }
 
 type RibbonButtonProps = (RibbonButtonLink | RibbonButtonExternalLink | RibbonButtonAction) & { children: ReactNode }
@@ -42,7 +45,7 @@ const Button = styled(ButtonBase)({
   fontSize: '1.4em'
 })
 
-export function RibbonButton({ children, href, target, onClick }: RibbonButtonProps) {
+export function RibbonButton({ children, href, target, onClick, activeHref }: RibbonButtonProps) {
   const location = useLocation()
 
   if (target) {
@@ -61,7 +64,7 @@ export function RibbonButton({ children, href, target, onClick }: RibbonButtonPr
     )
   }
   if (href) {
-    const active = location?.pathname.includes(href)
+    const active = location?.pathname.includes(activeHref ?? href)
     return (
       <Container 
         variant='outlined' 
