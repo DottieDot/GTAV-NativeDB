@@ -1,5 +1,5 @@
-import useTypedSelector from './useTypedSelector'
+import { useNativeDataForGame } from './useNativeDataForGame'
 
 export default function useNamespace(namespace: string) {
-  return useTypedSelector(state => state.namespaces[namespace])
+  return useNativeDataForGame().namespaces[namespace]
 }

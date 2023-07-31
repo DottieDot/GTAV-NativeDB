@@ -1,6 +1,6 @@
 import { Box, Typography, TypographyProps, useTheme } from '@mui/material'
 import { Fragment, memo, useMemo } from 'react'
-import { NativeParam } from '../../store'
+import { NativeParam } from '../../context'
 import NativeType from '../NativeType'
 import CopyableText from '../CopyableText'
 import NativeParamsEx from '../NativeParamsEx'

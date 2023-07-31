@@ -1,4 +1,5 @@
 import { ReactNode, createContext, memo, useCallback, useState } from 'react'
+import { useGuardedContext } from '../../hooks'
 
 export interface AppDataContext {
   state: {
@@ -9,6 +10,10 @@ export interface AppDataContext {
 }
 
 export const appDataContext = createContext<AppDataContext | null>(null)
+
+export function useAppDataContext() {
+  return useGuardedContext(appDataContext, 'useAppData', 'AppDataProvider')
+}
 
 export interface AppDataProviderProps {
   children: ReactNode

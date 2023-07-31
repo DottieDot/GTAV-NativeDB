@@ -4,7 +4,7 @@ import { bindPopover, bindTrigger } from 'material-ui-popup-state/hooks'
 import { ChangeEvent, Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { HexColorPicker } from 'react-colorful'
 import useDebouncedEffect from 'use-debounced-effect'
-import { CustomThemeColors } from '../../store'
+import { ThemeColors } from '../../context'
 
 const Picker = styled(HexColorPicker)(() => ({
   '&&': {
@@ -24,9 +24,9 @@ const Picker = styled(HexColorPicker)(() => ({
 
 interface ThemeColorProps {
   label: string
-  prop: keyof CustomThemeColors
+  prop: keyof ThemeColors
   themeColor: string
-  onChange: (prop: keyof CustomThemeColors, value: string) => void
+  onChange: (prop: keyof ThemeColors, value: string) => void
 }
 
 function ThemeColor({ label, themeColor, prop, onChange }: ThemeColorProps) { 

@@ -1,6 +1,7 @@
 import { ReactNode, createContext, memo, useCallback } from 'react'
 import { NativeSources, Settings } from './model'
 import useLocalStorageState from 'use-local-storage-state'
+import { useGuardedContext } from '../../hooks'
 
 export interface SettingsContext {
   settings: Settings
@@ -8,6 +9,10 @@ export interface SettingsContext {
 }
 
 export const settingsContext = createContext<SettingsContext | null>(null)
+
+export function useSettingsContext() {
+  return useGuardedContext(settingsContext, 'useSettings', 'SettingsProvider')
+}
 
 export interface SettingsProviderProps {
   children: ReactNode

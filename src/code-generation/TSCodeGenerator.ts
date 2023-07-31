@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import CodeGeneratorBase, { CodeGeneratorBaseSettings } from './CodeGeneratorBase'
 import { CodeGenNative, CodeGenParam, CodeGenType } from './ICodeGenerator'
 import { toPascalCase } from '../common'

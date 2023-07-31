@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Namespace, Native } from '../store'
+import { Namespace, Native } from '../context'
 import useNatives from './useNatives'
 
 interface SearchData {

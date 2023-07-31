@@ -1,16 +1,15 @@
 import { TextField } from '@mui/material'
 import _ from 'lodash'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { useCustomTheme } from '../../hooks'
-import { patchTheme } from '../../store'
+import { useThemesContext } from '../../context'
 
 export interface ThemeJsonEditorProps {
   themeId: string
 }
 
 export default function ThemeJsonEditor({ themeId }: ThemeJsonEditorProps) {
-  const dispatch = useDispatch()
+  const { patchTheme } = useThemesContext()
   const theme = useCustomTheme(themeId)
   const [error, setError] = useState(false)
   const [input, setInput] = useState('')
@@ -25,12 +24,12 @@ export default function ThemeJsonEditor({ themeId }: ThemeJsonEditorProps) {
   const handleBlur = useCallback(() => {
     try {
       const obj = JSON.parse(input)
-      dispatch(patchTheme(themeId, obj))
+      patchTheme(themeId, obj)
     }
     catch {
       setError(true)
     }
-  }, [dispatch, themeId, input])
+  }, [patchTheme, themeId, input])
 
   if (!theme) {
     return null

@@ -1,8 +1,8 @@
 import { Dialog, List, ListItem, ListItemText, TextField } from '@mui/material'
-import React, { ChangeEvent, Fragment, KeyboardEvent, memo, useCallback, useMemo, useState } from 'react'
+import { ChangeEvent, Fragment, KeyboardEvent, memo, useCallback, useMemo, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { useSetAppBarSettings } from '../../hooks'
-import { Namespace } from '../../store'
+import { Namespace } from '../../context'
 import { ExitToApp as JumpToNamespaceIcon } from '@mui/icons-material'
 
 interface Props {
@@ -39,7 +39,7 @@ function JumpToNamespace({ namespaces, onNamespaceClicked }: Props) {
     handleDialogClose()
   }, [handleDialogClose, onNamespaceClicked])
 
-  useSetAppBarSettings('JumpToNamespace', {
+  const jumpToNamespaceMemo = useMemo(() => ({
     actions: [
       {
         text: 'Jump to namespace',
@@ -49,7 +49,9 @@ function JumpToNamespace({ namespaces, onNamespaceClicked }: Props) {
         }
       }
     ]
-  })
+  }), [handleDialogOpen])
+
+  useSetAppBarSettings('JumpToNamespace', jumpToNamespaceMemo)
 
   const onKeyDown = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key  === 'Enter' && filter && filteredNamespaces) {

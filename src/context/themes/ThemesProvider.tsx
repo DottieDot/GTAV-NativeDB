@@ -2,6 +2,7 @@ import { ReactNode, createContext, memo, useCallback } from 'react'
 import { Theme, ThemeColors } from './model'
 import useLocalStorageState from 'use-local-storage-state'
 import _ from 'lodash'
+import { useGuardedContext } from '../../hooks'
 
 export type ThemePatch = Partial<Omit<Theme, 'id' | 'colors'>> & { colors?: Partial<ThemeColors> };
 
@@ -13,6 +14,10 @@ export interface ThemesContext {
 }
 
 export const themesContext = createContext<ThemesContext | null>(null)
+
+export function useThemesContext() {
+  return useGuardedContext(themesContext, 'useThemes', 'ThemesProvider')
+}
 
 export interface ThemesProviderProps {
   children: ReactNode

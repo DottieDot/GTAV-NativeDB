@@ -1,11 +1,10 @@
 import { Brightness6 as ModeIcon, Delete as DeleteIcon } from '@mui/icons-material'
 import { Autocomplete, Box, IconButton, styled, TextField } from '@mui/material'
 import { ChangeEvent, Fragment, memo, useCallback, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { useCustomTheme } from '../../hooks'
-import { CustomThemeColors, patchTheme, removeTheme } from '../../store'
 import SettingsControl from '../SettingsControl'
 import ThemeColor from './ThemeColor'
+import { ThemeColors, useThemesContext } from '../../context'
 
 const ColorGrid = styled('div')(({theme}) => ({
   display: 'grid',
@@ -19,7 +18,7 @@ interface ThemeEditorProps {
 
 interface Color {
   label: string
-  prop: keyof CustomThemeColors
+  prop: keyof ThemeColors
 }
 const colors: Color[] = [
   {
@@ -65,7 +64,7 @@ const colors: Color[] = [
 ]
 
 function ThemeEditor({ themeId }: ThemeEditorProps) {
-  const dispatch = useDispatch()
+  const { patchTheme, removeTheme } = useThemesContext()
   const theme = useCustomTheme(themeId)
   const [name, setName] = useState(theme?.name ?? '')
 
@@ -73,25 +72,25 @@ function ThemeEditor({ themeId }: ThemeEditorProps) {
     setName(theme?.name ?? '')
   }, [theme?.name])
 
-  const handleColorChanged = useCallback((prop: keyof CustomThemeColors, value: string) => {
-    dispatch(patchTheme(themeId, {
+  const handleColorChanged = useCallback((prop: keyof ThemeColors, value: string) => {
+    patchTheme(themeId, {
       colors: {
         [prop]: value
       }
-    }))
-  }, [dispatch, themeId])
+    })
+  }, [patchTheme, themeId])
 
   const handleModeChanged = useCallback((_: unknown, value: string) => {
     if (value === 'light' || value === 'dark') {
-      dispatch(patchTheme(themeId, {
+      patchTheme(themeId, {
         mode: value
-      }))
+      })
     }
-  }, [dispatch, themeId])
+  }, [patchTheme, themeId])
 
   const handleDelete = useCallback(() => {
-    dispatch(removeTheme(themeId))
-  }, [dispatch, themeId])
+    removeTheme(themeId)
+  }, [removeTheme, themeId])
 
   const handleNameChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value)
@@ -99,11 +98,11 @@ function ThemeEditor({ themeId }: ThemeEditorProps) {
 
   const handleBlur = useCallback((_: unknown) => {
     if (name !== '') {
-      dispatch(patchTheme(themeId, {
+      patchTheme(themeId, {
         name
-      }))
+      })
     }
-  }, [name, themeId, dispatch])
+  }, [name, themeId, patchTheme])
 
   if (!theme) {
     return null

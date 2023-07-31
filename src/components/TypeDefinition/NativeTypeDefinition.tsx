@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material'
 import { Fragment } from 'react'
-import { TypeDefinitionNativeType } from '../../store'
+import { TypeDefinitionNativeType } from '../../context'
 import NativeType from '../NativeType'
 
 interface NativeTypeDefinitionProps {

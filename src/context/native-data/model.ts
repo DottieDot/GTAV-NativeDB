@@ -90,4 +90,7 @@ export interface CodeExample {
   code: string
 }
 
-export type Game = 'gta5' | 'rdr3'
+export enum Game {
+  GrandTheftAuto5,
+  RedDeadRedemption3
+}

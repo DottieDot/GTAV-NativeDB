@@ -2,7 +2,7 @@ import { Autocomplete, AutocompleteProps, TextField, Typography, useMediaQuery, 
 import React, { memo, ReactNode, useMemo } from 'react'
 import { useNatives } from '../../hooks'
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
-import { Native } from '../../store'
+import { Native } from '../../context'
 
 const LISTBOX_PADDING = 8
 

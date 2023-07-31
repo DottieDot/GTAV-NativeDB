@@ -1,13 +1,12 @@
 import { CloseOutlined as CloseIcon } from '@mui/icons-material'
 import { Box, Checkbox, Divider, Drawer, FormControlLabel, IconButton, Link, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import { Fragment, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
 import { getGame } from '../../constants'
 import { useIsSmallDisplay, useSettings } from '../../hooks'
-import { setSettings } from '../../store'
 import LocalFileUpload from '../LocalFileUpload/LocalFileUpload'
 import ThemeManager from '../ThemeManager'
 import ThemeSelector from '../ThemeSelector'
+import { useSettingsContext } from '../../context'
 
 interface SettingsDrawerProps {
   open: boolean
@@ -17,39 +16,39 @@ interface SettingsDrawerProps {
 export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
   const smallDisplay = useIsSmallDisplay()
   const settings = useSettings()
-  const dispatch = useDispatch()
+  const { patchSettings } = useSettingsContext()
 
   const handleSourcesChanged = useCallback((_: unknown, value: any) => {
-    dispatch(setSettings({
+    patchSettings({
       sources: value
-    }))
-  }, [dispatch])
+    })
+  }, [patchSettings])
 
   const handleListDisplayModeChanged = useCallback((_: unknown, value: unknown) => {
     if (value === 'C' || value === 'UML' || value === 'TS') {
-      dispatch(setSettings({
+      patchSettings({
         nativeDisplayMode: value
-      }))
+      })
     }
-  }, [dispatch])
+  }, [patchSettings])
 
   const handleDisplayVoidReturnTypeChanged = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSettings({
+    patchSettings({
       displayVoidReturnType: e.target.checked
-    }))
-  }, [dispatch])
+    })
+  }, [patchSettings])
 
   const handleNativeTypesChanged = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSettings({
+    patchSettings({
       nativeTypes: e.target.checked
-    }))
-  }, [dispatch])
+    })
+  }, [patchSettings])
 
   const handleCompactVectorsChanged = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSettings({
+    patchSettings({
       compactVectors: e.target.checked
-    }))
-  }, [dispatch])
+    })
+  }, [patchSettings])
 
   return (
     <Drawer

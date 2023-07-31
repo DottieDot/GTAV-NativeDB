@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
-import store, { setUpdateReady } from './store'
 import './style.css'
 
 const container = document.getElementById('root');
@@ -19,7 +18,7 @@ root.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
 serviceWorkerRegistration.register({
-  onUpdate: (swRegistration) => store.dispatch(setUpdateReady(swRegistration))
+  // onUpdate: (swRegistration) => store.dispatch(setUpdateReady(swRegistration))
 })
 
 // If you want to start measuring performance in your app, pass a function

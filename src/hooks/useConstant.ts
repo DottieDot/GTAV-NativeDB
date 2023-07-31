@@ -1,5 +1,5 @@
-import useTypedSelector from './useTypedSelector'
+import { useNativeDataForGame } from './useNativeDataForGame'
 
 export default function useConstant(constant: string) {
-  return useTypedSelector(state => state.constants[constant])
+  return useNativeDataForGame()?.constants[constant]
 }

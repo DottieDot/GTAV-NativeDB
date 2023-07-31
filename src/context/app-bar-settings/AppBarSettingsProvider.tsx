@@ -1,6 +1,7 @@
 import { ReactNode, createContext, memo, useCallback, useState } from 'react'
 import { AppBarSettings } from '../../components'
 import _ from 'lodash'
+import { useGuardedContext } from '../../hooks'
 
 export interface AppBarSettingsContext {
   settings: { [id: string]: AppBarSettings }
@@ -9,6 +10,10 @@ export interface AppBarSettingsContext {
 }
 
 export const appBarSettingsContext = createContext<AppBarSettingsContext | null>(null)
+
+export function useAppBarSettingsContext() {
+  return useGuardedContext(appBarSettingsContext, 'useAppBarSettings', 'AppBarSettingsProvider')
+}
 
 export interface AppBarSettingsProviderProps {
   children: ReactNode
