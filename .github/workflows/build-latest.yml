@@ -41,7 +41,8 @@ jobs:
           tags: ghcr.io/${{ env.OWNER_LC }}:gtav
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
-          build-args: ${{ env.BUILD_ARGS }}
+          build-args: |
+            ${{ env.BUILD_ARGS }}
       
       -
         name: Select RDR 3 env variables
@@ -56,4 +57,5 @@ jobs:
           tags: ghcr.io/${{ env.OWNER_LC }}:rdr3
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
-          build-args: ${{ env.BUILD_ARGS }}
+          build-args: |
+            ${{ env.BUILD_ARGS }}
