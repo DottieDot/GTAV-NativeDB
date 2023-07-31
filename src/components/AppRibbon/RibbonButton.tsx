@@ -17,7 +17,8 @@ const Button = styled(ButtonBase)({
   position: 'absolute',
   width: '100%',
   height: '100%',
-  top: 0
+  top: 0,
+  fontSize: '1.4em'
 })
 
 export function RibbonButton({ children, href }: RibbonButtonProps) {

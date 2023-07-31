@@ -33,11 +33,13 @@
     "use-debounced-effect": "^2.0.1",
     "use-local-storage-state": "^18.1.1",
     "uuid": "^9.0.0",
-    "web-vitals": "^3.1.0"
+    "web-vitals": "^3.1.0",
+    "wasm-lib": "file:wasm-lib/pkg"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:wasm": "wasm-pack build ./wasm-lib --target web --out-dir pkg",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

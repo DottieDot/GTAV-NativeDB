@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { GenerateCodePage, NativesPage } from './pages'
+import { GenerateCodePage, Hashing, NativesPage } from './pages'
 import { AppBar } from './components'
 import { Game, SelectedGameProvider } from './context'
 
@@ -33,6 +33,7 @@ export default function Router() {
     <Routes>
       <Route path="/gta5/*" element={<GameNdb game={Game.GrandTheftAuto5} />} />
       <Route path="/rdr3/*" element={<GameNdb game={Game.RedDeadRedemption2} />} />
+      <Route path="/hash" element={<Hashing />} />
     </Routes>
   )
 }

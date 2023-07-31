@@ -1,0 +1,5 @@
+force_multiline_blocks = true
+tab_spaces = 2
+struct_field_align_threshold = 999
+enum_discrim_align_threshold = 999
+trailing_comma = "Never"

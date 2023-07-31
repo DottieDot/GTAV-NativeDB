@@ -4,15 +4,18 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import './style.css'
+import init from 'wasm-lib'
 
 const container = document.getElementById('root');
 const root = createRoot(container!)
 
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-)
+init().then(() => {
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  )
+})
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

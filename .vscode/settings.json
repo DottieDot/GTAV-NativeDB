@@ -4,5 +4,8 @@
     ".php_cs": "php",
     "functional": "cpp"
   },
-  "editor.formatOnSave": false
+  "editor.formatOnSave": false,
+  "[rust]": {
+    "editor.formatOnSave": true
+  }
 }
