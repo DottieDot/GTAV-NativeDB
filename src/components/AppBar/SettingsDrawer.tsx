@@ -1,7 +1,6 @@
 import { CloseOutlined as CloseIcon } from '@mui/icons-material'
 import { Box, Checkbox, Divider, Drawer, FormControlLabel, IconButton, Link, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import { Fragment, useCallback } from 'react'
-import { getGame } from '../../constants'
 import { useIsSmallDisplay, useSettings } from '../../hooks'
 import LocalFileUpload from '../LocalFileUpload/LocalFileUpload'
 import ThemeManager from '../ThemeManager'
@@ -100,16 +99,12 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
               <ToggleButton value="alloc8or" disabled>
                 Alloc8or
               </ToggleButton>
-              {getGame() === 'GTA5' && (
-                <ToggleButton value="dottiedot">
-                  DottieDot
-                </ToggleButton>
-              )}
-              {getGame() === 'GTA5' && (
-                <ToggleButton value="fivem">
-                  FiveM
-                </ToggleButton>
-              )}
+              <ToggleButton value="dottiedot">
+                DottieDot
+              </ToggleButton>
+              <ToggleButton value="fivem">
+                FiveM
+              </ToggleButton>
               <ToggleButton value="special">
                 Special
               </ToggleButton>

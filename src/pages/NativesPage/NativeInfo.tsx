@@ -2,18 +2,20 @@ import { Box, Button, IconButton, List, ListItem, ListItemText, Paper, Stack, To
 import { LinkSharp as ShareIcon, OpenInNewSharp as OpenInNewSharpIcon } from '@mui/icons-material'
 import _ from 'lodash'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { createShareUrl, toPascalCase } from '../../common'
 import { CodeExamples, NativeComment, NativeDefinition, NativeDetails, NativeUsage } from '../../components'
 import { useCopyToClipboard, useIsSmallDisplay, useLastNotNull, useNative, useSettings } from '../../hooks'
-import { NativeSources } from '../../context'
+import { Game, NativeSources, useSelectedGameContext } from '../../context'
 import NativeNotFound from './NativeNotFound'
 import NoNativeSelected from './NoNativeSelected'
-import { getGame } from '../../constants'
 import Giscus from '@giscus/react'
 
-export default function NativeInfo() {
-  const { native: nativeHashParam } = useParams<{ native?: string }>()
+interface NativeInfoProps {
+  native?: string 
+}
+
+export default function NativeInfo({ native: nativeHashParam }: NativeInfoProps) {
   const nativeHashNotNull = useLastNotNull(nativeHashParam)
   const [usageNotFound, setUsageNotFound] = useState(false)
   const settings = useSettings()
@@ -22,6 +24,7 @@ export default function NativeInfo() {
   const native = useNative(nativeHash ?? '')
   const copyToClipboard = useCopyToClipboard()
   const theme = useTheme()
+  const game = useSelectedGameContext()
 
   const onShare = useCallback(() => {
     copyToClipboard(createShareUrl(`/natives/${nativeHash}`))
@@ -157,13 +160,12 @@ export default function NativeInfo() {
             </Paper>
           </div>
         )}
-        {getGame() === 'RDR3' && native.gtaHash && (
+        {game === Game.RedDeadRedemption2 && native.gtaHash && (
           <Button 
             variant="text"
             color="inherit"
-            component="a"
-            target="_blank"
-            href={`https://gta5.nativedb.dotindustries.dev/natives/${native.gtaHash}`}
+            component={Link}
+            to={`/gta5/natives/${native.gtaHash}`}
             startIcon={<OpenInNewSharpIcon />}
           >
             GTA5 Native Definition

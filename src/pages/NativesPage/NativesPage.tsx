@@ -2,20 +2,22 @@ import { Grid, SwipeableDrawer, useTheme, IconButton, Box, Typography, Paper, al
 import { Close as CloseIcon } from '@mui/icons-material'
 import React, { memo,useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router'
-import { useIsSmallDisplay } from '../../hooks'
+import { useGameUrl, useIsSmallDisplay } from '../../hooks'
 import { getOverlayAlpha } from '../../common'
 import NativeInfo from './NativeInfo'
 import NativeList from './NativeList'
 import { useSearchParams } from 'react-router-dom'
 
 function Desktop() {
+  const { native } = useParams<{ native?: string }>()
+  
   return (
     <Grid sx={{ flex: 1, overflow: 'hidden' }} container>
       <Grid
         xl={4} md={5} sm={6} xs={12} item
         sx={{ overflow: 'hidden scroll', height: '100%' }}
       >
-        <NativeInfo />
+        <NativeInfo native={native} />
       </Grid>
       <Grid
         xl={8} md={7} sm={6} xs={12} item
@@ -32,12 +34,14 @@ function NativeInfoDrawer() {
   const navigate = useNavigate()
   const theme = useTheme()
 
+  const nativesUrl = useGameUrl('/natives')
+  
   const handleClose = useCallback(() => {
     navigate({
-      pathname: '/natives',
+      pathname: nativesUrl,
       search: search.toString()
     }, { replace: true })
-  }, [navigate, search])
+  }, [navigate, search, nativesUrl])
 
   return (
     <SwipeableDrawer
@@ -85,7 +89,7 @@ function NativeInfoDrawer() {
         </IconButton>
       </Paper>
 
-      <NativeInfo />
+      <NativeInfo native={nativeHash} />
     </SwipeableDrawer>
   )
 }

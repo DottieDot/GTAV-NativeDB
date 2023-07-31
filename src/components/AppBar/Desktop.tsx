@@ -3,13 +3,13 @@ import { GitHub as GithubIcon, Settings as SettingsIcon, Apps as AppsIcon } from
 import React, { useCallback, useMemo, useState, MouseEventHandler } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { AppBarAction as AppBarActionProps } from '.'
-import { useAppBarSettings, useStats } from '../../hooks'
+import { useAppBarSettings, useGameUrl, useStats } from '../../hooks'
 import DesktopSearch from './DesktopSearch'
 import { AppBarProps } from './model'
 import SettingsDrawer from './SettingsDrawer'
 import StatusButton from './StatusButton'
 import AppsPopover from './AppsPopover'
-import { TITLE } from '../../constants'
+import { Game, useSelectedGameContext } from '../../context'
 
 function AppBarAction({ text, desktopIcon, buttonProps }: AppBarActionProps) {
   if (!desktopIcon) {
@@ -81,6 +81,10 @@ function Desktop({ ...rest }: AppBarProps) {
     }
   ], [settings, handleSettingsOpen, handleAppsOpen])
 
+  const title = useSelectedGameContext() === Game.GrandTheftAuto5 ? 'GTA5 Native Reference' : 'RDR3 Native Reference'
+  const generateCodeUrl = useGameUrl('/generate-code')
+  const nativesUrl = useGameUrl('/natives')
+
   return (
     <Box {...rest}>
       <SettingsDrawer open={settingsOpen} onClose={handleSettingsClose} />
@@ -101,12 +105,12 @@ function Desktop({ ...rest }: AppBarProps) {
         <Toolbar>
           <Typography variant="h6" component="div">
             <Link
-              to="/natives"
+              to={nativesUrl}
               color="inherit"
               underline="none"
               component={RouterLink}
             >
-              {settings?.title ?? TITLE}
+              {settings?.title ?? title}
             </Link>
           </Typography>
           <Box
@@ -130,7 +134,7 @@ function Desktop({ ...rest }: AppBarProps) {
             Comments:&nbsp;{stats.comments}&nbsp;{'| '}
             Known names:&nbsp;{stats.knownNames.confirmed} ({stats.knownNames.total})&nbsp;{'| '}
             <Link
-              to="/generate-code"
+              to={generateCodeUrl}
               color="inherit"
               underline="hover"
               component={RouterLink}

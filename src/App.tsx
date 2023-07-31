@@ -1,7 +1,6 @@
 import { CssBaseline } from '@mui/material'
-import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import { AppBar, OnlineStatusProvider, UpdateDialog } from './components'
+import { AppRibbon, OnlineStatusProvider, UpdateDialog } from './components'
 import { useNamespaces } from './hooks'
 import NativeLoader from './NativeLoader'
 import { LoadingScreen } from './pages'
@@ -18,11 +17,10 @@ function LoadGate() {
   }
 
   return (
-    <React.Fragment>
-      <AppBar />
+    <AppRibbon>
       <UpdateDialog />
       <Router />
-    </React.Fragment>
+    </AppRibbon>
   )
 }
 

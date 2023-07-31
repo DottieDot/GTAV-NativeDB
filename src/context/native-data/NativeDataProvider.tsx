@@ -45,7 +45,7 @@ const initialState: GameNativeData = {
 export const NativeDataProvider = memo(({ children }: NativeDataProviderProps) => {
   const [games, setGames] = useState<NativeDataContext['games']>({
     [Game.GrandTheftAuto5]: initialState,
-    [Game.RedDeadRedemption3]: initialState
+    [Game.RedDeadRedemption2]: initialState
   })
 
   const setNatives = useCallback<NativeDataContext['setNatives']>((game, { namespaces, natives, types, constants }) => {

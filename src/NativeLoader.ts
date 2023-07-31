@@ -12,20 +12,22 @@ export default function NativeLoader() {
   })
   const { setNatives } = useNativeDataContext()
   useEffect(() => {
-    for (let game of [Game.GrandTheftAuto5, Game.RedDeadRedemption3]) {
+    for (let game of [Game.GrandTheftAuto5, Game.RedDeadRedemption2]) {
       (async () => {
         const loader = new NativeDataLoader(game)
         if (_.includes(sources, NativeSources.Alloc8or)) {
           await loader.loadAlloc8or()
         }
-        if (_.includes(sources, NativeSources.FiveM)) {
-          await loader.loadFiveM()
-        }
-        if (_.includes(sources, NativeSources.DottieDot)) {
-          await loader.loadDottieDot()
-        }
-        if (_.includes(sources, NativeSources.SpecialData) && specialFile) {
-          await loader.loadSpecialData(specialFile)
+        if (game === Game.GrandTheftAuto5) {
+          if (_.includes(sources, NativeSources.FiveM)) {
+            await loader.loadFiveM()
+          }
+          if (_.includes(sources, NativeSources.DottieDot)) {
+            await loader.loadDottieDot()
+          }
+          if (_.includes(sources, NativeSources.SpecialData) && specialFile) {
+            await loader.loadSpecialData(specialFile)
+          }
         }
 
         setNatives(game, loader)

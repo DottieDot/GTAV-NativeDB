@@ -3,14 +3,14 @@ import { GitHub as GithubIcon, MoreVert as MoreIcon,  Settings as SettingsIcon, 
 import React, { MouseEvent, MouseEventHandler, useCallback, useMemo, useState } from 'react'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { AppBarAction as AppBarActionProps } from '.'
-import { useAppBarSettings } from '../../hooks'
+import { useAppBarSettings, useGameUrl } from '../../hooks'
 import { AppBarProps } from './model'
 import SettingsDrawer from './SettingsDrawer'
 import StatsDialog from './StatsDialog'
 import StatusButton from './StatusButton'
 import AppsDialog from './AppsDialog'
-import { SHORT_TITLE } from '../../constants'
 import DesktopSearch from './DesktopSearch'
+import { Game, useSelectedGameContext } from '../../context'
 
 function AppBarAction({ text, mobileIcon, buttonProps: { href, target, onClick, ...buttonProps } }: AppBarActionProps) {
   const navigate = useNavigate()
@@ -77,6 +77,8 @@ function Mobile({ ...rest }: AppBarProps) {
     setAppsDialog(false)
   }, [setAppsDialog])
 
+  const generateCodeUrl = useGameUrl('/generate-code')
+
   const actions: AppBarActionProps[] = useMemo(() => [
     ...(settings.actions ?? []),
     {
@@ -97,7 +99,7 @@ function Mobile({ ...rest }: AppBarProps) {
       text: 'Generate Code',
       mobileIcon: CodeIcon,
       buttonProps: {
-        href: '/generate-code'
+        href: generateCodeUrl
       }
     },
     {
@@ -115,7 +117,10 @@ function Mobile({ ...rest }: AppBarProps) {
         target: '_blank'
       }
     }
-  ], [settings, handleSettingsOpen, handleStatsDialogOpen, handleAppsDialogOpen])
+  ], [settings, handleSettingsOpen, handleStatsDialogOpen, handleAppsDialogOpen, generateCodeUrl])
+
+  const shortTitle = useSelectedGameContext() === Game.GrandTheftAuto5 ? 'GTA5 NDB' : 'RDR3 NDB'
+  const nativesUrl = useGameUrl('/natives')
 
   return (
     <Box {...rest}>
@@ -126,12 +131,12 @@ function Mobile({ ...rest }: AppBarProps) {
         <Toolbar>
           <Typography variant="h6" component="div">
             <Link
-              to="/natives"
+              to={nativesUrl}
               color="inherit"
               underline="none"
               component={RouterLink}
             >
-              {settings?.title ?? SHORT_TITLE}
+              {settings?.title ?? shortTitle}
             </Link>
           </Typography>
           {settings.search && (

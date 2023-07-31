@@ -92,5 +92,5 @@ export interface CodeExample {
 
 export enum Game {
   GrandTheftAuto5,
-  RedDeadRedemption3
+  RedDeadRedemption2
 }

@@ -1,8 +1,8 @@
 import { ListItem } from '@mui/material'
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { useCallback } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { useNative } from '../../hooks'
+import { useGameUrl, useNative } from '../../hooks'
 import NativeDefinition from '../NativeDefinition'
 
 interface NativeListItemProps {
@@ -15,12 +15,14 @@ function NativeListItem({ nativeHash }: NativeListItemProps) {
   const [search] = useSearchParams()
   const { native: selectedNativeHash } = useParams<{ native: string } >()
   
+  const url = useGameUrl(`/natives/${nativeHash}`)
+
   const onClick = useCallback(() => {
     navigate({
-      pathname: `/natives/${nativeHash}`,
+      pathname: url,
       search: search.toString()
     })
-  }, [navigate, nativeHash, search])
+  }, [navigate, url, search])
 
   return (
     <ListItem

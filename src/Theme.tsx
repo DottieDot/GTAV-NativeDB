@@ -3,7 +3,6 @@ import { createTheme, ThemeOptions, ThemeProvider, useMediaQuery } from '@mui/ma
 import { useEffect } from 'react'
 import { useMemo } from 'react'
 import { ReactNode } from 'react'
-import { getGame } from './constants'
 import { useSettings, useThemes } from './hooks'
 
 declare module '@mui/material/styles' {
@@ -29,110 +28,56 @@ declare module '@mui/material/styles' {
 }
 
 function getLightTheme(): ThemeOptions {
-  switch (getGame()) {
-    case "GTA5":
-      return {
-        palette: {
-          mode: 'light',
-          background: {
-            default: '#eee'
-          },
-          primary: {
-            main: '#0e752e'
-          },
-          secondary: {
-            main: '#ff3d00'
-          }
-        },
-        extensions: {
-          nativeValueHighlight: '#bf360c',
-          constantIdentifierHighlight: '#870000',
-          typeInfoBorderColor: '#565656',
-          symbolColor: '#bf360c',
-          parameterColor: '#870000'
-        }
+  return {
+    palette: {
+      mode: 'light',
+      background: {
+        default: '#eee'
+      },
+      primary: {
+        main: '#0e752e'
+      },
+      secondary: {
+        main: '#ff3d00'
       }
-    case "RDR3":
-      return {
-        palette: {
-          mode: 'light',
-          background: {
-            default: '#eee'
-          },
-          primary: {
-            main: '#ee0000'
-          },
-          secondary: {
-            main: '#ff3d00'
-          }
-        },
-        extensions: {
-          nativeValueHighlight: '#bf360c',
-          constantIdentifierHighlight: '#870000',
-          typeInfoBorderColor: '#565656',
-          symbolColor: '#bf360c',
-          parameterColor: '#870000'
-        }
-      }
+    },
+    extensions: {
+      nativeValueHighlight: '#bf360c',
+      constantIdentifierHighlight: '#870000',
+      typeInfoBorderColor: '#565656',
+      symbolColor: '#bf360c',
+      parameterColor: '#870000'
+    }
   }
 }
 
 const lightTheme = getLightTheme()
 
 function getDarkTheme(): ThemeOptions {
-  switch (getGame()) {
-    case "GTA5":
-      return {
-        palette: {
-          mode: 'dark',
-          primary: {
-            main: '#20ba4e'
-          },
-          secondary: {
-            main: '#ff8c00'
-          }
-        },
-        components: {
-          MuiCssBaseline: {
-            styleOverrides: {
-              body: darkScrollbar()
-            }
-          }
-        },
-        extensions: {
-          nativeValueHighlight: '#ffccbc',
-          constantIdentifierHighlight: '#ff9e80',
-          typeInfoBorderColor: '#565656',
-          symbolColor: '#ffab91',
-          parameterColor: '#ffcc80'
+  return {
+    palette: {
+      mode: 'dark',
+      primary: {
+        main: '#20ba4e'
+      },
+      secondary: {
+        main: '#ff8c00'
+      }
+    },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: darkScrollbar()
         }
       }
-    case "RDR3":
-      return {
-        palette: {
-          mode: 'dark',
-          primary: {
-            main: '#ee0000'
-          },
-          secondary: {
-            main: '#ff8c00'
-          }
-        },
-        components: {
-          MuiCssBaseline: {
-            styleOverrides: {
-              body: darkScrollbar()
-            }
-          }
-        },
-        extensions: {
-          nativeValueHighlight: '#ffccbc',
-          constantIdentifierHighlight: '#ff9e80',
-          typeInfoBorderColor: '#565656',
-          symbolColor: '#ffab91',
-          parameterColor: '#ffcc80'
-        }
-      }
+    },
+    extensions: {
+      nativeValueHighlight: '#ffccbc',
+      constantIdentifierHighlight: '#ff9e80',
+      typeInfoBorderColor: '#565656',
+      symbolColor: '#ffab91',
+      parameterColor: '#ffcc80'
+    }
   }
 }
 

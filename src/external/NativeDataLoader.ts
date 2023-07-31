@@ -83,7 +83,7 @@ export default class NativeDataLoader {
   }
 
   async loadAlloc8or() {
-    const data = await LoadAlloc8orNatives()
+    const data = await LoadAlloc8orNatives(this._game)
 
     if (!data) {
       return
