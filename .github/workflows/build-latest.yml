@@ -33,7 +33,7 @@ jobs:
         run: |
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           echo "BUILD_ARGS<<$EOF" >> "$GITHUB_ENV"
-          grep -E '^[^#;|[:space:]]' .env.example >> "$GITHUB_ENV"
+          grep -E '^[^#;|[:space:]]' .env.example | sed 's/ = /=/' >> "$GITHUB_ENV"
           echo "$EOF" >> "$GITHUB_ENV"
 
       -
@@ -52,7 +52,7 @@ jobs:
         run: |
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           echo "BUILD_ARGS<<$EOF" >> "$GITHUB_ENV"
-          grep \# .env.example | sed 's/# //g' >> "$GITHUB_ENV"
+          grep \# .env.example | sed 's/# //g' | sed 's/ = /=/' >> "$GITHUB_ENV"
           echo "$EOF" >> "$GITHUB_ENV"
 
       -
