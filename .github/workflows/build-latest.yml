@@ -31,8 +31,10 @@ jobs:
       -
         name: Select GTA V env variables
         run: |
-          BUILD_ARGS=$(grep -E '^[^#;|[:space:]]' .env.example)
-          echo "BUILD_ARGS=\"${BUILD_ARGS}\"" >> ${GITHUB_ENV}
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "BUILD_ARGS<<$EOF" >> "$GITHUB_ENV"
+          grep -E '^[^#;|[:space:]]' .env.example >> "$GITHUB_ENV"
+          echo "$EOF" >> "$GITHUB_ENV"
 
       -
         name: Build GTA V image and push
@@ -48,8 +50,10 @@ jobs:
       -
         name: Select RDR 3 env variables
         run: |
-          BUILD_ARGS=$(grep \# .env.example | sed 's/# //g')
-          echo "BUILD_ARGS=\"${BUILD_ARGS}\"" >> ${GITHUB_ENV}
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "BUILD_ARGS<<$EOF" >> "$GITHUB_ENV"
+          grep \# .env.example | sed 's/# //g' >> "$GITHUB_ENV"
+          echo "$EOF" >> "$GITHUB_ENV"
 
       -
         name: Build RDR 3 image and push
