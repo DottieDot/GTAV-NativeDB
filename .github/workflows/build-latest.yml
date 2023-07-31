@@ -22,16 +22,38 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.PACKAGE_WRITE_TOKEN }}
       -
-        name: set lower case owner name
+        name: Set lower case owner name
         run: |
-          echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+          echo "OWNER_LC=${OWNER,,}" >> ${GITHUB_ENV}
         env:
           OWNER: '${{ github.repository }}'
+      
       -
-        name: Build and push container
+        name: Select GTA V env variables
+        run: |
+          echo "BUILD_ARGS='$(grep -E '^[^#;|[:space:]]' .env.example)' >> ${GITHUB_ENV}
+
+      -
+        name: Build GTA V image and push
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ghcr.io/${{ env.OWNER_LC }}:latest
+          tags: ghcr.io/${{ env.OWNER_LC }}:gtav
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
+          build-args: ${{ env.BUILD_ARGS }}
+      
+      -
+        name: Select RDR 3 env variables
+        run: |
+          echo "BUILD_ARGS='$(grep \# .env.example | sed 's/# //g')'" >> ${GITHUB_ENV}
+
+      -
+        name: Build RDR 3 image and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: ghcr.io/${{ env.OWNER_LC }}:rdr3
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+          build-args: ${{ env.BUILD_ARGS }}
