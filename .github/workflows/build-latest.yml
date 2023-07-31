@@ -31,7 +31,7 @@ jobs:
       -
         name: Select GTA V env variables
         run: |
-          echo "BUILD_ARGS='$(grep -E '^[^#;|[:space:]]' .env.example)' >> ${GITHUB_ENV}
+          echo "BUILD_ARGS='$(grep -E '^[^#;|[:space:]]' .env.example)'" >> ${GITHUB_ENV}
 
       -
         name: Build GTA V image and push
