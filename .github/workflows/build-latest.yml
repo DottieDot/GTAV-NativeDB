@@ -7,7 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-bin:
+  build-images:
+    name: Build static Native DB images for GTA V & RDR3
     runs-on: ubuntu-latest
     steps:
       -
