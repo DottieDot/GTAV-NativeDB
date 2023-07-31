@@ -9,7 +9,7 @@ import { useSettingsContext } from '../../context'
 
 interface SettingsDrawerProps {
   open: boolean
-  onClose: () => void
+  onClose: (_: false) => void
 }
 
 export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
@@ -49,11 +49,15 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
     })
   }, [patchSettings])
 
+  const handleClose = useCallback(() => {
+    onClose(false)
+  }, [onClose])
+
   return (
     <Drawer
-      anchor={smallDisplay ? 'bottom' : 'right'}
+      anchor={smallDisplay ? 'bottom' : 'left'}
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       PaperProps={{
         sx: {
           width: smallDisplay ? undefined : 500
@@ -73,7 +77,7 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
         >
           Settings
         </Typography>
-        <IconButton aria-label="close settings" onClick={onClose}>
+        <IconButton aria-label="close settings" onClick={handleClose}>
           <CloseIcon fontSize="medium" />
         </IconButton>
       </Box>

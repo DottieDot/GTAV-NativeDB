@@ -1,11 +1,31 @@
 import { ButtonBase, Paper, styled } from '@mui/material'
-import { ReactNode } from 'react'
+import { MouseEventHandler, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
-interface RibbonButtonProps {
-  children: ReactNode,
+interface RibbonButtonLink {
   href: string
+  target?: undefined
+  onClick?: undefined
 }
+
+interface RibbonButtonExternalLink {
+  href: string
+  target: string
+  onClick?: undefined
+}
+
+interface RibbonButtonAction {
+  onClick: MouseEventHandler<HTMLElement>
+  href?: undefined
+  target?: undefined
+}
+
+// interface RibbonButtonProps {
+//   children: ReactNode,
+//   href: string
+// }
+
+type RibbonButtonProps = (RibbonButtonLink | RibbonButtonExternalLink | RibbonButtonAction) & { children: ReactNode }
 
 const Container = styled(Paper)({
   paddingTop: '100%',
@@ -21,15 +41,41 @@ const Button = styled(ButtonBase)({
   fontSize: '1.4em'
 })
 
-export function RibbonButton({ children, href }: RibbonButtonProps) {
+export function RibbonButton({ children, href, target, onClick }: RibbonButtonProps) {
+  if (target) {
+    return (
+      <Container variant='outlined'>
+        <Button
+          // https://github.com/mui/material-ui/issues/31194
+          // @ts-ignore
+          component="a"
+          href={href}
+          target={target}
+        >
+          {children}
+        </Button>
+      </Container>
+    )
+  }
+  if (href) {
+    return (
+      <Container variant='outlined'>
+        <Button
+          // https://github.com/mui/material-ui/issues/31194
+          // @ts-ignore
+          component={Link}
+          to={href}
+        >
+          {children}
+        </Button>
+      </Container>
+    )
+  }
+
   return (
     <Container variant='outlined'>
-      
       <Button 
-        // https://github.com/mui/material-ui/issues/31194
-        // @ts-ignore
-        component={Link} 
-        to={href}
+        onClick={onClick}
       >
         {children}
       </Button>

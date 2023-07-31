@@ -1,7 +1,11 @@
 import { Divider, Paper, Stack, styled } from '@mui/material'
-import { Home as HomeIcon, GitHub as GitHubIcon, Apps as AppsIcon, Settings as SettingsIcon } from '@mui/icons-material'
-import { ReactNode } from 'react'
+import { GitHub as GitHubIcon, Apps as AppsIcon, Settings as SettingsIcon } from '@mui/icons-material'
+import { MouseEventHandler, ReactNode, useCallback, useState } from 'react'
 import { RibbonButton } from './RibbonButton'
+import SettingsDrawer from './SettingsDrawer'
+import AppsPopover from './AppsPopover'
+import { useIsSmallDisplay } from '../../hooks'
+import AppsDialog from './AppsDialog'
 
 export interface AppRibbonProps {
   children: ReactNode
@@ -23,11 +27,11 @@ const Ribbon = styled(Paper)(({ theme } ) => ({
 }))
 
 const Content = styled('div')({
-  display: 'inline-grid',
+  display: 'flex',
+  flexDirection: 'column',
   gridArea: 'content',
   gridTemplateRows: 'auto 1fr',
-  overflowY: 'auto',
-  maxWidth: '100%'
+  overflowY: 'auto'
 })
 
 const Logo = styled('img')(({ theme }) => ({
@@ -36,14 +40,27 @@ const Logo = styled('img')(({ theme }) => ({
 }))
 
 export default function AppRibbon({ children }: AppRibbonProps) {
+  const [settings, setSettings] = useState(false)
+  const [appsAnchorEl, setAppsAnchorEl] = useState<HTMLElement | null>(null)
+  const isSmall = useIsSmallDisplay()
+
+  const handleAppsOpen = useCallback<MouseEventHandler<HTMLElement>>(event => {
+    setAppsAnchorEl(event.currentTarget)
+  }, [setAppsAnchorEl])
+  
+  const handleApsClose = useCallback(() => {
+    setAppsAnchorEl(null)
+  }, [setAppsAnchorEl])
+  
+  const handleOpenSettings = useCallback(() => {
+    setSettings(true)
+  }, [setSettings])
+
   return (
     <Container>
       <Ribbon elevation={4}>
         <Stack gap={1}>
           <Logo src="/GTA5/android-chrome-192x192.png" alt="app logo" />
-          <RibbonButton href="/home">
-            <HomeIcon fontSize="inherit" />
-          </RibbonButton>
           <RibbonButton href="/gta5/natives">
             V
           </RibbonButton>
@@ -56,13 +73,13 @@ export default function AppRibbon({ children }: AppRibbonProps) {
         </Stack>
         <Stack gap={1} sx={{ alignSelf: 'end' }}>
           <Divider />
-          <RibbonButton href="/home">
+          <RibbonButton onClick={handleOpenSettings}>
             <SettingsIcon fontSize="inherit" />
           </RibbonButton>
-          <RibbonButton href="/home">
+          <RibbonButton href="https://github.com/DottieDot/GTAV-NativeDB" target="_blank">
             <GitHubIcon fontSize="inherit" />
           </RibbonButton>
-          <RibbonButton href="/gta5/natives">
+          <RibbonButton onClick={handleAppsOpen}>
             <AppsIcon fontSize="inherit" />
           </RibbonButton>
         </Stack>
@@ -70,6 +87,30 @@ export default function AppRibbon({ children }: AppRibbonProps) {
       <Content>
         {children}
       </Content>
+      <SettingsDrawer
+        open={settings}
+        onClose={setSettings}
+      />
+      {isSmall ? (
+        <AppsDialog
+          open={!!appsAnchorEl}
+          onClose={handleApsClose}
+        />
+      ) : ( 
+        <AppsPopover
+          anchorEl={appsAnchorEl}
+          onClose={handleApsClose}
+          open={!!appsAnchorEl}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          transformOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left'
+          }}
+        />
+      )}
     </Container>
   )
 }

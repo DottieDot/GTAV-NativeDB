@@ -34,6 +34,7 @@ export default function Router() {
       <Route path="/gta5/*" element={<GameNdb game={Game.GrandTheftAuto5} />} />
       <Route path="/rdr3/*" element={<GameNdb game={Game.RedDeadRedemption2} />} />
       <Route path="/hash" element={<Hashing />} />
+      <Route path="*" element={<Navigate to="../gta5/natives" replace />} />
     </Routes>
   )
 }
