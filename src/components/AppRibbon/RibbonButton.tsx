@@ -1,6 +1,6 @@
-import { ButtonBase, Paper, styled } from '@mui/material'
+import { ButtonBase, Paper, alpha, styled } from '@mui/material'
 import { MouseEventHandler, ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 interface RibbonButtonLink {
   href: string
@@ -20,18 +20,19 @@ interface RibbonButtonAction {
   target?: undefined
 }
 
-// interface RibbonButtonProps {
-//   children: ReactNode,
-//   href: string
-// }
-
 type RibbonButtonProps = (RibbonButtonLink | RibbonButtonExternalLink | RibbonButtonAction) & { children: ReactNode }
 
-const Container = styled(Paper)({
+interface ContainerProps {
+  active?: boolean
+}
+
+const Container = styled(Paper)<ContainerProps>(({ theme, active }) => ({
   paddingTop: '100%',
   position: 'relative',
-  overflow: 'hidden'
-})
+  overflow: 'hidden',
+  background: active ? alpha(theme.palette.primary.dark, .16) : undefined,
+  color: active ? theme.palette.primary.light : undefined,
+}))
 
 const Button = styled(ButtonBase)({
   position: 'absolute',
@@ -42,6 +43,8 @@ const Button = styled(ButtonBase)({
 })
 
 export function RibbonButton({ children, href, target, onClick }: RibbonButtonProps) {
+  const location = useLocation()
+
   if (target) {
     return (
       <Container variant='outlined'>
@@ -58,8 +61,12 @@ export function RibbonButton({ children, href, target, onClick }: RibbonButtonPr
     )
   }
   if (href) {
+    const active = location?.pathname.includes(href)
     return (
-      <Container variant='outlined'>
+      <Container 
+        variant='outlined' 
+        active={active}
+      >
         <Button
           // https://github.com/mui/material-ui/issues/31194
           // @ts-ignore
