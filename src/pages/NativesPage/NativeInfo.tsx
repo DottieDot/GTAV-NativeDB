@@ -1,12 +1,11 @@
-import { Box, Button, IconButton, List, ListItem, ListItemText, Paper, Stack, Tooltip, Typography, useTheme } from '@mui/material'
+import { Box, Button, Dialog, IconButton, List, ListItem, ListItemText, Paper, Stack, Tooltip, Typography, useTheme } from '@mui/material'
 import { LinkSharp as ShareIcon, OpenInNewSharp as OpenInNewSharpIcon } from '@mui/icons-material'
 import _ from 'lodash'
-import React, { useCallback, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useCallback, useEffect, useState } from 'react'
 import { createShareUrl, toPascalCase } from '../../common'
 import { CodeExamples, NativeComment, NativeDefinition, NativeDetails, NativeUsage } from '../../components'
 import { useCopyToClipboard, useIsSmallDisplay, useLastNotNull, useNative, useSettings } from '../../hooks'
-import { Game, NativeSources, useSelectedGameContext } from '../../context'
+import { Game, NativeSources, SelectedGameProvider, useSelectedGameContext } from '../../context'
 import NativeNotFound from './NativeNotFound'
 import NoNativeSelected from './NoNativeSelected'
 import Giscus from '@giscus/react'
@@ -25,6 +24,7 @@ export default function NativeInfo({ native: nativeHashParam }: NativeInfoProps)
   const copyToClipboard = useCopyToClipboard()
   const theme = useTheme()
   const game = useSelectedGameContext()
+  const [showGta5Definition, setShowGta5Definition] = useState<string | false>(false)
 
   const onShare = useCallback(() => {
     copyToClipboard(createShareUrl(`/natives/${nativeHash}`))
@@ -164,8 +164,7 @@ export default function NativeInfo({ native: nativeHashParam }: NativeInfoProps)
           <Button 
             variant="text"
             color="inherit"
-            component={Link}
-            to={`/gta5/natives/${native.gtaHash}`}
+            onClick={() => setShowGta5Definition(native.gtaHash!)}
             startIcon={<OpenInNewSharpIcon />}
           >
             GTA5 Native Definition
@@ -194,6 +193,11 @@ export default function NativeInfo({ native: nativeHashParam }: NativeInfoProps)
           </Paper>
         </div>
       </Stack>
+      <Dialog open={!!showGta5Definition} onClose={() => setShowGta5Definition(false)} fullWidth maxWidth="xl">
+        <SelectedGameProvider game={Game.GrandTheftAuto5}>
+          <NativeInfo native={nativeHashParam} />
+        </SelectedGameProvider>
+      </Dialog>
     </Box>
   )
 }

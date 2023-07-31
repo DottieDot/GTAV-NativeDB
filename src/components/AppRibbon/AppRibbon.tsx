@@ -17,7 +17,7 @@ const Container = styled('div')({
 const Ribbon = styled(Paper)(({ theme } ) => ({
   display: 'inline-grid',
   gridArea: 'ribbon',
-  zIndex: 10000,
+  zIndex: 1200,
   alignItems: 'baseline',
   padding: theme.spacing(0.5)
 }))
