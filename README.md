@@ -103,32 +103,36 @@ A native reference for Grand Theft Auto V built with React. Inspired by FiveM's 
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
 * [React.js](https://reactjs.org/)
-* [Redux](https://redux.js.org)
-* [Typescript](https://vuejs.org/)
+* [Typescript](https://www.typescriptlang.org/)
 * [MUI](https://mui.com/)
+* [Rust](https://www.rust-lang.org/)
+* [WASM](https://webassembly.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
+This project has been built with some of the following technologies:
+* [nodejs](https://nodejs.org/en)
+* [npm](https://nodejs.org/en)
+* [rust](https://www.rust-lang.org/tools/install)
+* [wasm-pack](https://www.rust-lang.org/tools/install)
 
-* nodejs
-* npm
-
-### Installation
+### Setup
 
 1. Clone the repo
    ```sh
    git clone https://github.com/DottieDot/GTAV-NativeDB.git
    ```
+2. Build wasm-lib 
+   ```sh
+   npm run build:wasm
+   ```
+
 2. Install NPM packages
    ```sh
    npm install
@@ -146,10 +150,24 @@ To get a local copy up and running follow these simple example steps.
 ## Roadmap
 
 - [x] Update to new MUI
-- [ ] Fix layout issues
+- [x] Fix layout issues
 - [ ] Provide Open Graph data
 - [ ] SEO
 - [ ] Code generation support for more languages
+  - [x] Rust
+  - [x] Typescript
+  - [ ] C# (Not an enum)
+  - [ ] More?...
+- [ ] More tools
+  - [x] Hashing
+  - [ ] Decompiler
+  - [ ] Special json generator
+  - [ ] Tunable viewer
+  - [ ] More?...
+- [ ] Game integrations
+  - [x] Grand Theft Auto 5
+  - [x] Red Dead Redemption 2
+  - [ ] Max Payne 3
 
 See the [open issues](https://github.com/DottieDot/GTAV-NativeDB/issues) for a full list of proposed features (and known issues).
 
