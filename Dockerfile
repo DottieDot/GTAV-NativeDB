@@ -9,6 +9,11 @@ RUN npm i --silent
 
 COPY . .
 
+ARG REACT_APP_GAME="GTA5"
+ARG REACT_APP_TITLE="GTA5 Native Reference"
+ARG REACT_APP_SHORT_TITLE="GTA5 NDB"
+ARG REACT_APP_DESCRIPTION="Grand Theft Auto 5 native database"
+
 RUN npm run build
 
 FROM nginx as production

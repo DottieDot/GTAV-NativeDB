@@ -13,7 +13,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/DottieDot/GTAV-NativeDB">
-    <img src="public/logo192.png" alt="Logo" width="80" height="80">
+    <img src="public/GTA5/android-chrome-192x192.png" alt="Logo" width="80" height="80">
   </a>
 
   <h1 align="center">Grand Theft Auto V Native Database</h3>
@@ -71,7 +71,7 @@ A native reference for Grand Theft Auto V built with React. Inspired by FiveM's 
 - Quickly jump to a namespace.
 - Uses [Alloc8or's native data](https://github.com/alloc8or/gta5-nativedb-data) which is more up-to-date and has the correct naming for all of the namespaces.
 - Ability to generate a native header file.
-- The namespace name is sticky so you always now what namespace you're viewing.
+- The namespace name is sticky so you always know what namespace you're viewing.
 - Works offline and is installable as a PWA.
 - Mobile UI.
 - FiveM natives (disabled by default).
