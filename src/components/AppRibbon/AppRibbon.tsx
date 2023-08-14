@@ -1,5 +1,5 @@
-import { Divider, Paper, Stack, styled } from '@mui/material'
-import { GitHub as GitHubIcon, Apps as AppsIcon, Settings as SettingsIcon } from '@mui/icons-material'
+import { Backdrop, Divider, Fab, Paper, Stack, styled } from '@mui/material'
+import { GitHub as GitHubIcon, Apps as AppsIcon, Settings as SettingsIcon, Menu as HamburgerIcon } from '@mui/icons-material'
 import { MouseEventHandler, ReactNode, useCallback, useState } from 'react'
 import { RibbonButton } from './RibbonButton'
 import SettingsDrawer from './SettingsDrawer'
@@ -15,7 +15,8 @@ const Container = styled('div')({
   display: 'grid',
   gridTemplateColumns: 'auto 1fr',
   gridTemplateAreas: '"ribbon content"',
-  height: '100%'
+  height: '100%',
+  position: 'relative'
 })
 
 const Ribbon = styled(Paper)(({ theme }) => ({
@@ -25,16 +26,19 @@ const Ribbon = styled(Paper)(({ theme }) => ({
   alignItems: 'baseline',
   padding: theme.spacing(0.5),
   width: `calc(2.5rem + ${theme.spacing(1)})`,
-  [theme.breakpoints.down('xs')]: {
-    width: 0,
-    padding: theme.spacing(0),
-  },
   '&.expanded': {
     width: '15rem',
     padding: theme.spacing(0.5)
   },
+  [theme.breakpoints.down('sm')]: {
+    width: 0,
+    padding: theme.spacing(0),
+    position: 'absolute',
+    height: '100%'
+  },
   transition: 'width ease-in-out .1s',
-  overflow: 'hidden'
+  overflow: 'hidden',
+  borderRadius: 0
 }))
 
 const Content = styled('div')({
@@ -42,7 +46,8 @@ const Content = styled('div')({
   flexDirection: 'column',
   gridArea: 'content',
   gridTemplateRows: 'auto 1fr',
-  overflowY: 'auto'
+  overflowY: 'auto',
+  position: 'relative'
 })
 
 const Logo = styled('img')(({ theme }) => ({
@@ -50,9 +55,29 @@ const Logo = styled('img')(({ theme }) => ({
   padding: theme.spacing(0.5)
 }))
 
+const MobileFab = styled(Fab)(({ theme }) => ({
+  width: '2.3rem',
+  height: '3rem',
+  position: 'sticky',
+  bottom: theme.spacing(2),
+  left: theme.spacing(2),
+
+ [theme.breakpoints.up('sm')]: {
+  display: 'none'
+ }
+}))
+
+const CloseMenuBackdrop = styled(Backdrop)(({theme}) => ({
+  [theme.breakpoints.up('sm')]: {
+    display: 'none'
+  },
+  zIndex: '1101'
+}))
+
 export default function AppRibbon({ children }: AppRibbonProps) {
   const [settings, setSettings] = useState(false)
   const [appsAnchorEl, setAppsAnchorEl] = useState<HTMLElement | null>(null)
+  const [expanded, setExpanded] = useState(false)
   const isSmall = useIsSmallDisplay()
 
   const handleAppsOpen = useCallback<MouseEventHandler<HTMLElement>>(event => {
@@ -67,15 +92,23 @@ export default function AppRibbon({ children }: AppRibbonProps) {
     setSettings(true)
   }, [setSettings])
 
+  const handleMenuOpen = useCallback(() => {
+    setExpanded(true)
+  }, [])
+
+  const handleMenuClose = useCallback(() => {
+    setExpanded(false)
+  }, [])
+
   return (
     <Container>
-      <Ribbon elevation={4} className='expanded'>
+      <Ribbon elevation={4} className={expanded ? 'expanded' : ''}>
         <Stack gap={1}>
           <Logo src="/GTA5/android-chrome-192x192.png" alt="app logo" />
           <RibbonButton href="/gta5/natives" activeHref="/gta5" label="GTA5 Natives">
             V
           </RibbonButton>
-          <RibbonButton href="/rdr3/natives" activeHref="/rdr3" label="RDR2 Natives">
+          <RibbonButton href="/rdr3/natives" activeHref="/rdr3" label="RDR3 Natives">
             II
           </RibbonButton>
           <RibbonButton href="/hash" label="Hashing">
@@ -97,6 +130,9 @@ export default function AppRibbon({ children }: AppRibbonProps) {
       </Ribbon>
       <Content>
         {children}
+        <MobileFab color="default" onClick={handleMenuOpen}>
+          <HamburgerIcon />
+        </MobileFab>
       </Content>
       <SettingsDrawer
         open={settings}
@@ -122,6 +158,7 @@ export default function AppRibbon({ children }: AppRibbonProps) {
           }}
         />
       )}
+      <CloseMenuBackdrop open={expanded} onClick={handleMenuClose} />
     </Container>
   )
 }

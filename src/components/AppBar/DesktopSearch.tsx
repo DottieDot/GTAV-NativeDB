@@ -39,7 +39,6 @@ const Search = styled('div')<StyleProps>(({ theme, inner, outer }) => ({
   '&.mobile': {
     position: 'absolute',
     margin: 'unset',
-    marginLeft: '-3em', // Band-aid...
     zIndex: 1,
     ...outer,
     top: theme.spacing(1),
