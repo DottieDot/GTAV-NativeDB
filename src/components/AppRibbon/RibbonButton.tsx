@@ -1,4 +1,4 @@
-import { ButtonBase, Paper, alpha, styled } from '@mui/material'
+import { ButtonBase, Paper, Typography, alpha, styled } from '@mui/material'
 import { MouseEventHandler, ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
@@ -23,72 +23,99 @@ interface RibbonButtonAction {
   activeHref?: undefined
 }
 
-type RibbonButtonProps = (RibbonButtonLink | RibbonButtonExternalLink | RibbonButtonAction) & { children: ReactNode }
+type RibbonButtonProps = (RibbonButtonLink | RibbonButtonExternalLink | RibbonButtonAction) & { children: ReactNode, label: string }
 
 interface ContainerProps {
   active?: boolean
 }
 
 const Container = styled(Paper)<ContainerProps>(({ theme, active }) => ({
-  paddingTop: '100%',
   position: 'relative',
-  overflow: 'hidden',
+  height: '2.5rem',
+  
   background: active ? alpha(theme.palette.primary.dark, .16) : undefined,
   color: active ? theme.palette.primary.light : undefined,
+
+  
+  overflow: 'hidden'
 }))
 
-const Button = styled(ButtonBase)({
+const ActionArea = styled(ButtonBase)({
   position: 'absolute',
-  width: '100%',
+  display: 'grid',
+  gridTemplateColumns: '2.5rem 1fr',
+  width: 'auto',
+  minWidth: '100%',
   height: '100%',
-  top: 0,
+})
+
+const Icon = styled('div')({
+  display: 'flex',
+  alignSelf: 'center',
+  justifySelf: 'center',
   fontSize: '1.4em'
 })
 
-export function RibbonButton({ children, href, target, onClick, activeHref }: RibbonButtonProps) {
+const Label = styled(Typography)({
+  alignSelf: 'center',
+  justifySelf: 'left',
+  whiteSpace: 'nowrap'
+})
+
+export function RibbonButton({ children, href, target, onClick, activeHref, label }: RibbonButtonProps) {
   const location = useLocation()
 
   if (target) {
     return (
       <Container variant='outlined'>
-        <Button
+        <ActionArea 
           // https://github.com/mui/material-ui/issues/31194
           // @ts-ignore
           component="a"
           href={href}
-          target={target}
+          target={target}  
         >
-          {children}
-        </Button>
+          <Icon>
+            {children}
+          </Icon>
+          <Label variant="body1">
+            {label}
+          </Label>
+        </ActionArea>
       </Container>
     )
   }
   if (href) {
     const active = location?.pathname.includes(activeHref ?? href)
     return (
-      <Container 
-        variant='outlined' 
-        active={active}
-      >
-        <Button
+      <Container variant='outlined' active={active}>
+        <ActionArea
           // https://github.com/mui/material-ui/issues/31194
           // @ts-ignore
           component={Link}
           to={href}
         >
-          {children}
-        </Button>
+          <Icon>
+            {children}
+          </Icon>
+          <Label variant="body1">
+            {label}
+          </Label>
+        </ActionArea>
       </Container>
     )
   }
 
   return (
     <Container variant='outlined'>
-      <Button 
-        onClick={onClick}
-      >
-        {children}
-      </Button>
+      <ActionArea onClick={onClick}>
+        <Icon>
+          {children}
+        </Icon>
+        <Label variant="body1">
+          {label}
+        </Label>
+      </ActionArea>
     </Container>
   )
 }
