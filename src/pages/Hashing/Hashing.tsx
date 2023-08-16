@@ -1,5 +1,6 @@
 import { Box, Button, Container, Divider, FormControl, Grid, InputLabel, List, ListItemButton, ListItemText, MenuItem, Paper, Select, SelectChangeEvent, Stack, TextField, ToggleButton, ToggleButtonGroup, Tooltip, Typography, styled } from '@mui/material'
 import { Remove as SignedIcon, Add as UnsignedIcon, Tag as HexIcon } from '@mui/icons-material'
+import { v4 as uuid } from 'uuid'
 import { ChangeEvent, Fragment, useCallback, useMemo, useState } from 'react'
 import { HashingAlgorithm, HashingFormat, formatHash, hashInput } from './backend'
 import useLocalStorageState from 'use-local-storage-state'
@@ -15,6 +16,7 @@ const ToolsContainer = styled(Paper)(({ theme } ) => ({
 interface HistoryItem {
   input: string
   algorithm: HashingAlgorithm
+  key: string
 }
 
 export default function Hashing() {
@@ -55,7 +57,8 @@ export default function Hashing() {
     setHistory(history => [
       {
         input,
-        algorithm
+        algorithm,
+        key: uuid()
       },
       ...history.slice(0, 19)
     ])
@@ -178,8 +181,8 @@ export default function Hashing() {
             </Button>
           </Box>
           <List>
-            {history.map(({ input, algorithm }, i) => (
-              <Fragment>
+            {history.map(({ input, algorithm, key }, i) => (
+              <Fragment key={key}>
                 {!!i && <Divider />}
                 <ListItemButton onClick={() => loadHistoryItem(i)}>
                   <ListItemText

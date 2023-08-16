@@ -56,9 +56,7 @@ const Logo = styled('img')(({ theme }) => ({
 }))
 
 const MobileFab = styled(Fab)(({ theme }) => ({
-  width: '2.3rem',
-  height: '3rem',
-  position: 'sticky',
+  position: 'fixed',
   bottom: theme.spacing(2),
   left: theme.spacing(2),
 
