@@ -35,7 +35,7 @@ COPY --from=planner /build/recipe.json recipe.json
 RUN cargo +nightly chef cook --target wasm32-unknown-unknown --release --package wasm-lib --recipe-path recipe.json
 
 COPY Cargo.toml .
-COPY Cargo.lock .
+COPY Cargo.toml Cargo.lock* ./
 COPY wasm-lib/ ./wasm-lib/
 COPY server/ ./server/
 
@@ -72,9 +72,6 @@ WORKDIR /build
 
 # Install nightly toolchain
 RUN rustup toolchain install nightly
-
-# Install wasm-pack
-RUN cargo install wasm-pack
 
 # Retrieve dependencies
 COPY --from=planner /build/recipe.json recipe.json
