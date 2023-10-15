@@ -33,14 +33,14 @@ jobs:
           echo "OWNER_LC=${OWNER,,}" >> ${GITHUB_ENV}
         env:
           OWNER: '${{ github.repository }}'
-      
+
       - name: Build Image and push
         uses: docker/build-push-action@v5
         with:
           push: true
           tags: |
             ghcr.io/${{ env.OWNER_LC }}:latest
-            registry.digitalocean.com/${{ env.OWNER_LLC }}:latest
+            registry.digitalocean.com/${{ env.OWNER_LC }}:latest
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
           build-args: |
