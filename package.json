@@ -38,6 +38,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "wasm-pack build ./wasm-lib --target web --out-dir pkg && react-scripts build",
+    "build:no-wasm": "react-scripts build",
     "build:wasm": "wasm-pack build ./wasm-lib --target web --out-dir pkg",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

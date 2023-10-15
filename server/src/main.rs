@@ -1,8 +1,7 @@
 mod game;
-mod native_preview_service;
 mod native_service;
 
-use std::sync::Arc;
+use std::{env, sync::Arc};
 
 use axum::{
   extract::{Host, Path, State},
@@ -11,12 +10,9 @@ use axum::{
   routing::get,
   Router
 };
-use reqwest::header;
 use tower_http::services::{ServeDir, ServeFile};
 
-use self::{
-  game::Game, native_preview_service::NativePreviewService, native_service::NativeService
-};
+use self::{game::Game, native_service::NativeService};
 
 struct NativeData {
   gta5: NativeService,
@@ -25,71 +21,37 @@ struct NativeData {
 
 #[derive(Clone)]
 struct AppState {
-  natives:  Arc<NativeData>,
-  previews: Arc<NativePreviewService>
+  natives: Arc<NativeData>
 }
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-  let serve_dir =
-    ServeDir::new("../build").not_found_service(ServeFile::new("../build/index.html"));
+  let spa_directory = env::var("SPA_DIR").unwrap_or_else(|_| "../build".to_owned());
+
+  let serve_dir = ServeDir::new(format!("{spa_directory}"))
+    .not_found_service(ServeFile::new(format!("{spa_directory}/index.html")));
 
   let state = AppState {
-    natives:  Arc::new(NativeData {
+    natives: Arc::new(NativeData {
       gta5: NativeService::new(Game::Gta5).await?,
       rdr3: NativeService::new(Game::Rdr3).await?
-    }),
-    previews: Arc::new(NativePreviewService::new()?)
+    })
   };
 
   let app = Router::new()
     .route("/gta5/natives/:native", get(serve_gta5_native))
     .route("/rdr3/natives/:native", get(serve_rdr3_native))
-    .route("/previews/gta5/natives/:native", get(serve_gta5_preview))
     .fallback_service(serve_dir)
     .with_state(state);
 
-  axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
+  let host = env::var("NDB_HOST").unwrap_or_else(|_| "0.0.0.0".to_owned());
+  let port = env::var("NDB_PORT").unwrap_or_else(|_| "3000".to_owned());
+
+  axum::Server::bind(&format!("{host}:{port}").parse()?)
     .serve(app.into_make_service())
     .await?;
 
   Ok(())
-}
-
-async fn serve_gta5_preview(
-  State(state): State<AppState>,
-  Path(native_hash): Path<String>
-) -> Result<impl IntoResponse, StatusCode> {
-  serve_preview(Game::Gta5, state, native_hash).await
-}
-
-async fn serve_preview(
-  game: Game,
-  state: AppState,
-  native_hash: String
-) -> Result<impl IntoResponse, StatusCode> {
-  let native_hash = native_hash.trim_end_matches(".png").to_owned();
-
-  let native_service = match game {
-    Game::Gta5 => &state.natives.gta5,
-    Game::Rdr3 => &state.natives.rdr3
-  };
-
-  let Some(native) = native_service.native(&native_hash).await else {
-    return Err(StatusCode::NOT_FOUND);
-  };
-  let png = match state.previews.create_for_native(native) {
-    Ok(png) => png,
-    Err(e) => {
-      println!("ERROR!: {e:#?}");
-      return Err(StatusCode::INTERNAL_SERVER_ERROR);
-    }
-  };
-
-  Ok((
-    axum::response::AppendHeaders([(header::CONTENT_TYPE, "image/png")]),
-    png
-  ))
 }
 
 async fn serve_gta5_native(
@@ -136,7 +98,6 @@ async fn serve_native(
   };
 
   let url = format!("{hostname}/{game_path}/natives/{native_hash}");
-  let image_url = format!("{hostname}/previews/{game_path}/natives/{native_hash}.png");
 
   let with_meta = index.replace(
     r#"<meta name="OG_SLOT">"#,
@@ -152,7 +113,6 @@ async fn serve_native(
         "<meta property=\"og:description\" content=\"{}\">",
         native.comment
       ),
-      format!("<meta property=\"og:image\" content=\"{image_url}\">"),
       r#"<meta name="twitter:card" content="summary_large_image">"#.to_string()
     ]
     .join("")

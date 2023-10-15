@@ -151,7 +151,7 @@ This project has been built with some of the following technologies:
 
 - [x] Update to new MUI
 - [x] Fix layout issues
-- [ ] Provide Open Graph data
+- [x] Provide Open Graph data
 - [ ] SEO
 - [ ] Code generation support for more languages
   - [x] Rust
