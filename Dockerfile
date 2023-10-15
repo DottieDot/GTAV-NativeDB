@@ -80,8 +80,7 @@ RUN cargo install wasm-pack
 COPY --from=planner /build/recipe.json recipe.json
 RUN cargo +nightly chef cook --release --bin server --recipe-path recipe.json
 
-COPY Cargo.toml .
-COPY Cargo.lock .
+COPY Cargo.toml Cargo.lock* ./
 COPY wasm-lib/ ./wasm-lib/
 COPY server/ ./server/
 
