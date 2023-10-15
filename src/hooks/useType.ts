@@ -1,5 +1,5 @@
-import useTypedSelector from './useTypedSelector'
+import { useNativeDataForGame } from './useNativeDataForGame'
 
 export default function useType(type: string) {
-  return useTypedSelector(state => state.types[type])
+  return useNativeDataForGame().types[type]
 }

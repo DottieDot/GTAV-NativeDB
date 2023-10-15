@@ -1,4 +1,4 @@
-import { Native } from "../store";
+import { Native } from "../context"
 
 export interface CodeGenType {
   pointers: number

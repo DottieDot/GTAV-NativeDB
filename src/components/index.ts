@@ -85,3 +85,6 @@ export * from './ThemeJsonEditor'
 
 export { default as SettingsControl } from './SettingsControl'
 export * from './SettingsControl'
+
+export { default as AppRibbon } from './AppRibbon'
+export * from './AppRibbon'

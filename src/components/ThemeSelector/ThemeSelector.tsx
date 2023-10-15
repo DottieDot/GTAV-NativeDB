@@ -1,51 +1,50 @@
 import { Brightness4 as DarkIcon, Brightness6 as SystemIcon, BrightnessHigh as LightIcon } from '@mui/icons-material'
 import { Autocomplete, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material'
 import { Fragment, useCallback, useEffect, useMemo } from 'react'
-import { useDispatch } from 'react-redux'
 import { useSettings, useThemes } from '../../hooks'
-import { setSettings } from '../../store'
 import SettingsControl from '../SettingsControl'
+import { useSettingsContext } from '../../context'
 
 
 export default function ThemeSelector() {
   const settings = useSettings()
-  const dispatch = useDispatch()
+  const { patchSettings } = useSettingsContext()
   const themes = useThemes()
 
   const themeIds = useMemo(() => ['Default', ...Object.keys(themes)], [themes])
 
   const handleThemeChanged = useCallback((_: unknown, value: any) => {
     if (value !== null) {
-      dispatch(setSettings({
+      patchSettings({
         theme: value
-      }))
+      })
     }
-  }, [dispatch])
+  }, [patchSettings])
 
   const handleLightThemeChanged = useCallback((_: unknown, value: string) => {
-    dispatch(setSettings({
+    patchSettings({
       lightTheme: value
-    }))
-  }, [dispatch])
+    })
+  }, [patchSettings])
 
   const handleDarkThemeChanged = useCallback((_: unknown, value: string) => {
-    dispatch(setSettings({
+    patchSettings({
       darkTheme: value
-    }))
-  }, [dispatch])
+    })
+  }, [patchSettings])
 
   useEffect(() => {
     if (!themes[settings.lightTheme] && settings.lightTheme !== 'Default') {
-      dispatch(setSettings({
+      patchSettings({
         lightTheme: 'Default'
-      }))
+      })
     }
     if (!themes[settings.darkTheme] && settings.darkTheme !== 'Default') {
-      dispatch(setSettings({
+      patchSettings({
         darkTheme: 'Default'
-      }))
+      })
     }
-  }, [settings, themes, dispatch])
+  }, [settings, themes, patchSettings])
 
   return (
     <Fragment>

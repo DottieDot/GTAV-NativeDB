@@ -1,7 +1,7 @@
 import { Box, BoxProps, useTheme } from '@mui/material'
 import React, { Fragment } from 'react'
 import { useSettings } from '../../hooks'
-import { NativeParam } from '../../store'
+import { NativeParam } from '../../context'
 import NativeType from '../NativeType'
 import { convertTypeToTS } from '../../code-generation'
 import { compactParams } from '../../code-generation/CodeGeneratorBase'

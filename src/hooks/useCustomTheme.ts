@@ -1,6 +1,6 @@
-import { CustomTheme } from '../store'
-import useTypedSelector from './useTypedSelector'
+import { useThemesContext } from '../context'
+import { Theme } from '../context'
 
-export default function useCustomTheme(id: string): CustomTheme | undefined {
-  return useTypedSelector(state => state.themes.themes[id])
+export default function useCustomTheme(id: string): Theme | undefined {
+  return useThemesContext().themes[id]
 }

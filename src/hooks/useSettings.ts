@@ -1,5 +1,5 @@
-import useTypedSelector from './useTypedSelector'
+import { useSettingsContext } from '../context'
 
 export default function useSettings() {
-  return useTypedSelector(state => state.settings)
+  return useSettingsContext().settings
 }

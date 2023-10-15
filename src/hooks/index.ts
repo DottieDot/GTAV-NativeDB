@@ -1,5 +1,3 @@
-
-export { default as useTypedSelector       } from './useTypedSelector'
 export { default as useStats               } from './useStats'
 export { default as useNative              } from './useNative'
 export { default as useAppBarSettings      } from './useAppBarSettings'
@@ -22,3 +20,5 @@ export { default as useEnumOfIdentifier    } from './useEnumOfIdentifier'
 export { default as usePrevious            } from './usePrevious'
 export { default as useThemes              } from './useThemes'
 export { default as useCustomTheme         } from './useCustomTheme'
+export { default as useGuardedContext      } from './useGuardedContext'
+export { default as useGameUrl             } from './useGameUrl'

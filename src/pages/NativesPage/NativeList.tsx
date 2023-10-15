@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Fragment, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react'
+import React, { ChangeEvent, Fragment, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { useSearchParams } from 'react-router-dom'
 import { NativeList as NativeListComponent } from '../../components'
@@ -39,7 +39,7 @@ export default function NativeList() {
     setFilter(e.target.value)
   }, [setFilter])
 
-  useSetAppBarSettings('NativeList', {
+  const nativeListMemo = useMemo(() => ({
     search: {
       onChange: handleFilterChange,
       onKeyDown: handleSearchKeyDown,
@@ -47,7 +47,8 @@ export default function NativeList() {
       ref: inputRef,
       value: filter
     }
-  })
+  }), [filter, handleFilterChange, handleSearchBlur, inputRef, handleSearchKeyDown])
+  useSetAppBarSettings('NativeList', nativeListMemo)
 
   useHotkeys('ctrl+k', () => {
     inputRef.current?.focus()

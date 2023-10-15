@@ -1,5 +1,5 @@
-import useTypedSelector from './useTypedSelector'
+import { useAppDataContext } from '../context'
 
 export default function useUpdateAvailable() {
-  return useTypedSelector(state => state.app.updateReady)
+  return useAppDataContext().state.updateReady
 }

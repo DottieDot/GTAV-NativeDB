@@ -1,16 +1,14 @@
 import { AppBar as MaterialAppBar, Box, IconButton, Link, ListItemIcon, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
-import { GitHub as GithubIcon, MoreVert as MoreIcon,  Settings as SettingsIcon, ShowChart as StatsIcon, Code as CodeIcon, Apps as AppsIcon } from '@mui/icons-material'
+import { MoreVert as MoreIcon,  ShowChart as StatsIcon, Code as CodeIcon } from '@mui/icons-material'
 import React, { MouseEvent, MouseEventHandler, useCallback, useMemo, useState } from 'react'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { AppBarAction as AppBarActionProps } from '.'
-import { useAppBarSettings } from '../../hooks'
+import { useAppBarSettings, useGameUrl } from '../../hooks'
 import { AppBarProps } from './model'
-import SettingsDrawer from './SettingsDrawer'
 import StatsDialog from './StatsDialog'
 import StatusButton from './StatusButton'
-import AppsDialog from './AppsDialog'
-import { SHORT_TITLE } from '../../constants'
 import DesktopSearch from './DesktopSearch'
+import { Game, useSelectedGameContext } from '../../context'
 
 function AppBarAction({ text, mobileIcon, buttonProps: { href, target, onClick, ...buttonProps } }: AppBarActionProps) {
   const navigate = useNavigate()
@@ -40,18 +38,8 @@ function AppBarAction({ text, mobileIcon, buttonProps: { href, target, onClick, 
 
 function Mobile({ ...rest }: AppBarProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const [settingsOpen, setSettingsOpen] = useState(false)
   const [statsDialog, setStatsDialog] = useState(false)
-  const [appsDialog, setAppsDialog] = useState(false)
   const settings = useAppBarSettings()
-
-  const handleSettingsOpen = useCallback(() => {
-    setSettingsOpen(true)
-  }, [setSettingsOpen])
-
-  const handleSettingsClose = useCallback(() => {
-    setSettingsOpen(false)
-  }, [setSettingsOpen])
 
   const handleMenuOpen = useCallback((event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -69,23 +57,10 @@ function Mobile({ ...rest }: AppBarProps) {
     setStatsDialog(false)
   }, [setStatsDialog])
 
-  const handleAppsDialogOpen = useCallback(() => {
-    setAppsDialog(true)
-  }, [setAppsDialog])
-
-  const handleAppsDialogClose = useCallback(() => {
-    setAppsDialog(false)
-  }, [setAppsDialog])
+  const generateCodeUrl = useGameUrl('/generate-code')
 
   const actions: AppBarActionProps[] = useMemo(() => [
     ...(settings.actions ?? []),
-    {
-      text: 'Settings',
-      mobileIcon: SettingsIcon,
-      buttonProps: {
-        onClick: handleSettingsOpen
-      }
-    },
     {
       text: 'Stats',
       mobileIcon: StatsIcon,
@@ -97,47 +72,35 @@ function Mobile({ ...rest }: AppBarProps) {
       text: 'Generate Code',
       mobileIcon: CodeIcon,
       buttonProps: {
-        href: '/generate-code'
-      }
-    },
-    {
-      text: 'Apps',
-      mobileIcon: AppsIcon,
-      buttonProps: {
-        onClick: handleAppsDialogOpen
-      }
-    },
-    {
-      text: 'View on Github',
-      mobileIcon: GithubIcon,
-      buttonProps: {
-        href: 'https://github.com/DottieDot/GTAV-NativeDB',
-        target: '_blank'
+        href: generateCodeUrl
       }
     }
-  ], [settings, handleSettingsOpen, handleStatsDialogOpen, handleAppsDialogOpen])
+  ], [settings, handleStatsDialogOpen, generateCodeUrl])
+
+  const shortTitle = useSelectedGameContext() === Game.GrandTheftAuto5 ? 'GTA5 NDB' : 'RDR3 NDB'
+  const nativesUrl = useGameUrl('/natives')
 
   return (
     <Box {...rest}>
       <StatsDialog open={statsDialog} onClose={handleStatsDialogClose} />
-      <AppsDialog open={appsDialog} onClose={handleAppsDialogClose} />
-      <SettingsDrawer open={settingsOpen} onClose={handleSettingsClose} />
       <MaterialAppBar position="sticky">
         <Toolbar>
           <Typography variant="h6" component="div">
             <Link
-              to="/natives"
+              to={nativesUrl}
               color="inherit"
               underline="none"
               component={RouterLink}
             >
-              {settings?.title ?? SHORT_TITLE}
+              {settings?.title ?? shortTitle}
             </Link>
           </Typography>
-          {settings.search && (
+          {settings.search ? (
             <Box sx={{ flex: 1, ml: 2 }}>
               <DesktopSearch search={settings.search} />
             </Box>
+          ) : (
+            <Box sx={{ flex: 1}} />
           )}
           <StatusButton />
           <IconButton onClick={handleMenuOpen} color="inherit" aria-label="more">

@@ -1,11 +1,11 @@
 import { Box, BoxProps, useTheme } from '@mui/material'
 import { Fragment } from 'react'
 import { useSettings } from '../../hooks'
-import { NativeParam } from '../../store'
 import NativeType from '../NativeType'
 import NativeValue from '../NativeValue'
-import { convertTypeToTS, TSCodeGenerator } from '../../code-generation'
+import { convertTypeToTS } from '../../code-generation'
 import { compactParams } from '../../code-generation/CodeGeneratorBase'
+import { NativeParam } from '../../context'
 
 export interface NativeParamsExProps extends Omit<BoxProps, 'children'> {
   params: NativeParam[]

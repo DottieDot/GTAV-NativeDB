@@ -1,10 +1,10 @@
 import _ from 'lodash'
-import { NamespaceReducerState, NativeReducerState } from '../store'
+import { GameNativeData } from '../context'
 import ICodeGenerator from './ICodeGenerator'
 
 export interface NativeData {
-  natives   : NativeReducerState,
-  namespaces: NamespaceReducerState
+  natives   : GameNativeData['natives'],
+  namespaces: GameNativeData['namespaces']
 }
 
 export default

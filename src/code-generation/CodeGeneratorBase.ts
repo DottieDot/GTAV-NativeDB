@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { Native, NativeParam } from '../store'
+import { Native, NativeParam } from '../context'
 import ICodeGenerator, { CodeGenNative, CodeGenType } from './ICodeGenerator'
 
 interface BranchInfo {

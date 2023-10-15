@@ -12,7 +12,6 @@
     "@types/jest": "^29.2.3",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
-    "@types/uuid": "^9.0.1",
     "copy-to-clipboard": "^3.3.3",
     "downloadjs": "^1.4.7",
     "lodash": "^4.17.21",
@@ -23,25 +22,24 @@
     "react-dom": "^18.2.0",
     "react-hotkeys-hook": "^4.0.4",
     "react-linkify": "^1.0.0-alpha",
-    "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
     "react-syntax-highlighter": "^15.5.0",
     "react-virtualized-auto-sizer": "^1.0.7",
     "react-virtualized-sticky-tree": "github:DottieDot/react-virtualized-sticky-tree#fork",
     "react-window": "^1.8.8",
-    "redux": "^4.2.0",
-    "redux-devtools-extension": "^2.13.9",
-    "redux-persist": "^6.0.0",
     "typescript": "^4.9.3",
     "use-debounced-effect": "^2.0.1",
     "use-local-storage-state": "^18.1.1",
     "uuid": "^9.0.0",
+    "wasm-lib": "file:wasm-lib/pkg",
     "web-vitals": "^3.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "wasm-pack build ./wasm-lib --target web --out-dir pkg && react-scripts build",
+    "build:no-wasm": "react-scripts build",
+    "build:wasm": "wasm-pack build ./wasm-lib --target web --out-dir pkg",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -72,7 +70,7 @@
     "@types/react-syntax-highlighter": "^13.5.2",
     "@types/react-virtualized-auto-sizer": "^1.0.1",
     "@types/react-window": "^1.8.5",
-    "@types/redux-persist": "^4.3.1"
+    "@types/uuid": "^9.0.2"
   },
   "engines": {
     "npm": "8.13.1"

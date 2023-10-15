@@ -1,8 +1,9 @@
 import { useCallback } from 'react'
-import useTypedSelector from './useTypedSelector'
+import { useAppDataContext } from '../context'
 
 export default function useUpdateServiceWorker() {
-  const serviceWorkerRegistration = useTypedSelector(state => state.app.serviceWorkerRegistration)
+  const { state: { serviceWorkerRegistration } } = useAppDataContext()
+
   return useCallback(() => {
     const registrationWaiting = serviceWorkerRegistration?.waiting
     if (registrationWaiting) {

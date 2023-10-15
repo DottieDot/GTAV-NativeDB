@@ -1,6 +1,6 @@
 import { Box, Typography, useTheme } from '@mui/material'
 import { useMemo, Fragment } from 'react'
-import { TypeDefinitionEnum } from '../../store'
+import { TypeDefinitionEnum } from '../../context'
 import NativeType from '../NativeType'
 import NativeValue from '../NativeValue'
 

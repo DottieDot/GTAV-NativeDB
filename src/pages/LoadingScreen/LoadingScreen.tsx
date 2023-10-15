@@ -1,8 +1,7 @@
 import { LinearProgress, Typography, Box, Stack } from '@mui/material'
 import { memo } from 'react'
-import { getGame } from '../../constants'
 
-const image = `/${getGame()}/splash.png`
+const image = `/GTA5/splash.png`
 
 const LoadingPage = () => {
   return (

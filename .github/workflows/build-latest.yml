@@ -8,60 +8,39 @@ on:
 
 jobs:
   build-images:
-    name: Build static Native DB images for GTA V & RDR3
+    name: Build static Native DB image
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout source
+      - name: Checkout source
         uses: actions/checkout@v3
 
-      -
-        name: Login to Docker Hub
+      - name: Login to GitHub
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.PACKAGE_WRITE_TOKEN }}
-      -
-        name: Set lower case owner name
+
+      - name: Login to Digital Ocean
+        uses: docker/login-action@v2
+        with:
+          registry: registry.digitalocean.com
+          username: ${{ secrets.DIGITAL_OCEAN_API_TOKEN }}
+          password: ${{ secrets.DIGITAL_OCEAN_API_TOKEN }}
+
+      - name: Set lower case owner name
         run: |
           echo "OWNER_LC=${OWNER,,}" >> ${GITHUB_ENV}
         env:
           OWNER: '${{ github.repository }}'
-      
-      -
-        name: Select GTA V env variables
-        run: |
-          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "BUILD_ARGS<<$EOF" >> "$GITHUB_ENV"
-          grep -E '^[^#;|[:space:]]' .env.example | sed 's/ = /=/' | sed 's/"//g' >> "$GITHUB_ENV"
-          echo "$EOF" >> "$GITHUB_ENV"
 
-      -
-        name: Build GTA V image and push
-        uses: docker/build-push-action@v4
+      - name: Build Image and push
+        uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ghcr.io/${{ env.OWNER_LC }}:gtav
-          labels: |
-            org.opencontainers.image.source=https://github.com/${{ github.repository }}
-          build-args: |
-            ${{ env.BUILD_ARGS }}
-      
-      -
-        name: Select RDR 3 env variables
-        run: |
-          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "BUILD_ARGS<<$EOF" >> "$GITHUB_ENV"
-          grep \# .env.example | sed 's/# //g' | sed 's/ = /=/' | sed 's/"//g' >> "$GITHUB_ENV"
-          echo "$EOF" >> "$GITHUB_ENV"
-
-      -
-        name: Build RDR 3 image and push
-        uses: docker/build-push-action@v4
-        with:
-          push: true
-          tags: ghcr.io/${{ env.OWNER_LC }}:rdr3
+          tags: |
+            ghcr.io/${{ env.OWNER_LC }}:latest
+            registry.digitalocean.com/${{ env.OWNER_LC }}:latest
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
           build-args: |

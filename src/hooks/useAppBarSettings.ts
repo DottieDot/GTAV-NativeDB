@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
 import { AppBarSettings } from '../components'
-import useTypedSelector from './useTypedSelector'
+import { useAppBarSettingsContext } from '../context'
 
 export default function useAppBarSettings() {
-  const raw = useTypedSelector(state => state.appBar)
+  const { settings: raw } = useAppBarSettingsContext()
   return useMemo(() => 
     Object.values(raw).reduce<AppBarSettings>((accumulator, { actions, ...rest }) => ({
       ...accumulator,

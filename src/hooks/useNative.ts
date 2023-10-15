@@ -1,5 +1,5 @@
-import useTypedSelector from './useTypedSelector'
+import { useNativeDataForGame } from './useNativeDataForGame'
 
 export default function useNative(nativeHash: string) {
-  return useTypedSelector(selector => selector.natives[nativeHash])
+  return useNativeDataForGame().natives[nativeHash]
 }

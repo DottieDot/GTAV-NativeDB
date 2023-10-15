@@ -1,19 +1,26 @@
 import _ from 'lodash'
-import { Namespace, Native, TypeDefinition } from '../store'
+import { Namespace, Native, TypeDefinition } from '../context'
 import LoadAlloc8orNatives from './alloc8or-nativedb'
 import LoadDottieDotAdditionalData from './dottiedot-additional-data'
 import LoadFivemNatives from './fivem-nativedb'
 import LoadSpecialData from './special-data'
+import { Game } from '../context'
 
 interface AdditionalNativeData {
   examples?: Native['examples']
 }
 
 export default class NativeDataLoader {
+  private _game: Game
+  
   natives   : { [hash: string]: Native } = {}
   namespaces: { [name: string]: Namespace } = {}
   types     : { [name: string]: TypeDefinition } = {}
   constants : { [name: string]: any } = {}
+
+  constructor(game: Game) {
+    this._game = game
+  }
   
 
   addNative(native: Native) {
@@ -76,7 +83,7 @@ export default class NativeDataLoader {
   }
 
   async loadAlloc8or() {
-    const data = await LoadAlloc8orNatives()
+    const data = await LoadAlloc8orNatives(this._game)
 
     if (!data) {
       return

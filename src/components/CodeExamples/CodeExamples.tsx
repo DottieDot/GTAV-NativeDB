@@ -1,7 +1,7 @@
 import { Divider, Tab } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import React, { memo, SyntheticEvent, useCallback, useState } from 'react'
-import { CodeExample } from '../../store'
+import { CodeExample } from '../../context'
 import SyntaxHighlighter from '../SnytaxHighlighter'
 
 export interface CodeExamplesProps {

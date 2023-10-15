@@ -1,19 +1,20 @@
-import { Box, Button, IconButton, List, ListItem, ListItemText, Paper, Stack, Tooltip, Typography, useTheme } from '@mui/material'
+import { Box, Button, Dialog, IconButton, List, ListItem, ListItemText, Paper, Stack, Tooltip, Typography, useTheme } from '@mui/material'
 import { LinkSharp as ShareIcon, OpenInNewSharp as OpenInNewSharpIcon } from '@mui/icons-material'
 import _ from 'lodash'
-import React, { useCallback, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useCallback, useEffect, useState } from 'react'
 import { createShareUrl, toPascalCase } from '../../common'
 import { CodeExamples, NativeComment, NativeDefinition, NativeDetails, NativeUsage } from '../../components'
 import { useCopyToClipboard, useIsSmallDisplay, useLastNotNull, useNative, useSettings } from '../../hooks'
-import { NativeSources } from '../../store'
+import { Game, NativeSources, SelectedGameProvider, useSelectedGameContext } from '../../context'
 import NativeNotFound from './NativeNotFound'
 import NoNativeSelected from './NoNativeSelected'
-import { getGame } from '../../constants'
 import Giscus from '@giscus/react'
 
-export default function NativeInfo() {
-  const { native: nativeHashParam } = useParams<{ native?: string }>()
+interface NativeInfoProps {
+  native?: string 
+}
+
+export default function NativeInfo({ native: nativeHashParam }: NativeInfoProps) {
   const nativeHashNotNull = useLastNotNull(nativeHashParam)
   const [usageNotFound, setUsageNotFound] = useState(false)
   const settings = useSettings()
@@ -22,6 +23,8 @@ export default function NativeInfo() {
   const native = useNative(nativeHash ?? '')
   const copyToClipboard = useCopyToClipboard()
   const theme = useTheme()
+  const game = useSelectedGameContext()
+  const [showGta5Definition, setShowGta5Definition] = useState<string | false>(false)
 
   const onShare = useCallback(() => {
     copyToClipboard(createShareUrl(`/natives/${nativeHash}`))
@@ -157,13 +160,11 @@ export default function NativeInfo() {
             </Paper>
           </div>
         )}
-        {getGame() === 'RDR3' && native.gtaHash && (
+        {game === Game.RedDeadRedemption2 && native.gtaHash && (
           <Button 
             variant="text"
             color="inherit"
-            component="a"
-            target="_blank"
-            href={`https://gta5.nativedb.dotindustries.dev/natives/${native.gtaHash}`}
+            onClick={() => setShowGta5Definition(native.gtaHash!)}
             startIcon={<OpenInNewSharpIcon />}
           >
             GTA5 Native Definition
@@ -192,6 +193,11 @@ export default function NativeInfo() {
           </Paper>
         </div>
       </Stack>
+      <Dialog open={!!showGta5Definition} onClose={() => setShowGta5Definition(false)} fullWidth maxWidth="xl">
+        <SelectedGameProvider game={Game.GrandTheftAuto5}>
+          <NativeInfo native={nativeHashParam} />
+        </SelectedGameProvider>
+      </Dialog>
     </Box>
   )
 }

@@ -1,5 +1,5 @@
-import useTypedSelector from './useTypedSelector'
+import { useThemesContext } from '../context'
 
 export default function useThemes()  {
-  return useTypedSelector(state => state.themes.themes)
+  return useThemesContext().themes
 }

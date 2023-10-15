@@ -2,14 +2,13 @@ import { Add as AddIcon, DataObject as JsonIcon, GridView as GuiIcon } from '@mu
 import { Autocomplete, Box, Stack, TextField, ToggleButton, ToggleButtonGroup, useTheme } from '@mui/material'
 import { v4 as uuidv4 } from 'uuid'
 import { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { useThemes } from '../../hooks'
-import { setTheme } from '../../store'
 import ThemeEditor from '../ThemeEditor'
 import ThemeJsonEditor from '../ThemeJsonEditor'
+import { useThemesContext } from '../../context'
 
 function useCreateTheme(setSelectedTheme: (id: string) => void) {
-  const dispatch = useDispatch()
+  const { addTheme } = useThemesContext()
   const { palette, extensions } = useTheme()
   const themes = useThemes()
   
@@ -30,7 +29,7 @@ function useCreateTheme(setSelectedTheme: (id: string) => void) {
 
   return useCallback(() => {
     const id = uuidv4()
-    dispatch(setTheme({
+    addTheme({
       id,
       name: `New Theme ${numNewThemes + 1}`,
       mode: palette.mode,
@@ -46,9 +45,9 @@ function useCreateTheme(setSelectedTheme: (id: string) => void) {
         parameterColor: extensions.parameterColor,
         symbolColor: extensions.symbolColor,
       }
-    }))
+    })
     setSelectedTheme(id)
-  }, [palette, extensions, dispatch, numNewThemes, setSelectedTheme])
+  }, [palette, extensions, addTheme, numNewThemes, setSelectedTheme])
 }
 
 function ThemeManager() {

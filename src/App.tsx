@@ -1,15 +1,12 @@
 import { CssBaseline } from '@mui/material'
-import React from 'react'
-import { Provider as StoreProvider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import { PersistGate } from 'redux-persist/integration/react'
-import { AppBar, OnlineStatusProvider, UpdateDialog } from './components'
+import { AppRibbon, OnlineStatusProvider, UpdateDialog } from './components'
 import { useNamespaces } from './hooks'
 import NativeLoader from './NativeLoader'
 import { LoadingScreen } from './pages'
 import Router from './Router'
-import store, { persistor } from './store'
 import Theme from './Theme'
+import { AppBarSettingsProvider, AppDataProvider, Game, NativeDataProvider, SelectedGameProvider, SettingsProvider, ThemesProvider } from './context'
 
 function LoadGate() {
   const namespaces = useNamespaces()
@@ -20,28 +17,35 @@ function LoadGate() {
   }
 
   return (
-    <React.Fragment>
-      <AppBar />
+    <AppRibbon>
       <UpdateDialog />
       <Router />
-    </React.Fragment>
+    </AppRibbon>
   )
 }
 
 export default function App() {
   return (
-    <StoreProvider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <OnlineStatusProvider>
-          <BrowserRouter>
-            <Theme>
-              <CssBaseline />
-              <NativeLoader />
-              <LoadGate />
-            </Theme>
-          </BrowserRouter>
-        </OnlineStatusProvider>
-      </PersistGate>
-    </StoreProvider>
+    <AppDataProvider>
+      <ThemesProvider>
+        <SettingsProvider>
+          <NativeDataProvider>
+            <OnlineStatusProvider>
+              <SelectedGameProvider game={Game.GrandTheftAuto5}>
+                <AppBarSettingsProvider>
+                  <BrowserRouter>
+                    <Theme>
+                      <CssBaseline />
+                      <NativeLoader />
+                      <LoadGate />
+                    </Theme>
+                  </BrowserRouter>
+                </AppBarSettingsProvider>
+              </SelectedGameProvider>
+            </OnlineStatusProvider>
+          </NativeDataProvider>
+        </SettingsProvider>
+      </ThemesProvider>
+    </AppDataProvider>
   )
 }
