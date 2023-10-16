@@ -1,8 +1,20 @@
 import { upperFirst } from 'lodash'
 import preval from 'preval.macro'
+import { Game } from '../context'
 
-export function createShareUrl(path: string) {
-  return `${window.location.origin}${path}`
+function getGamePath(game: Game) {
+  switch (game) {
+    case Game.GrandTheftAuto5:
+      return '/gta5'
+    case Game.RedDeadRedemption2:
+      return '/rdr3'
+  }
+}
+
+export function createShareUrl(path: string, game?: Game) {
+  const gamePath = game !== undefined ? getGamePath(game) : ''
+
+  return `${window.location.origin}${gamePath}${path}`
 }
 
 export function isDevelopment() {

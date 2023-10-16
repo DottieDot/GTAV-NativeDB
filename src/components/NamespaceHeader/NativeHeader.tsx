@@ -5,6 +5,7 @@ import { LinkSharp as ShareIcon } from '@mui/icons-material'
 import { useNamespace } from '../../hooks'
 import { useCopyToClipboard } from '../../hooks'
 import { useCallback } from 'react'
+import { useSelectedGameContext } from '../../context'
 
 export interface NativeHeaderProps extends Omit<BoxProps, 'children'> {
   namespace: string
@@ -29,10 +30,11 @@ const StyledBox = styled(Box)(({ theme }) => ({
 function NamespaceHeader({ namespace, nativeCount, ...rest }: NativeHeaderProps) {
   const firstNative = useNamespace(namespace).natives[0]
   const copyToClipboard = useCopyToClipboard()
+  const game = useSelectedGameContext()
 
   const onShare = useCallback(() => {
-    copyToClipboard(createShareUrl(`/natives/${firstNative}`))
-  }, [copyToClipboard, firstNative])
+    copyToClipboard(createShareUrl(`/natives/${firstNative}`, game))
+  }, [copyToClipboard, firstNative, game])
   
   return (
     <StyledBox {...rest}>

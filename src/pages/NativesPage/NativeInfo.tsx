@@ -27,8 +27,8 @@ export default function NativeInfo({ native: nativeHashParam }: NativeInfoProps)
   const [showGta5Definition, setShowGta5Definition] = useState<string | false>(false)
 
   const onShare = useCallback(() => {
-    copyToClipboard(createShareUrl(`/natives/${nativeHash}`))
-  }, [copyToClipboard, nativeHash])
+    copyToClipboard(createShareUrl(`/natives/${nativeHash}`, game))
+  }, [copyToClipboard, nativeHash, game])
 
   const onUsageNotFound = useCallback(() => {
     setUsageNotFound(true)
