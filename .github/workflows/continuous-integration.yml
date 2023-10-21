@@ -13,7 +13,7 @@ jobs:
           profile: minimal
           toolchain: nightly
           override: true
-          components: rustfmt
+          components: rustfmt, clippy
 
       - uses: actions-rs/cargo@v1 
         with:
@@ -38,6 +38,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
+          override: true
+          components: rustfmt, clippy
+        
+      - name: Install wasm-pack
+        uses: actions-rs/cargo@v1 
+        with:
+          command: install
+          args: wasm-pack
+
+      - name: Build WASM
+        run: npm run build:wasm
 
       - name: Install Modules
         run: npm install
