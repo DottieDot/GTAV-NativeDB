@@ -1,5 +1,27 @@
-import { ReactNode, createContext, memo, useCallback, useState } from 'react'
+import { ReactNode, createContext, memo, useCallback, useEffect, useState } from 'react'
 import { useGuardedContext } from '../../hooks'
+
+let updateWasReady: ServiceWorkerRegistration | null = null
+const updateReadyListeners: Set<((sw: ServiceWorkerRegistration) => void)> = new Set()
+
+export function notifyUpdateReady(sw: ServiceWorkerRegistration) { 
+  updateWasReady = sw
+  for (const listener of updateReadyListeners) {
+    listener(sw)
+  }
+}
+
+function addListener(listener: (sw: ServiceWorkerRegistration) => void) {
+  if (updateWasReady) {
+    listener(updateWasReady)
+  }
+
+  updateReadyListeners.add(listener)
+}
+
+function removeListener(listener: (sw: ServiceWorkerRegistration) => void) {
+  updateReadyListeners.delete(listener)
+}
 
 export interface AppDataContext {
   state: {
@@ -30,6 +52,22 @@ export const AppDataProvider = memo(({children}: AppDataProviderProps) => {
       updateReady: true,
       serviceWorkerRegistration: swRegistration
     })
+  }, [setState])
+
+  useEffect(() => {
+    const listener = (sw: ServiceWorkerRegistration) => {
+      setState(state => ({
+        ...state,
+        updateReady: true,
+        serviceWorkerRegistration: sw
+      }))
+    }
+
+    addListener(listener)
+
+    return () => {
+      removeListener(listener)
+    }
   }, [setState])
 
   return (
