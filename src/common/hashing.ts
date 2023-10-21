@@ -5,9 +5,9 @@ export function atStringHash(str: string): number | undefined {
 }
 
 export function atStringHash64(str: string): bigint | undefined {
-  let hash = atStringHash64Wasm(str);
+  const hash = atStringHash64Wasm(str)
   if (hash === undefined) {
-    return undefined;
+    return undefined
   }
 
   return BigInt.asUintN(64, BigInt(hash))

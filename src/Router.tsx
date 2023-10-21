@@ -8,22 +8,26 @@ function GameNdb({ base, game }: { base: string, game: Game }) {
   return (
     <SelectedGameProvider game={game}>
       <AppBar />
+
       <Routes>
         <Route 
-          path="/natives/:native" 
-          element={<NativesPage />}
+          element={<NativesPage />} 
+          path="/natives/:native"
         />
+
         <Route 
+          element={<NativesPage />}
           path="/natives"
-          element={<NativesPage />}
         />
+
         <Route 
-          path="/generate-code/:language"
           element={<GenerateCodePage />}
+          path="/generate-code/:language"
         />
-        <Route path="/generate-code" element={<Navigate to="../generate-code/cpp" replace />} />
-        <Route path="/generate-header" element={<Navigate to="../generate-code" replace />} />
-        <Route path="*" element={<Navigate to={`${base}/natives`} replace />} />
+
+        <Route element={<Navigate to="../generate-code/cpp" replace />} path="/generate-code" />
+        <Route element={<Navigate to="../generate-code" replace />} path="/generate-header" />
+        <Route element={<Navigate to={`${base}/natives`} replace />} path="*" />
       </Routes>
     </SelectedGameProvider>
   )
@@ -32,10 +36,10 @@ function GameNdb({ base, game }: { base: string, game: Game }) {
 export default function Router() {
   return (
     <Routes>
-      <Route path="/gta5/*" element={<GameNdb base="/gta5" game={Game.GrandTheftAuto5} />} />
-      <Route path="/rdr3/*" element={<GameNdb base="/rdr3" game={Game.RedDeadRedemption2} />} />
-      <Route path="/hash" element={<Hashing />} />
-      <Route path="*" element={<Navigate to="../gta5/natives" replace />} />
+      <Route element={<GameNdb base="/gta5" game={Game.GrandTheftAuto5} />} path="/gta5/*" />
+      <Route element={<GameNdb base="/rdr3" game={Game.RedDeadRedemption2} />} path="/rdr3/*" />
+      <Route element={<Hashing />} path="/hash" />
+      <Route element={<Navigate to="../gta5/natives" replace />} path="*" />
     </Routes>
   )
 }

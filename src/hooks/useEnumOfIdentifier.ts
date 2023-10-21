@@ -8,9 +8,9 @@ export default function useEnumOfIdentifier(ident: string): TypeDefinitionEnum |
 
   const enums = useMemo(() => {
     return Object.values(types).filter(type => type.type === 'Enum') as TypeDefinitionEnum[]
-  }, [types])
+  }, [ types ])
 
   return useMemo(() => {
     return enums.find(e => _.find(e.values, v => v.name === ident)) ?? null
-  }, [enums, ident]);
+  }, [ enums, ident ])
 }

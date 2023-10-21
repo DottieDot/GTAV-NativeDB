@@ -16,7 +16,7 @@ interface NativeInfoProps {
 
 export default function NativeInfo({ native: nativeHashParam }: NativeInfoProps) {
   const nativeHashNotNull = useLastNotNull(nativeHashParam)
-  const [usageNotFound, setUsageNotFound] = useState(false)
+  const [ usageNotFound, setUsageNotFound ] = useState(false)
   const settings = useSettings()
   const isSmall = useIsSmallDisplay()
   const nativeHash = isSmall ? nativeHashNotNull : nativeHashParam
@@ -24,19 +24,19 @@ export default function NativeInfo({ native: nativeHashParam }: NativeInfoProps)
   const copyToClipboard = useCopyToClipboard()
   const theme = useTheme()
   const game = useSelectedGameContext()
-  const [showGta5Definition, setShowGta5Definition] = useState<string | false>(false)
+  const [ showGta5Definition, setShowGta5Definition ] = useState<string | false>(false)
 
   const onShare = useCallback(() => {
     copyToClipboard(createShareUrl(`/natives/${nativeHash}`, game))
-  }, [copyToClipboard, nativeHash, game])
+  }, [ copyToClipboard, nativeHash, game ])
 
   const onUsageNotFound = useCallback(() => {
     setUsageNotFound(true)
-  }, [setUsageNotFound])
+  }, [ setUsageNotFound ])
 
   useEffect(() => {
     setUsageNotFound(false)
-  }, [nativeHash])
+  }, [ nativeHash ])
 
   if (!nativeHash) {
     return (
@@ -56,31 +56,46 @@ export default function NativeInfo({ native: nativeHashParam }: NativeInfoProps)
 
   return (
     <Box sx={{ p: 2 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, pb: 1 }}>
+      <Box
+        sx={{
+          display:    'flex',
+          alignItems: 'center',
+          gap:        1,
+          pb:         1 
+        }}
+      >
         <Tooltip title="Copy Link">
-          <IconButton onClick={onShare} size="small" aria-label="copy link" color="inherit">
+          <IconButton
+            aria-label="copy link"
+            color="inherit"
+            onClick={onShare}
+            size="small"
+          >
             <ShareIcon />
           </IconButton>
         </Tooltip>
+
         <Typography 
+          component="h1"
           sx={{ 
             textOverflow: 'ellipsis', 
-            overflow: 'hidden' 
-          }}
+            overflow:     'hidden' 
+          }} 
           variant="h5" 
-          component="h1" 
         >
           {settings.nativeDisplayMode === 'TS' ? toPascalCase(native.name) : native.name}
         </Typography>
       </Box>
+
       <Stack spacing={2}>
         <Paper sx={{ p: 2 }}>
           <NativeDetails
+            build={native.build}
             hash={native.hash}
             jhash={native.jhash}
-            build={native.build}
             variant="body2"
           />
+
           <NativeDefinition
             name={native.name}
             params={native.params}
@@ -88,11 +103,13 @@ export default function NativeInfo({ native: nativeHashParam }: NativeInfoProps)
             variant="body2"
           />
         </Paper>
+
         {native.schComment && (
           <div>
             <Typography variant="subtitle1" gutterBottom>
               Rockstar Description
             </Typography>
+
             <Paper sx={{ p: 2 }}>
               <NativeComment variant="body2">
                 {native.schComment}
@@ -100,11 +117,13 @@ export default function NativeInfo({ native: nativeHashParam }: NativeInfoProps)
             </Paper>
           </div>
         )}
+
         {native.comment && (
           <div>
             <Typography variant="subtitle1" gutterBottom>
               Description
             </Typography>
+
             <Paper sx={{ p: 2 }}>
               <NativeComment variant="body2">
                 {native.comment}
@@ -112,11 +131,13 @@ export default function NativeInfo({ native: nativeHashParam }: NativeInfoProps)
             </Paper>
           </div>
         )}
+
         {native.examples && !_.isEmpty(native.examples) && (
           <div>
             <Typography variant="subtitle1" gutterBottom>
               Examples
             </Typography>
+
             <Paper>
               <CodeExamples
                 examples={native.examples}
@@ -124,20 +145,23 @@ export default function NativeInfo({ native: nativeHashParam }: NativeInfoProps)
             </Paper>
           </div>
         )}
+
         {native.oldNames && (
           <div>
             <Typography variant="subtitle1" gutterBottom>
-              Old name{native.oldNames?.length !== 1 ? 's' : ''}
+              Old name
+              {native.oldNames?.length !== 1 ? 's' : ''}
             </Typography>
+
             <Paper>
               <List>
                 {native.oldNames.map(oldName => (
                   <ListItem 
+                    key={oldName}
                     sx={{
                       textOverflow: 'ellipsis',
-                      overflow: 'hidden'
-                    }}
-                    key={oldName} 
+                      overflow:     'hidden'
+                    }} 
                     dense
                   >
                     <ListItemText primary={oldName} />
@@ -147,53 +171,64 @@ export default function NativeInfo({ native: nativeHashParam }: NativeInfoProps)
             </Paper>
           </div>
         )}
+
         {(!usageNotFound && _.includes(settings.sources, NativeSources.DottieDot)) && (
           <div>
             <Typography variant="subtitle1" gutterBottom>
               Script usage
             </Typography>
+
             <Paper>
               <NativeUsage 
-                onNotFound={onUsageNotFound}
-                nativeHash={nativeHash} 
+                nativeHash={nativeHash}
+                onNotFound={onUsageNotFound} 
               />
             </Paper>
           </div>
         )}
+
         {game === Game.RedDeadRedemption2 && native.gtaHash && (
           <Button 
-            variant="text"
             color="inherit"
             onClick={() => setShowGta5Definition(native.gtaHash!)}
             startIcon={<OpenInNewSharpIcon />}
+            variant="text"
           >
             GTA5 Native Definition
           </Button>
         )}
+
         <div>
           <Typography variant="subtitle1" gutterBottom>
             Comments
           </Typography>
+
           <Paper sx={{ p: 2 }}>
             <Giscus
-              id="comments"
-              repo="DottieDot/GTAV-NativeDB"
-              repoId="MDEwOlJlcG9zaXRvcnkyODQ1MTYyMTQ="
               category="Native Comments"
               categoryId="DIC_kwDOEPVfds4CUoSH"
-              mapping="specific"
-              term={native.hash}
-              reactionsEnabled="1"
               emitMetadata="0"
+              id="comments"
               inputPosition="top"
-              theme={theme.palette.mode}
               lang="en"
               loading="lazy"
+              mapping="specific"
+              reactionsEnabled="1"
+              repo="DottieDot/GTAV-NativeDB"
+              repoId="MDEwOlJlcG9zaXRvcnkyODQ1MTYyMTQ="
+              term={native.hash}
+              theme={theme.palette.mode}
             />
           </Paper>
         </div>
       </Stack>
-      <Dialog open={!!showGta5Definition} onClose={() => setShowGta5Definition(false)} fullWidth maxWidth="xl">
+
+      <Dialog
+        maxWidth="xl"
+        onClose={() => setShowGta5Definition(false)}
+        open={!!showGta5Definition}
+        fullWidth
+      >
         <SelectedGameProvider game={Game.GrandTheftAuto5}>
           <NativeInfo native={nativeHashParam} />
         </SelectedGameProvider>

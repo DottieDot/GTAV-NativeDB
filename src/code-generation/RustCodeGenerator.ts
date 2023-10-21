@@ -41,7 +41,7 @@ class RustCodeGenerator extends CodeGeneratorBase<RustCodeGeneratorSettings> {
     const name         = this.settings.rustNames ? this.transformNativeName(native.name) : native.name
     const params       = native.params.map(({ type, name }) => `${this.formatParamName(name)}: ${this.formatType(type)}`).join(', ')
     const returnType   = this.formatType(native.returnType)
-    const invokeParams = [returnType, `${native.hash}u64`, ...native.params.map(p => this.formatInvokeParam(p))].join(', ')
+    const invokeParams = [ returnType, `${native.hash}u64`, ...native.params.map(p => this.formatInvokeParam(p)) ].join(', ')
     const invoker      = 'call_native!'
     const link         =  `${window.location.origin}/natives/${native.hash}`
     const isVoid       = returnType === 'Void'
@@ -92,7 +92,7 @@ class RustCodeGenerator extends CodeGeneratorBase<RustCodeGeneratorSettings> {
   }
 
   private formatType(type: CodeGenType): string {
-    let { baseType } = type
+    const { baseType } = type
 
     if (type.pointers) {
       return `${'*'.repeat(type.pointers)}${type.isConst ? 'const' : 'mut'} ${baseType}`
@@ -103,7 +103,7 @@ class RustCodeGenerator extends CodeGeneratorBase<RustCodeGeneratorSettings> {
   }
 
   private formatParamName(name: string): string {
-    let tmp = this.settings.rustNames 
+    const tmp = this.settings.rustNames 
       ? splitCamelCaseString(name).map(s => s.toLowerCase()).join('_') 
       : name
 

@@ -31,35 +31,35 @@ interface ContainerProps {
 
 const Container = styled(Paper)<ContainerProps>(({ theme, active }) => ({
   position: 'relative',
-  height: '2.5rem',
+  height:   '2.5rem',
   
   background: active ? alpha(theme.palette.primary.dark, .16) : undefined,
-  color: active ? theme.palette.primary.light : undefined,
+  color:      active ? theme.palette.primary.light : undefined,
 
   
   overflow: 'hidden'
 }))
 
 const ActionArea = styled(ButtonBase)({
-  position: 'absolute',
-  display: 'grid',
+  position:            'absolute',
+  display:             'grid',
   gridTemplateColumns: '2.5rem 1fr',
-  width: 'auto',
-  minWidth: '100%',
-  height: '100%',
+  width:               'auto',
+  minWidth:            '100%',
+  height:              '100%'
 })
 
 const Icon = styled('div')({
-  display: 'flex',
-  alignSelf: 'center',
+  display:     'flex',
+  alignSelf:   'center',
   justifySelf: 'center',
-  fontSize: '1.4em'
+  fontSize:    '1.4em'
 })
 
 const Label = styled(Typography)({
-  alignSelf: 'center',
+  alignSelf:   'center',
   justifySelf: 'left',
-  whiteSpace: 'nowrap'
+  whiteSpace:  'nowrap'
 })
 
 export function RibbonButton({ children, href, target, onClick, activeHref, label }: RibbonButtonProps) {
@@ -78,6 +78,7 @@ export function RibbonButton({ children, href, target, onClick, activeHref, labe
           <Icon>
             {children}
           </Icon>
+
           <Label variant="body1">
             {label}
           </Label>
@@ -88,7 +89,7 @@ export function RibbonButton({ children, href, target, onClick, activeHref, labe
   if (href) {
     const active = location?.pathname.includes(activeHref ?? href)
     return (
-      <Container variant='outlined' active={active}>
+      <Container active={active} variant='outlined'>
         <ActionArea
           // https://github.com/mui/material-ui/issues/31194
           // @ts-ignore
@@ -98,6 +99,7 @@ export function RibbonButton({ children, href, target, onClick, activeHref, labe
           <Icon>
             {children}
           </Icon>
+
           <Label variant="body1">
             {label}
           </Label>
@@ -112,6 +114,7 @@ export function RibbonButton({ children, href, target, onClick, activeHref, labe
         <Icon>
           {children}
         </Icon>
+
         <Label variant="body1">
           {label}
         </Label>

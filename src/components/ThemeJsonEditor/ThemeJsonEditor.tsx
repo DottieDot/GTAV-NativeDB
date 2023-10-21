@@ -11,10 +11,10 @@ export interface ThemeJsonEditorProps {
 export default function ThemeJsonEditor({ themeId }: ThemeJsonEditorProps) {
   const { patchTheme } = useThemesContext()
   const theme = useCustomTheme(themeId)
-  const [error, setError] = useState(false)
-  const [input, setInput] = useState('')
+  const [ error, setError ] = useState(false)
+  const [ input, setInput ] = useState('')
 
-  useEffect(() => setInput(JSON.stringify(_.omit(theme, ['id']), undefined, 2)), [theme])
+  useEffect(() => setInput(JSON.stringify(_.omit(theme, [ 'id' ]), undefined, 2)), [ theme ])
 
   const handleInputChanged = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value)
@@ -29,7 +29,7 @@ export default function ThemeJsonEditor({ themeId }: ThemeJsonEditorProps) {
     catch {
       setError(true)
     }
-  }, [patchTheme, themeId, input])
+  }, [ patchTheme, themeId, input ])
 
   if (!theme) {
     return null
@@ -37,16 +37,12 @@ export default function ThemeJsonEditor({ themeId }: ThemeJsonEditorProps) {
 
   return (
     <TextField
-      inputProps={{
-        style: {
-          fontFamily: 'Roboto Mono, Monospace'
-        }
-      }}
-      value={input}
-      onChange={handleInputChanged}
-      onBlur={handleBlur}
-      spellCheck={false}
       error={error}
+      inputProps={{ style: { fontFamily: 'Roboto Mono, Monospace' }}}
+      onBlur={handleBlur}
+      onChange={handleInputChanged}
+      spellCheck={false}
+      value={input}
       multiline
     />
   )

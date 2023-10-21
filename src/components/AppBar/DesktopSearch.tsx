@@ -18,75 +18,59 @@ interface StyleProps {
 }
 
 const Search = styled('div')<StyleProps>(({ theme, inner, outer }) => ({
-  position: 'relative',
-  margin: theme.spacing(0, 2),
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: theme.extensions.typeInfoBorderColor,
-  transition: 'all ease-in-out .2s',
-  '&:hover': {
-    backgroundColor: theme.extensions.typeInfoBorderColor
-  },
-  '& .clear-button': {
-    display: 'none'
-  },
-  '&:not(.mobile)': {
-    '&:not(:has(input:placeholder-shown))': {
-      '& .clear-button': {
-        display: 'block'
-      },
-    }
-  },
-  '&.mobile': {
-    position: 'absolute',
-    margin: 'unset',
-    zIndex: 1,
+  position:          'relative',
+  margin:            theme.spacing(0, 2),
+  borderRadius:      theme.shape.borderRadius,
+  backgroundColor:   theme.extensions.typeInfoBorderColor,
+  transition:        'all ease-in-out .2s',
+  '&:hover':         { backgroundColor: theme.extensions.typeInfoBorderColor },
+  '& .clear-button': { display: 'none' },
+  '&:not(.mobile)':  { '&:not(:has(input:placeholder-shown))': { '& .clear-button': { display: 'block' }}},
+  '&.mobile':        {
+    position:                  'absolute',
+    margin:                    'unset',
+    zIndex:                    1,
     ...outer,
-    top: theme.spacing(1),
+    top:                       theme.spacing(1),
     '&:focus-within, &:hover': {
       ...inner,
-      '&:not(:has(input:placeholder-shown))': {
-        '& .clear-button': {
-          display: 'block'
-        },
-      }
+      '&:not(:has(input:placeholder-shown))': { '& .clear-button': { display: 'block' }}
     }
   },
-  flex: 1,
+  flex:    1,
   display: 'flex'
 }))
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  width: '100%',
+  color:                   'inherit',
+  width:                   '100%',
   '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
+    padding:     theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%'
+    transition:  theme.transitions.create('width'),
+    width:       '100%'
   },
-  '.show-clear > &': {
-    paddingRight: `calc(1em + ${theme.spacing(4)})`,
-  }
+  '.show-clear > &': { paddingRight: `calc(1em + ${theme.spacing(4)})` }
 }))
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  padding:        theme.spacing(0, 2),
+  height:         '100%',
+  position:       'absolute',
+  pointerEvents:  'none',
+  display:        'flex',
+  alignItems:     'center',
+  justifyContent: 'center'
 }))
 
 const ClearIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  display: 'flex',
-  alignItems: 'center',
+  padding:        theme.spacing(0, 2),
+  height:         '100%',
+  position:       'absolute',
+  display:        'flex',
+  alignItems:     'center',
   justifyContent: 'center',
-  right: 0
+  right:          0
 }))
 
 export interface DesktopSearchProps {
@@ -109,18 +93,18 @@ function setNativeValue(element: HTMLInputElement, value: string) {
 export default function DesktopSearch({ search }: DesktopSearchProps) {
   const theme = useTheme()
   const extraSmallDisplay = useIsExtraSmallDisplay()
-  const [outerBox, setOuterBox] = useState<HTMLDivElement|null>(null)
-  const [innerBox, setInnerBox] = useState<HTMLDivElement | null>(null)
-  const [state, setState] = useState({
+  const [ outerBox, setOuterBox ] = useState<HTMLDivElement|null>(null)
+  const [ innerBox, setInnerBox ] = useState<HTMLDivElement | null>(null)
+  const [ state, setState ] = useState({
     inner: {
-      top: 0,
-      left: 0,
-      width: 0,
+      top:   0,
+      left:  0,
+      width: 0
     },
     outer: {
-      top: 0,
-      left: 0,
-      width: 0,
+      top:   0,
+      left:  0,
+      width: 0
     }
   })
 
@@ -131,7 +115,7 @@ export default function DesktopSearch({ search }: DesktopSearchProps) {
       current.dispatchEvent(new Event('change', { bubbles: true }))
       current.focus()
     }
-  }, [search])
+  }, [ search ])
   
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
@@ -141,7 +125,7 @@ export default function DesktopSearch({ search }: DesktopSearchProps) {
     if (search.onKeyDown) {
       search.onKeyDown(e)
     }
-  }, [search])
+  }, [ search ])
 
   const handleInner = useCallback((e: HTMLDivElement) => {
     setInnerBox(e)
@@ -166,13 +150,13 @@ export default function DesktopSearch({ search }: DesktopSearchProps) {
 
       setState({
         inner: {
-          top: inner.top,
-          left: inner.left,
+          top:   inner.top,
+          left:  inner.left,
           width: inner.width
         },
         outer: {
-          top: outer.top,
-          left: outer.left,
+          top:   outer.top,
+          left:  outer.left,
           width: outer.width
         }
       })
@@ -184,7 +168,7 @@ export default function DesktopSearch({ search }: DesktopSearchProps) {
     return () => {
       observer.disconnect()
     }
-  }, [outerBox, innerBox])
+  }, [ outerBox, innerBox ])
 
   const searchContent = (
     <Search
@@ -195,20 +179,22 @@ export default function DesktopSearch({ search }: DesktopSearchProps) {
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
+
       <StyledInputBase
-        placeholder="Search…"
-        inputProps={{ 'aria-label': 'search' }}
-        value={search.value}
-        inputRef={search.ref}
-        onChange={search.onChange}
-        onBlur={search.onBlur}
-        onKeyDown={handleKeyDown}
+        autoCapitalize="off"
         autoComplete="off"
         autoCorrect="off"
-        autoCapitalize="off"
+        inputProps={{ 'aria-label': 'search' }}
+        inputRef={search.ref}
+        onBlur={search.onBlur}
+        onChange={search.onChange}
+        onKeyDown={handleKeyDown}
+        placeholder="Search…"
+        value={search.value}
       />
+
       <ClearIconWrapper className="clear-button">
-        <IconButton sx={{ mt: '2px' }} size="small" onClick={handleClear}>
+        <IconButton onClick={handleClear} size="small" sx={{ mt: '2px' }}>
           <ClearIcon />
         </IconButton>
       </ClearIconWrapper>
@@ -221,23 +207,24 @@ export default function DesktopSearch({ search }: DesktopSearchProps) {
 
   return (
     <Box
+      ref={handleOuter}
       sx={{
         margin: theme.spacing(0, 2),
         height: '100%'
       }}
-      ref={handleOuter}
     >
       <Box
+        ref={handleInner}
         sx={{
           position: 'absolute',
-          left: 0,
-          top: theme.spacing(1),
-          width: `calc(100% - ${theme.spacing(4)})`,
-          margin: theme.spacing(0, 2),
-          zIndex: 1
+          left:     0,
+          top:      theme.spacing(1),
+          width:    `calc(100% - ${theme.spacing(4)})`,
+          margin:   theme.spacing(0, 2),
+          zIndex:   1
         }}
-        ref={handleInner}
       />
+
       {!!state.outer.width && searchContent}
     </Box>
   )

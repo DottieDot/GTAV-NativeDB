@@ -1,5 +1,4 @@
 import { Button, Dialog, DialogActions, DialogTitle, List, ListItem, ListItemText } from '@mui/material'
-import React from 'react'
 import { useStats } from '../../hooks'
 
 interface Props {
@@ -11,10 +10,16 @@ export default function StatsDialog({ open, onClose }: Props) {
   const stats = useStats()
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
+    <Dialog
+      maxWidth="xs"
+      onClose={onClose}
+      open={open}
+      fullWidth
+    >
       <DialogTitle>
         Stats
       </DialogTitle>
+
       <List dense>
         <ListItem sx={{ px: 3 }} >
           <ListItemText 
@@ -22,18 +27,21 @@ export default function StatsDialog({ open, onClose }: Props) {
             secondary={stats.namespaces}
           />
         </ListItem>
+
         <ListItem sx={{ px: 3 }} >
           <ListItemText 
             primary="Natives"
             secondary={stats.natives}
           />
         </ListItem>
+
         <ListItem sx={{ px: 3 }} >
           <ListItemText 
             primary="Comments"
             secondary={stats.comments}
           />
         </ListItem>
+
         <ListItem sx={{ px: 3 }} >
           <ListItemText 
             primary="Known names"
@@ -41,8 +49,11 @@ export default function StatsDialog({ open, onClose }: Props) {
           />
         </ListItem>
       </List>
+
       <DialogActions>
-        <Button onClick={onClose}>Close</Button>
+        <Button onClick={onClose}>
+          Close
+        </Button>
       </DialogActions>
     </Dialog>
   )

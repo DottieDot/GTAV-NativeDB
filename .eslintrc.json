@@ -1,0 +1,178 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "react/prop-types": "off",
+    "react/boolean-prop-naming": "error",
+    "react/button-has-type": "error",
+    "react/default-props-match-prop-types": "error",
+    "react/function-component-definition": [
+      "error",
+      {
+        "namedComponents": "function-declaration",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "react/hook-use-state": "error",
+    "react/jsx-closing-bracket-location": [
+      "error",
+      "tag-aligned"
+    ],
+    "react/jsx-closing-tag-location": "error",
+    "react/jsx-curly-brace-presence": "error",
+    "react/jsx-curly-newline": [
+      "error",
+      {
+        "singleline": "consistent",
+        "multiline": "consistent"
+      }
+    ],
+    "react/jsx-curly-spacing": [
+      "error",
+      {
+        "when": "never"
+      }
+    ],
+    "react/jsx-equals-spacing": "error",
+    "react/jsx-first-prop-new-line": [
+      "error",
+      "multiline"
+    ],
+    "react/jsx-fragments": [
+      "error",
+      "element"
+    ],
+    "react/jsx-indent": [
+      "error",
+      2
+    ],
+    "react/jsx-indent-props": [
+      "error",
+      2
+    ],
+    "react/jsx-max-props-per-line": [
+      "error",
+      {
+        "maximum": {
+          "single": 3,
+          "multi": 1
+        }
+      }
+    ],
+    "react/jsx-newline": [
+      "error",
+      {
+        "prevent": true,
+        "allowMultilines": true
+      }
+    ],
+    "react/jsx-no-useless-fragment": "error",
+    "react/jsx-props-no-multi-spaces": "error",
+    "react/jsx-sort-props": [
+      "error",
+      {
+        "shorthandLast": true
+      }
+    ],
+    "react/jsx-tag-spacing": "error",
+    "react/jsx-wrap-multilines": "error",
+    "key-spacing": [
+      "error",
+      {
+        "align": "value"
+      }
+    ],
+    "no-console": [
+      "warn",
+      { 
+        "allow": [
+          "warn",
+          "error"
+        ]
+      }
+    ],
+    "no-debugger": "warn",
+    "semi": [
+      "error",
+      "never"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "object-property-newline": "error",
+    "comma-dangle": [
+      "error",
+      "never"
+    ],
+    "no-useless-computed-key": "error",
+    "array-bracket-newline": [
+      "error",
+      {
+        "multiline": true
+      }
+    ],
+    "object-curly-newline": [
+      "error",
+      {
+        "multiline": true
+      }
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always",
+      {
+        "arraysInObjects": false,
+        "objectsInObjects": false
+      }
+    ],
+    "array-bracket-spacing": [
+      "error",
+      "always",
+      {
+        "objectsInArrays": false,
+        "arraysInArrays": false
+      }
+    ],
+    "camelcase": [
+      "error",
+      {
+        "properties": "never"
+      }
+    ],
+    "@typescript-eslint/ban-ts-comment": "off",
+    "react/jsx-no-comment-textnodes": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ]
+  }
+}

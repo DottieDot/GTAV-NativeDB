@@ -1,18 +1,16 @@
 import { Dialog, DialogTitle, DialogContent, Typography, styled, Divider, Box, DialogActions, Button } from '@mui/material'
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { useCallback } from 'react'
 import { ReactNode } from 'react'
 import useLocalStorageState from 'use-local-storage-state'
 import { buildDate } from '../../common'
 
 const UnorderedList = styled('ul')(({ theme }) => ({
-  marginTop: 0,
+  marginTop:   0,
   paddingLeft: theme.spacing(2)
 }))
 
-const ListItem = styled('li')(({ theme }) => ({
-  marginTop: theme.spacing(1)
-}))
+const ListItem = styled('li')(({ theme }) => ({ marginTop: theme.spacing(1) }))
 
 interface HeaderProps {
   children: ReactNode
@@ -22,57 +20,69 @@ interface HeaderProps {
 function Header({ children,  type }: HeaderProps) {
   const color = type === 'fix' ? 'warning.main' : 'primary.main'
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+    <Box
+      sx={{
+        display:    'flex',
+        alignItems: 'center',
+        gap:        1 
+      }}
+    >
       <Typography 
-        variant="h6" 
-        component="h3"
+        component="h3" 
         sx={{ color: color }}
+        variant="h6"
       >
         {children}
       </Typography>
+
       <Divider 
         sx={{ 
-          flex: 1, 
+          flex:    1, 
           bgcolor: color, 
-          mt: .5 
-        }} 
-        />
+          mt:      .5 
+        }}
+      />
     </Box>
   )
 }
 
 function UpdateDialog() {
-  const [closedChangelog, setClosedChangelog] = useLocalStorageState('UpdateDialog.Closed', {
-    defaultValue: ''
-  })
+  const [ closedChangelog, setClosedChangelog ] = useLocalStorageState('UpdateDialog.Closed', { defaultValue: '' })
 
   const handleClose = useCallback(() => {
     setClosedChangelog(buildDate)
-  }, [setClosedChangelog])
+  }, [ setClosedChangelog ])
 
   return (
     <Dialog 
-      open={false && closedChangelog !== buildDate}
+      maxWidth="sm"
       onClose={handleClose}
-      maxWidth="sm" 
+      open={false && closedChangelog !== buildDate} 
       scroll="paper" 
       fullWidth
     >
       <DialogTitle>
         Changelog
       </DialogTitle>
+
       <DialogContent>
         <Header type="new">
           New Features
         </Header>
+
         <Typography variant="body2">
           <UnorderedList>
             <ListItem>
-              <b>Capturing links</b><br />
-               When you click on a native db link it should now open as a PWA, provided you have it installed as one. This feature requires the "enable-desktop-pwas-link-capturing" flag to be enabled.
+              <b>
+                Capturing links
+              </b>
+
+              <br />
+              When you click on a native db link it should now open as a PWA, provided you have it installed as one. This feature requires the &quot;enable-desktop-pwas-link-capturing&quot; flag to be enabled.
             </ListItem>
           </UnorderedList>
         </Typography> 
+
         {/* <Header type="fix">
           Fixes and Changes
         </Header>
@@ -93,6 +103,7 @@ function UpdateDialog() {
           </UnorderedList>
         </Typography> */}
       </DialogContent>
+
       <DialogActions>
         <Button onClick={handleClose}>
           Close

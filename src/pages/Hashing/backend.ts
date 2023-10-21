@@ -15,12 +15,12 @@ function hashWithAlgorithm(input: string, algo: HashingAlgorithm): number | bigi
 }
 
 function hashLine(line: string, algo: HashingAlgorithm): [bigint, number] | undefined {
-    const trimmed = line.trim()
-    let hash = hashWithAlgorithm(trimmed, algo)
-    if (hash !== undefined) {
-      const bits = algo === 'atStringHash64' ? 64 : 32
-      return [BigInt(hash), bits]
-    }
+  const trimmed = line.trim()
+  const hash = hashWithAlgorithm(trimmed, algo)
+  if (hash !== undefined) {
+    const bits = algo === 'atStringHash64' ? 64 : 32
+    return [ BigInt(hash), bits ]
+  }
 }
 
 export function hashInput(input: string, algo: HashingAlgorithm): ([bigint, number] | undefined)[] {
@@ -37,7 +37,7 @@ export function formatHash(hashInput: [bigint, number] | undefined, format: Hash
     return '<ERROR>'
   }
 
-  const [hash, bits] = hashInput
+  const [ hash, bits ] = hashInput
 
   switch (format) {
     case 'hex':

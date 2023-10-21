@@ -24,17 +24,17 @@ export interface StringCodeGenOption<TSettings> extends CodeGenOption<TSettings>
 
 export interface ComboCodeGenOption<TSettings> extends CodeGenOption<TSettings> {
   type   : 'combo'
-  options: { label: string, value: any }[]
+  options: { label: string, value: unknown }[]
 }
 
 type CodeGenOptions<TSettings> = BooleanCodeGenOption<TSettings> | StringCodeGenOption<TSettings> | ComboCodeGenOption<TSettings>
 
 type CodeGenOptionComponentProps<TSettings> = CodeGenOptions<TSettings> & {
   onChange: (event: ChangeEvent<HTMLInputElement> | SelectChangeEvent) => void
-  value: any
+  value: unknown
 }
 
-export function CodeGenOptionComponent<TSettings>(props:CodeGenOptionComponentProps<TSettings>) {
+export function CodeGenOptionComponent<TSettings>(props: CodeGenOptionComponentProps<TSettings>) {
   const { type, label, prop, value, onChange } = props
 
   switch (type) {
@@ -43,30 +43,32 @@ export function CodeGenOptionComponent<TSettings>(props:CodeGenOptionComponentPr
         <FormControlLabel
           control={
             <Checkbox
+              checked={value as boolean}
               name={prop}
-              checked={value}
               onChange={onChange}
             />
           }
-          sx={{ userSelect: 'none' }}
           label={label}
+          sx={{ userSelect: 'none' }}
         />
       )
     case 'combo':
-      const options = props.options
       return (
         <FormControl fullWidth>
-          <InputLabel id={`${prop}-label`}>{label}</InputLabel>
+          <InputLabel id={`${prop}-label`}>
+            {label}
+          </InputLabel>
+
           <Select
             id={`${prop}-select`}
+            label={label}
             labelId={`${prop}-label`}
             name={prop}
-            value={value}
             onChange={onChange}
-            label={label}
+            value={value as string}
           >
-            {options.map(({ label, value }) => (
-              <MenuItem key={value} value={value}>
+            {props.options.map(({ label, value }) => (
+              <MenuItem key={value as string} value={value as string}>
                 {label}
               </MenuItem>
             ))}
@@ -98,10 +100,8 @@ export default
 function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSettings, generator, options, advancedOptions, extension }: Props<TSettings>) {
   const natives = useNatives()
   const namespaces = useNamespaces()
-  const [settings, setSettings] = useLocalStorageState<TSettings>(`Pages.GenerateCode.${name}`, {
-    defaultValue: defaultSettings
-  })
-  const [previewNative, setPreviewNative] = useState('0xD49F9B0955C367DE')
+  const [ settings, setSettings ] = useLocalStorageState<TSettings>(`Pages.GenerateCode.${name}`, { defaultValue: defaultSettings })
+  const [ previewNative, setPreviewNative ] = useState('0xD49F9B0955C367DE')
   const nativeData = useNative(previewNative)
 
   const preview = useMemo(() => (
@@ -110,15 +110,13 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
     ).exportNatives({
       namespaces: {
         [nativeData.namespace]: {
-          name: nativeData.namespace,
-          natives: [nativeData.hash]
+          name:    nativeData.namespace,
+          natives: [ nativeData.hash ]
         }
       },
-      natives: {
-        [nativeData.hash]: nativeData
-      }
+      natives: { [nativeData.hash]: nativeData }
     })
-  ), [settings, nativeData, generator])
+  ), [ settings, nativeData, generator ])
 
   const handleChange = useCallback((event: ChangeEvent<HTMLInputElement> | SelectChangeEvent) => {
     if (!(event.target.name in settings)) {
@@ -138,7 +136,7 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
         [event.target.name]: event.target.value
       })
     }
-  }, [settings, setSettings])
+  }, [ settings, setSettings ])
 
   const handleDownload = useCallback(() => {
     const exporter = new NativeExporter(
@@ -151,7 +149,7 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
     })
 
     download(code, `natives.${extension}`, 'text/plain')
-  }, [settings, natives, namespaces, generator, extension])
+  }, [ settings, natives, namespaces, generator, extension ])
 
   if (!nativeData) {
     setPreviewNative('0x4EDE34FBADD967A6')
@@ -160,30 +158,46 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
 
   return (
     <Grid spacing={3} container>
-      <Grid xs={12} md={6} item sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Grid
+        md={6}
+        sx={{
+          display:       'flex',
+          flexDirection: 'column' 
+        }}
+        xs={12}
+        item
+      >
         <Typography 
-          variant="h5" 
           component="h2" 
+          variant="h5" 
           gutterBottom
         >
           settings
         </Typography>
+
         <FormGroup>
           <Stack gap={2}>
             {options.map(props => (
               <CodeGenOptionComponent 
-                value={settings[props.prop]}
                 onChange={handleChange}
+                value={settings[props.prop]}
                 {...props}
                 key={props.prop}
               />
             ))}
+
             <Collapsible label="Advanced">
-              <Stack gap={2} sx={{ pt: 1, mb: 2 }}>
+              <Stack
+                gap={2}
+                sx={{
+                  pt: 1,
+                  mb: 2 
+                }}
+              >
                 {advancedOptions.map(props => (
                   <CodeGenOptionComponent 
-                    value={settings[props.prop]}
                     onChange={handleChange}
+                    value={settings[props.prop]}
                     {...props}
                     key={props.prop}
                   />
@@ -192,37 +206,57 @@ function Language<TSettings extends CodeGeneratorBaseSettings>({ name, defaultSe
             </Collapsible>
           </Stack>
         </FormGroup>
+
         <Box sx={{ flexGrow: 1 }} />
         <Divider />
+
         <NativeSelect
+          onChange={setPreviewNative}
           sx={{ mt: 2 }}
           value={previewNative}
-          onChange={setPreviewNative}
         />
+
         <Button
+          onClick={handleDownload}
           sx={{ mt: 2 }}
           variant="contained"
-          onClick={handleDownload}
           fullWidth
         >
           Download
         </Button>
       </Grid>
-      <Grid xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column' }} item>
+
+      <Grid
+        md={6}
+        sx={{
+          display:       'flex',
+          flexDirection: 'column' 
+        }}
+        xs={12}
+        item
+      >
         <Typography 
-          variant="h5" 
           component="h2" 
+          variant="h5" 
           gutterBottom
         >
           preview
         </Typography>
-        <Paper elevation={4} sx={{ p: 0, flexGrow: 1, overflow: 'hidden' }}>
+
+        <Paper
+          elevation={4}
+          sx={{
+            p:        0,
+            flexGrow: 1,
+            overflow: 'hidden' 
+          }}
+        >
           <SyntaxHighlighter 
-            language={name}
             customStyle={{
-              height: '100%',
+              height:   '100%',
               overflow: 'auto'
             }}
+            language={name}
           >
             {preview}
           </SyntaxHighlighter>

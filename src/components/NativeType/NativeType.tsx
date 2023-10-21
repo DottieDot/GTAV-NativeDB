@@ -3,7 +3,7 @@ import InteractiveText from '../InteractiveText'
 import { Fragment } from 'react'
 import {
   bindTrigger,
-  bindPopover,
+  bindPopover
 } from 'material-ui-popup-state/hooks'
 import PopupState from 'material-ui-popup-state'
 import TypeDefinition from '../TypeDefinition'
@@ -21,27 +21,28 @@ export default function NativeType({ popover = false, type }: NativeTypeProps) {
       <PopupState variant="popover">
         {(popupState) => (
           <Fragment>
-            <Box sx={{ color: 'secondary.main' }} component="span" {...bindTrigger(popupState)}>
+            <Box component="span" sx={{ color: 'secondary.main' }} {...bindTrigger(popupState)}>
               <InteractiveText>
                 {type}
               </InteractiveText>
             </Box>
+
             <Popover
               {...bindPopover(popupState)}
               PaperProps={{
                 sx: {
-                  border: `solid 1px ${theme.extensions.typeInfoBorderColor}`, 
+                  border:     `solid 1px ${theme.extensions.typeInfoBorderColor}`, 
                   whiteSpace: 'nowrap',
-                  overflowX: 'auto' 
+                  overflowX:  'auto' 
                 }
               }}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
+                vertical:   'bottom',
+                horizontal: 'center'
               }}
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
+                vertical:   'top',
+                horizontal: 'center'
               }}
             >
               <TypeDefinition type={type} />
@@ -53,7 +54,7 @@ export default function NativeType({ popover = false, type }: NativeTypeProps) {
   }
 
   return (
-    <Box sx={{ color: 'secondary.main' }} component="span">
+    <Box component="span" sx={{ color: 'secondary.main' }}>
       {type}
     </Box>
   )

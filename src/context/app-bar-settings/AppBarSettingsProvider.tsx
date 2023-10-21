@@ -19,26 +19,28 @@ export interface AppBarSettingsProviderProps {
   children: ReactNode
 }
 
-export const AppBarSettingsProvider = memo(({ children }: AppBarSettingsProviderProps) => {
-  const [settings, setSettings] = useState<AppBarSettingsContext['settings']>({})
+export const AppBarSettingsProvider = memo(function AppBarSettingsProvider({ children }: AppBarSettingsProviderProps) {
+  const [ settings, setSettings ] = useState<AppBarSettingsContext['settings']>({})
 
   const registerAppBarSettings = useCallback<AppBarSettingsContext['registerAppBarSettings']>((id, settings ) => {
     setSettings(s => ({
       ...s,
       [id]: settings
     }))
-  }, [setSettings])
+  }, [ setSettings ])
 
   const removeAppBarSettings = useCallback<AppBarSettingsContext['removeAppBarSettings']>((id) => {
     setSettings(s => _.omit(s, id))
-  }, [setSettings])
+  }, [ setSettings ])
 
   return (
-    <appBarSettingsContext.Provider value={{
-      settings,
-      registerAppBarSettings,
-      removeAppBarSettings
-    }}>
+    <appBarSettingsContext.Provider
+      value={{
+        settings,
+        registerAppBarSettings,
+        removeAppBarSettings
+      }}
+    >
       {children}
     </appBarSettingsContext.Provider>
   )

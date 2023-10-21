@@ -14,7 +14,7 @@ export interface TSCodeGeneratorSettings extends CodeGeneratorBaseSettings {
 }
 
 export function convertTypeToTS(type: string, useNativeTypes: boolean, convertHashes = true) {
-  type = type.replaceAll("*", "").replaceAll("const", "").trim()
+  type = type.replaceAll('*', '').replaceAll('const', '').trim()
 
   switch (type) {
     case 'int': return 'number'
@@ -22,7 +22,7 @@ export function convertTypeToTS(type: string, useNativeTypes: boolean, convertHa
     case 'char': return 'string'
     case 'BOOL': return 'boolean'
     case 'Any': return 'any'
-    case 'Object': type = 'ObjectEntity'; break;
+    case 'Object': type = 'ObjectEntity'; break
   }
 
   if (!useNativeTypes) {
@@ -47,7 +47,7 @@ export function convertTypeToTS(type: string, useNativeTypes: boolean, convertHa
 }
 
 export default
-  class TSCodeGenerator extends CodeGeneratorBase<TSCodeGeneratorSettings> {
+class TSCodeGenerator extends CodeGeneratorBase<TSCodeGeneratorSettings> {
   start(): this {
     return super.start()
       .writeComment(`Generated on ${new Date().toLocaleString()}`)
@@ -60,7 +60,7 @@ export default
   }
 
   transformBaseType(type: string): string {
-    return convertTypeToTS(type, this.settings.useNativeTypes, this.settings.convertHashes);
+    return convertTypeToTS(type, this.settings.useNativeTypes, this.settings.convertHashes)
   }
 
   private transformReturnType(type: string): string {
@@ -78,14 +78,14 @@ export default
   }
 
   private formatParam({ name, type }: CodeGenParam): string {
-    if (name === "var") name = "variable"
+    if (name === 'var') name = 'variable'
     return `${name}: ${this.formatType(type)}`
   }
 
   addNative(native: CodeGenNative): this {
     const name = toPascalCase(native.name)
     const params = native.params.map((param) => this.formatParam(param)).join(', ')
-    const invokeParams = [native.hash, ...native.params.map((v) => this.formatInvokeParam(v, this.settings.convertHashes))].join(', ')
+    const invokeParams = [ native.hash, ...native.params.map((v) => this.formatInvokeParam(v, this.settings.convertHashes)) ].join(', ')
     const returnType = this.transformReturnType(this.formatType(native.returnType))
     const returnString = returnType === 'void'
       ? ''
@@ -104,7 +104,7 @@ export default
       .popBranchWithComment(`${native.hash} ${native.jhash} ${native.build ? `b${native.build}` : ''}`)
   }
 
-  pushNamespace(name: string): this {
+  pushNamespace(_name: string): this {
     return this
   }
 
@@ -125,13 +125,13 @@ export default
   }
 
   private formatType(type: CodeGenType): string {
-    let { baseType } = type
+    const { baseType } = type
 
     return `${baseType}`
   }
 
   private formatInvokeParam({ name, type }: CodeGenParam, convertHashes: boolean): string {
-    if (name === "var") name = "variable"
+    if (name === 'var') name = 'variable'
 
     switch (type.baseType) {
       case 'Vector2':

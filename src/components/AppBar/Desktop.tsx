@@ -34,9 +34,7 @@ function Desktop({ ...rest }: AppBarProps) {
   const stats = useStats()
   const settings = useAppBarSettings()
 
-  const actions: AppBarActionProps[] = useMemo(() => [
-    ...(settings.actions ?? [])
-  ], [settings])
+  const actions: AppBarActionProps[] = useMemo(() => [ ...(settings.actions ?? []) ], [ settings ])
 
   const title = useSelectedGameContext() === Game.GrandTheftAuto5 ? 'GTA5 Native Reference' : 'RDR3 Native Reference'
   const generateCodeUrl = useGameUrl('/generate-code')
@@ -46,22 +44,28 @@ function Desktop({ ...rest }: AppBarProps) {
     <Box {...rest}>
       <MaterialAppBar position="sticky">
         <Toolbar>
-          <Typography variant="h6" component="div">
+          <Typography component="div" variant="h6">
             <Link
-              to={nativesUrl}
               color="inherit"
-              underline="none"
               component={RouterLink}
+              to={nativesUrl}
+              underline="none"
             >
               {settings?.title ?? title}
             </Link>
           </Typography>
+
           <Box
-            sx={{ display: 'flex', flex: 1 }}
+            sx={{
+              display: 'flex',
+              flex:    1 
+            }}
           >
             {settings.search && <DesktopSearch search={settings.search} />}
           </Box>
+
           <StatusButton />
+
           {actions.map(action => (
             <AppBarAction
               key={action.text}
@@ -69,18 +73,30 @@ function Desktop({ ...rest }: AppBarProps) {
             />
           ))}
         </Toolbar>
+
         <Divider variant="fullWidth" />
+
         <Toolbar variant="dense">
           <Typography variant="subtitle1">
-            Namespaces:&nbsp;{stats.namespaces}&nbsp;{'| '}
-            Natives:&nbsp;{stats.natives}&nbsp;{'| '}
-            Comments:&nbsp;{stats.comments}&nbsp;{'| '}
-            Known names:&nbsp;{stats.knownNames.confirmed} ({stats.knownNames.total})&nbsp;{'| '}
+            Namespaces:&nbsp;
+            {stats.namespaces}&nbsp;{'| '}
+            Natives:&nbsp;
+            {stats.natives}&nbsp;{'| '}
+            Comments:&nbsp;
+            {stats.comments}&nbsp;{'| '}
+            Known names:&nbsp;
+            {stats.knownNames.confirmed}
+            {' '}
+            (
+            {stats.knownNames.total}
+            )&nbsp;
+            {'| '}
+
             <Link
-              to={generateCodeUrl}
               color="inherit"
-              underline="hover"
               component={RouterLink}
+              to={generateCodeUrl}
+              underline="hover"
             >
               Generate&nbsp;code
             </Link>

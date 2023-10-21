@@ -16,21 +16,21 @@ function renderRow(props: ListChildComponentProps) {
   })
 }
 
-const OuterElementContext = React.createContext({});
+const OuterElementContext = React.createContext({})
 
-const OuterElementType = React.forwardRef<HTMLDivElement>((props, ref) => {
+const OuterElementType = React.forwardRef<HTMLDivElement>(function OuterElementType(props, ref) {
   const outerProps = React.useContext(OuterElementContext)
   return <div ref={ref} {...props} {...outerProps} />
 })
 
-function useResetCache(data: any) {
+function useResetCache(_data: unknown) {
   const ref = React.useRef<FixedSizeList>(null)
   return ref
 }
 
 interface Props {
   children?: ReactNode
-};
+}
 
 // Adapter for react-window
 const ListboxComponent = React.forwardRef<HTMLDivElement>(function ListboxComponent(
@@ -40,9 +40,7 @@ const ListboxComponent = React.forwardRef<HTMLDivElement>(function ListboxCompon
   const { children, ...other } = props
   const itemData = React.Children.toArray(children)
   const theme = useTheme()
-  const smUp = useMediaQuery(theme.breakpoints.up('sm'), {
-    noSsr: true
-  })
+  const smUp = useMediaQuery(theme.breakpoints.up('sm'), { noSsr: true })
   const itemCount = itemData.length
   const itemSize = smUp ? 36 : 48
 
@@ -53,28 +51,28 @@ const ListboxComponent = React.forwardRef<HTMLDivElement>(function ListboxCompon
     return itemData.map(() => smUp ? 36 : 48).reduce((a, b) => a + b, 0)
   }
 
-  const gridRef = useResetCache(itemCount);
+  const gridRef = useResetCache(itemCount)
 
   return (
     <div ref={ref}>
       <OuterElementContext.Provider value={other}>
         <FixedSizeList
-          itemData={itemData}
           height={getHeight() + 2 * LISTBOX_PADDING}
-          width="100%"
-          ref={gridRef}
-          outerElementType={OuterElementType}
           innerElementType="ul"
-          itemSize={smUp ? 36 : 48}
-          overscanCount={5}
           itemCount={itemCount}
+          itemData={itemData}
+          itemSize={smUp ? 36 : 48}
+          outerElementType={OuterElementType}
+          overscanCount={5}
+          ref={gridRef}
+          width="100%"
         >
           {renderRow}
         </FixedSizeList>
       </OuterElementContext.Provider>
     </div>
-  );
-});
+  )
+})
 
 interface NativeSelectProps {
   value: string
@@ -84,13 +82,14 @@ interface NativeSelectProps {
 
 function NativeSelect({ value, onChange, sx }: NativeSelectProps) {
   const natives = useNatives()
-  const nativesArray = useMemo(() => Object.values(natives), [natives])
+  const nativesArray = useMemo(() => Object.values(natives), [ natives ])
 
   return (
     <Autocomplete
-      options={nativesArray}
-      value={natives[value]}
+      ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
+      getOptionLabel={(native) => native.name}
       onChange={(e, native) => native && onChange(native.hash)}
+      options={nativesArray}
       renderInput={(params) => (
         <TextField 
           {...params} 
@@ -99,14 +98,13 @@ function NativeSelect({ value, onChange, sx }: NativeSelectProps) {
       )}
       renderOption={(props, option) => (
         <li {...props}>
-          <Typography noWrap>{option.name}</Typography>
+          <Typography noWrap>
+            {option.name}
+          </Typography>
         </li>
       )}
-      ListboxComponent={
-        ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>
-      }
-      getOptionLabel={(native) => native.name}
       sx={sx}
+      value={natives[value]}
       disableClearable
       disableListWrap
       fullWidth

@@ -41,7 +41,8 @@
     "build:no-wasm": "react-scripts build",
     "build:wasm": "wasm-pack build ./wasm-lib --target web --out-dir pkg",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint . --ext .ts,.tsx"
   },
   "eslintConfig": {
     "extends": [
@@ -70,9 +71,11 @@
     "@types/react-syntax-highlighter": "^13.5.2",
     "@types/react-virtualized-auto-sizer": "^1.0.1",
     "@types/react-window": "^1.8.5",
-    "@types/uuid": "^9.0.2"
-  },
-  "engines": {
-    "npm": "8.13.1"
+    "@types/uuid": "^9.0.2",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
+    "@typescript-eslint/parser": "^6.8.0",
+    "eslint": "^8.52.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0"
   }
 }

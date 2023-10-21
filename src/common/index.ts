@@ -40,7 +40,7 @@ export const buildDate: string = preval`module.exports = new Date().toString()`
 export { default as getOverlayAlpha } from './getOverlayAlpha'
 
 export function toPascalCase(name: string, joinChar = ''): string {
-  return name.toLocaleLowerCase().split('_').map((part, i) => upperFirst(part)).join(joinChar)
+  return name.toLocaleLowerCase().split('_').map((part,) => upperFirst(part)).join(joinChar)
 }
 
 export * from './hashing'

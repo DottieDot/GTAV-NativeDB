@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode } from 'react'
+import { useState, useEffect, ReactNode } from 'react'
 import { useCallback } from 'react'
 import { createContext } from 'react'
 
@@ -9,13 +9,13 @@ export interface OnlineStatusProviderProps {
 }
 
 export default function OnlineStatusProvider({ children }: OnlineStatusProviderProps) {
-  const [online, setOnline] = useState(true)
+  const [ online, setOnline ] = useState(true)
   const handleOnline = useCallback(() => {
     setOnline(true)
-  }, [setOnline])
+  }, [ setOnline ])
   const handleOffline = useCallback(() => {
     setOnline(false)
-  }, [setOnline])
+  }, [ setOnline ])
 
   useEffect(() => {
     window.addEventListener('online', handleOnline)
@@ -25,7 +25,7 @@ export default function OnlineStatusProvider({ children }: OnlineStatusProviderP
       window.removeEventListener('online', handleOffline)
       window.removeEventListener('offline', handleOffline)
     }
-  }, [handleOnline, handleOffline])
+  }, [ handleOnline, handleOffline ])
 
   return (
     <onlineStatusContext.Provider value={online}>

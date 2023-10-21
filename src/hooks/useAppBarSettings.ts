@@ -12,6 +12,6 @@ export default function useAppBarSettings() {
         ...(actions ?? [])
       ],
       ...rest
-    }), { actions: [] })
-  , [raw])
+    }), { actions: []})
+  , [ raw ])
 }

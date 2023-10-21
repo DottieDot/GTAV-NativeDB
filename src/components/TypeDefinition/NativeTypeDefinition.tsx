@@ -9,16 +9,29 @@ interface NativeTypeDefinitionProps {
 
 export default function NativeTypeDefinition({ type }: NativeTypeDefinitionProps) {
   return (
-    <Typography sx={{ p: 1, fontFamily: '"Roboto Mono", monospace' }} component="div" variant="body2">
+    <Typography
+      component="div"
+      sx={{
+        p:          1,
+        fontFamily: '"Roboto Mono", monospace' 
+      }}
+      variant="body2"
+    >
       {type.comment && (
         <Fragment>
-          {'//'} {type.comment}<br />
+          {'// '}
+          {type.comment}
+          <br />
         </Fragment>
       )}
-      type&nbsp;<NativeType type={type.name} />
+
+      type&nbsp;
+      <NativeType type={type.name} />
+
       {type.aliasFor && (
         <Fragment>
-          &nbsp;=&nbsp;<NativeType type={type.aliasFor} popover />
+          &nbsp;=&nbsp;
+          <NativeType type={type.aliasFor} popover />
         </Fragment>
       )}
     </Typography>

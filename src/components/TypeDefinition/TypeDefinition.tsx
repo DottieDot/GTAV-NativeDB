@@ -16,7 +16,10 @@ export default memo(function TypeDefinition({ type: typeName }: TypeDefinitionPr
   if (!type) {
     return (
       <Typography sx={{ p: 1 }} variant="body2">
-        No type information for <NativeType type={typeName} />.
+        No type information for 
+        {' '}
+        <NativeType type={typeName} />
+        .
       </Typography>
     )
   }

@@ -41,24 +41,24 @@ export interface AppDataProviderProps {
   children: ReactNode
 }
 
-export const AppDataProvider = memo(({children}: AppDataProviderProps) => {
-  const [state, setState] = useState<AppDataContext['state']>({
-    updateReady: false,
+export const AppDataProvider = memo(function AppDataProvider({ children }: AppDataProviderProps) {
+  const [ state, setState ] = useState<AppDataContext['state']>({
+    updateReady:               false,
     serviceWorkerRegistration: null
   })
 
   const setUpdateReady = useCallback<AppDataContext['setUpdateReady']>((swRegistration) => {
     setState({
-      updateReady: true,
+      updateReady:               true,
       serviceWorkerRegistration: swRegistration
     })
-  }, [setState])
+  }, [ setState ])
 
   useEffect(() => {
     const listener = (sw: ServiceWorkerRegistration) => {
       setState(state => ({
         ...state,
-        updateReady: true,
+        updateReady:               true,
         serviceWorkerRegistration: sw
       }))
     }
@@ -68,13 +68,15 @@ export const AppDataProvider = memo(({children}: AppDataProviderProps) => {
     return () => {
       removeListener(listener)
     }
-  }, [setState])
+  }, [ setState ])
 
   return (
-    <appDataContext.Provider value={{
-      state,
-      setUpdateReady
-    }}>
+    <appDataContext.Provider
+      value={{
+        state,
+        setUpdateReady
+      }}
+    >
       {children}
     </appDataContext.Provider>
   )

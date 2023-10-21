@@ -11,11 +11,9 @@ interface SearchData {
 }
 
 function parseSearchQuery(searchQuery: string) {
-  const result: SearchData = {
-    all: ''
-  }
+  const result: SearchData = { all: '' }
   const regex = /((\w+):(\w+))|((\w+):"(.+?(?="))")|(\w+)/g
-  let m;
+  let m
 
   while ((m = regex.exec(searchQuery.toLocaleLowerCase())) !== null) {
     if (m.index === regex.lastIndex) {
@@ -55,7 +53,7 @@ function matchNativeLoose(search: string, native: Native) {
   }
 
   let nameMatches = false
-  const names = [...(native.oldNames ?? []), native.hash, native.jhash, native.name]
+  const names = [ ...(native.oldNames ?? []), native.hash, native.jhash, native.name ]
   const nameSearch = search.replace(/ |_/gm, '')
   for (const name of names) {
     if (name && name.replaceAll('_', '').toLowerCase().indexOf(nameSearch) !== -1) {
@@ -87,7 +85,7 @@ function matchNativeLoose(search: string, native: Native) {
 function matchNativeStrict(searchData: SearchData, native: Native) {
   let nameMatches = false
   if (searchData.name) {
-    const names = [...(native.oldNames ?? []), native.hash, native.jhash, native.name]
+    const names = [ ...(native.oldNames ?? []), native.hash, native.jhash, native.name ]
     for (const name of names) {
       if (name && name.toLowerCase().indexOf(searchData.name) !== -1) {
         nameMatches = true
@@ -127,7 +125,7 @@ export default function useNativeSearch(searchQuery: string) {
       if (matchNativeStrict(searchData, native) && matchNativeLoose(searchData.all, native)) {
         if (!accumulator[native.namespace]) {
           accumulator[native.namespace] = {
-            name: native.namespace,
+            name:    native.namespace,
             natives: []
           }
         }
@@ -135,5 +133,5 @@ export default function useNativeSearch(searchQuery: string) {
       }
       return accumulator
     }, {})
-  }, [natives, searchQuery])
+  }, [ natives, searchQuery ])
 }

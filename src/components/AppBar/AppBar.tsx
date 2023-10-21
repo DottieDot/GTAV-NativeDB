@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { useIsSmallDisplay } from '../../hooks'
 import Desktop from './Desktop'
 import Mobile from './Mobile'

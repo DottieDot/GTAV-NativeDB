@@ -10,7 +10,7 @@ import StatusButton from './StatusButton'
 import DesktopSearch from './DesktopSearch'
 import { Game, useSelectedGameContext } from '../../context'
 
-function AppBarAction({ text, mobileIcon, buttonProps: { href, target, onClick, ...buttonProps } }: AppBarActionProps) {
+function AppBarAction({ text, mobileIcon, buttonProps: { href, target, onClick }}: AppBarActionProps) {
   const navigate = useNavigate()
 
   const handleClick = useCallback<MouseEventHandler<HTMLElement>>(e => {
@@ -24,93 +24,102 @@ function AppBarAction({ text, mobileIcon, buttonProps: { href, target, onClick, 
     }
 
     onClick && onClick(e)
-  }, [href, target, onClick, navigate])
+  }, [ href, target, onClick, navigate ])
 
   return (
     <MenuItem onClick={handleClick}>
-      {mobileIcon && <ListItemIcon>
-        {React.createElement(mobileIcon)}
-      </ListItemIcon>}
+      {mobileIcon && (
+        <ListItemIcon>
+          {React.createElement(mobileIcon)}
+        </ListItemIcon>
+      )}
+
       {text}
     </MenuItem>
   )
 }
 
 function Mobile({ ...rest }: AppBarProps) {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const [statsDialog, setStatsDialog] = useState(false)
+  const [ anchorEl, setAnchorEl ] = useState<null | HTMLElement>(null)
+  const [ statsDialog, setStatsDialog ] = useState(false)
   const settings = useAppBarSettings()
 
   const handleMenuOpen = useCallback((event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
-  }, [setAnchorEl])
+  }, [ setAnchorEl ])
 
   const handleMenuClose = useCallback(() => {
     setAnchorEl(null)
-  }, [setAnchorEl])
+  }, [ setAnchorEl ])
 
   const handleStatsDialogOpen = useCallback(() => {
     setStatsDialog(true)
-  }, [setStatsDialog])
+  }, [ setStatsDialog ])
 
   const handleStatsDialogClose = useCallback(() => {
     setStatsDialog(false)
-  }, [setStatsDialog])
+  }, [ setStatsDialog ])
 
   const generateCodeUrl = useGameUrl('/generate-code')
 
   const actions: AppBarActionProps[] = useMemo(() => [
     ...(settings.actions ?? []),
     {
-      text: 'Stats',
-      mobileIcon: StatsIcon,
-      buttonProps: {
-        onClick: handleStatsDialogOpen
-      }
+      text:        'Stats',
+      mobileIcon:  StatsIcon,
+      buttonProps: { onClick: handleStatsDialogOpen }
     },
     {
-      text: 'Generate Code',
-      mobileIcon: CodeIcon,
-      buttonProps: {
-        href: generateCodeUrl
-      }
+      text:        'Generate Code',
+      mobileIcon:  CodeIcon,
+      buttonProps: { href: generateCodeUrl }
     }
-  ], [settings, handleStatsDialogOpen, generateCodeUrl])
+  ], [ settings, handleStatsDialogOpen, generateCodeUrl ])
 
   const shortTitle = useSelectedGameContext() === Game.GrandTheftAuto5 ? 'GTA5 NDB' : 'RDR3 NDB'
   const nativesUrl = useGameUrl('/natives')
 
   return (
     <Box {...rest}>
-      <StatsDialog open={statsDialog} onClose={handleStatsDialogClose} />
+      <StatsDialog onClose={handleStatsDialogClose} open={statsDialog} />
+
       <MaterialAppBar position="sticky">
         <Toolbar>
-          <Typography variant="h6" component="div">
+          <Typography component="div" variant="h6">
             <Link
-              to={nativesUrl}
               color="inherit"
-              underline="none"
               component={RouterLink}
+              to={nativesUrl}
+              underline="none"
             >
               {settings?.title ?? shortTitle}
             </Link>
           </Typography>
+
           {settings.search ? (
-            <Box sx={{ flex: 1, ml: 2 }}>
+            <Box
+              sx={{
+                flex: 1,
+                ml:   2 
+              }}
+            >
               <DesktopSearch search={settings.search} />
             </Box>
           ) : (
-            <Box sx={{ flex: 1}} />
+            <Box sx={{ flex: 1 }} />
           )}
+
           <StatusButton />
-          <IconButton onClick={handleMenuOpen} color="inherit" aria-label="more">
+
+          <IconButton aria-label="more" color="inherit" onClick={handleMenuOpen}>
             <MoreIcon />
           </IconButton>
+
           <Menu
             anchorEl={anchorEl}
-            open={!!anchorEl}
-            onClose={handleMenuClose}
             onClick={handleMenuClose}
+            onClose={handleMenuClose}
+            open={!!anchorEl}
           >
             {actions.map(action => (
               <AppBarAction

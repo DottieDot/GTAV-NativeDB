@@ -27,32 +27,32 @@ export interface NativeDataProviderProps {
 }
 
 const initialState: GameNativeData = {
-  natives: {},
+  natives:    {},
   namespaces: {},
-  constants: {},
-  types: {},
-  stats: {
+  constants:  {},
+  types:      {},
+  stats:      {
     namespaces: 0,
-    natives: 0,
-    comments: 0,
+    natives:    0,
+    comments:   0,
     knownNames: {
-      total: 0,
+      total:     0,
       confirmed: 0
     }
   }
 }
 
-export const NativeDataProvider = memo(({ children }: NativeDataProviderProps) => {
-  const [games, setGames] = useState<NativeDataContext['games']>({
-    [Game.GrandTheftAuto5]: initialState,
+export const NativeDataProvider = memo(function NativeDataProvider({ children }: NativeDataProviderProps) {
+  const [ games, setGames ] = useState<NativeDataContext['games']>({
+    [Game.GrandTheftAuto5]:    initialState,
     [Game.RedDeadRedemption2]: initialState
   })
 
   const setNatives = useCallback<NativeDataContext['setNatives']>((game, { namespaces, natives, types, constants }) => {
     const stats: NativeStats = {
       namespaces: Object.keys(namespaces).length,
-      natives: Object.keys(natives).length,
-      comments: Object.values(natives).reduce((accumulator, { comment }) => {
+      natives:    Object.keys(natives).length,
+      comments:   Object.values(natives).reduce((accumulator, { comment }) => {
         accumulator += +!!comment
         return accumulator
       }, 0),
@@ -60,7 +60,10 @@ export const NativeDataProvider = memo(({ children }: NativeDataProviderProps) =
         accumulator.total += +(native.name.slice(0, 2) !== '_0')
         accumulator.confirmed += +(native.name[0] !== '_')
         return accumulator
-      }, { total: 0, confirmed: 0 })
+      }, {
+        total:     0,
+        confirmed: 0 
+      })
     }
 
     setGames(games => ({
@@ -73,13 +76,15 @@ export const NativeDataProvider = memo(({ children }: NativeDataProviderProps) =
         stats
       }
     }))
-  }, [setGames])
+  }, [ setGames ])
 
   return (
-    <nativeDataContext.Provider value={{
-      games,
-      setNatives
-    }}>
+    <nativeDataContext.Provider
+      value={{
+        games,
+        setNatives
+      }}
+    >
       {children}
     </nativeDataContext.Provider>
   )

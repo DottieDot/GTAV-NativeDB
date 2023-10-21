@@ -11,5 +11,5 @@ export default function useSetAppBarSettings(id: string, settings: AppBarSetting
     return () => {
       removeAppBarSettings(id)
     }
-  }, [registerAppBarSettings, removeAppBarSettings, id, settings])
+  }, [ registerAppBarSettings, removeAppBarSettings, id, settings ])
 }

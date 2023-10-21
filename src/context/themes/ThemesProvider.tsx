@@ -23,17 +23,15 @@ export interface ThemesProviderProps {
   children: ReactNode
 }
 
-export const ThemesProvider = memo(({ children }: ThemesProviderProps) => {
-  const [themes, setThemes] = useLocalStorageState<ThemesContext['themes']>('ThemesProvider-0', {
-    defaultValue: {}
-  })
+export const ThemesProvider = memo(function ThemesProvider({ children }: ThemesProviderProps) {
+  const [ themes, setThemes ] = useLocalStorageState<ThemesContext['themes']>('ThemesProvider-0', { defaultValue: {}})
 
   const addTheme = useCallback<ThemesContext['addTheme']>((theme) => {
     setThemes(themes => ({
-        ...themes,
-        [theme.id]: theme
+      ...themes,
+      [theme.id]: theme
     }))
-  }, [setThemes])
+  }, [ setThemes ])
 
   const patchTheme = useCallback<ThemesContext['patchTheme']>((id, theme) => {
     setThemes(themes => ({
@@ -47,19 +45,21 @@ export const ThemesProvider = memo(({ children }: ThemesProviderProps) => {
         }
       }
     }))
-  }, [setThemes])
+  }, [ setThemes ])
 
   const removeTheme = useCallback<ThemesContext['removeTheme']>((id) => { 
     setThemes(themes => _.omit(themes, id))
-  }, [setThemes])
+  }, [ setThemes ])
 
   return (
-    <themesContext.Provider value={{
-      themes,
-      addTheme,
-      removeTheme,
-      patchTheme
-    }}>
+    <themesContext.Provider
+      value={{
+        themes,
+        addTheme,
+        removeTheme,
+        patchTheme
+      }}
+    >
       {children}
     </themesContext.Provider>
   )

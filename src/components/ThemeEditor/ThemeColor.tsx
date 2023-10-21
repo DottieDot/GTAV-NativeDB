@@ -7,17 +7,11 @@ import useDebouncedEffect from 'use-debounced-effect'
 import { ThemeColors } from '../../context'
 
 const Picker = styled(HexColorPicker)(() => ({
-  '&&': {
-    flexDirection: 'column-reverse'
-  },
-  '.react-colorful__hue': {
-    borderBottom: `1px solid white`
-  },
-  '.react-colorful__hue, .react-colorful__saturation': {
-    borderRadius: 0
-  },
-  '.react-colorful__saturation-pointer': {
-    width: 14,
+  '&&':                                                { flexDirection: 'column-reverse' },
+  '.react-colorful__hue':                              { borderBottom: '1px solid white' },
+  '.react-colorful__hue, .react-colorful__saturation': { borderRadius: 0 },
+  '.react-colorful__saturation-pointer':               {
+    width:  14,
     height: 14
   }
 }))
@@ -31,18 +25,18 @@ interface ThemeColorProps {
 
 function ThemeColor({ label, themeColor, prop, onChange }: ThemeColorProps) { 
   const { extensions } = useTheme()
-  const [color, setColor] = useState(themeColor)
-  const [input, setInput] = useState(color)
+  const [ color, setColor ] = useState(themeColor)
+  const [ input, setInput ] = useState(color)
 
   useDebouncedEffect(() => {
     onChange(prop, color)
-  }, 300, [color, prop])
+  }, 300, [ color, prop ])
 
   useEffect(() => {
     setInput(color)
-  }, [color])
+  }, [ color ])
 
-  useEffect(() => setColor(themeColor), [themeColor])
+  useEffect(() => setColor(themeColor), [ themeColor ])
   
   const handleInputChanged = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value)
@@ -58,37 +52,45 @@ function ThemeColor({ label, themeColor, prop, onChange }: ThemeColorProps) {
         <Fragment>
           <Card sx={{ width: '100%' }}>
             <CardActionArea {...bindTrigger(popupState)}>
-              <CardMedia sx={{ height: 100, backgroundColor: color }} />
+              <CardMedia
+                sx={{
+                  height:          100,
+                  backgroundColor: color 
+                }}
+              />
             </CardActionArea>
+
             <CardContent>
-              <Typography variant="body1" component="div" gutterBottom>
+              <Typography component="div" variant="body1" gutterBottom>
                 {label}
               </Typography>
+
               <TextField
-                label="Hex"
-                value={input}
-                onChange={handleInputChanged}
-                variant="standard"
                 error={color !== input}
+                label="Hex"
+                onChange={handleInputChanged}
+                value={input}
+                variant="standard"
               />
             </CardContent>
           </Card>
+
           <Popover
             {...bindPopover(popupState)}
             PaperProps={{
               sx: {
-                border: `solid 4px ${extensions.typeInfoBorderColor}`,
+                border:     `solid 4px ${extensions.typeInfoBorderColor}`,
                 whiteSpace: 'nowrap',
-                overflow: 'hidden'
+                overflow:   'hidden'
               }
             }}
             anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'center',
+              vertical:   'bottom',
+              horizontal: 'center'
             }}
             transformOrigin={{
-              vertical: 'top',
-              horizontal: 'center',
+              vertical:   'top',
+              horizontal: 'center'
             }}
           >
             <Picker color={color} onChange={setColor} />

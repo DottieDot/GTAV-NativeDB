@@ -7,12 +7,10 @@ import { Game, NativeSources, useNativeDataContext } from './context'
 
 export default function NativeLoader() {
   const { sources } = useSettings()
-  const [specialFile] = useLocalStorageState<string | null>('special.json', {
-    defaultValue: null
-  })
+  const [ specialFile ] = useLocalStorageState<string | null>('special.json', { defaultValue: null })
   const { setNatives } = useNativeDataContext()
   useEffect(() => {
-    for (let game of [Game.GrandTheftAuto5, Game.RedDeadRedemption2]) {
+    for (const game of [ Game.GrandTheftAuto5, Game.RedDeadRedemption2 ]) {
       (async () => {
         const loader = new NativeDataLoader(game)
         if (_.includes(sources, NativeSources.Alloc8or)) {
@@ -33,7 +31,7 @@ export default function NativeLoader() {
         setNatives(game, loader)
       })()
     }
-  }, [setNatives, sources, specialFile])
+  }, [ setNatives, sources, specialFile ])
 
   return null
 }

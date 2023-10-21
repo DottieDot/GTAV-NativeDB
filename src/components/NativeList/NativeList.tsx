@@ -1,9 +1,9 @@
 import { Box, BoxProps } from '@mui/material'
-import React, { memo, useCallback, useMemo, useState, useEffect } from 'react'
+import { memo, useCallback, useMemo, useState, useEffect } from 'react'
 import { useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import { StickyTree, StickyTreeRowRenderer, StickyTreeGetChildren, TreeNode } from 'react-virtualized-sticky-tree'
+import { StickyTree, StickyTreeRowRenderer, StickyTreeGetChildren, TreeNode, StickyTreeNode } from 'react-virtualized-sticky-tree'
 import { Namespace } from '../../context'
 import NamespaceHeader from '../NamespaceHeader'
 import JumpToNamespace from './JumpToNamespace'
@@ -14,21 +14,19 @@ export interface NativeListProps extends Omit<BoxProps, 'children'> {
 }
 
 function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
-  const namespaceArray = useMemo(() => Object.values(namespaces), [namespaces])
+  const namespaceArray = useMemo(() => Object.values(namespaces), [ namespaces ])
   const namespaceData = useMemo(
-    () => namespaceArray.reduce<{[name: string]: any}>((accumulator, namespace) => {
+    () => namespaceArray.reduce<{[name: string]: StickyTreeNode<TreeNode>[]}>((accumulator, namespace) => {
       accumulator[namespace.name] = namespace.natives.map(hash => ({
-        node: {
-          id: hash,
-        },
-        height: 32,
-        isSticky: false,
+        node:     { id: hash },
+        height:   32,
+        isSticky: false
       }))
       return accumulator
-    }, {}), [namespaceArray])
+    }, {}), [ namespaceArray ])
   const { native: selectedNativeHash = '' } = useParams<{ native: string } >()
-  const [hasScrolledToNative, setHasScrolledToNative] = useState(false)
-  const [listLoaded, setListLoaded] = useState(false)
+  const [ hasScrolledToNative, setHasScrolledToNative ] = useState(false)
+  const [ listLoaded, setListLoaded ] = useState(false)
   const listRef = useRef<StickyTree>(null)
 
   useEffect(() => {
@@ -38,11 +36,11 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
     setHasScrolledToNative(true)
 
     listRef.current.scrollNodeIntoView(selectedNativeHash)
-  }, [listRef, selectedNativeHash, hasScrolledToNative, listLoaded, setHasScrolledToNative])
+  }, [ listRef, selectedNativeHash, hasScrolledToNative, listLoaded, setHasScrolledToNative ])
 
   const jumpToNamespace = useCallback((namespace: string) => {
     listRef.current?.scrollNodeIntoView(namespace)
-  }, [listRef])
+  }, [ listRef ])
 
   const getChildren = useCallback<StickyTreeGetChildren<TreeNode>>(({ id }) => {
     if (typeof id === 'number') {
@@ -55,19 +53,17 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
 
     if (id === 'root') {
       return namespaceArray.map(ns => ({
-        node: {
-          id: ns.name
-        },
-        height: 73,
-        isSticky: true,
+        node:     { id: ns.name },
+        height:   73,
+        isSticky: true
       }))
     }
     else if (id && (id[0] !== '0')) {
       return namespaceData[id]
     }
-  }, [namespaceData, namespaceArray, listLoaded, setListLoaded])
+  }, [ namespaceData, namespaceArray, listLoaded, setListLoaded ])
 
-  const renderRow = useCallback<StickyTreeRowRenderer<TreeNode, any>>(({ node: { id }, style }) => {
+  const renderRow = useCallback<StickyTreeRowRenderer<TreeNode, unknown>>(({ node: { id }, style }) => {
     if (typeof id === 'number') {
       id = id.toString()
     }
@@ -77,37 +73,50 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
         <NamespaceHeader 
           namespace={id}
           nativeCount={namespaces[id].natives.length}
-          style={{...style, zIndex: 1 }} 
+          style={{
+            ...style,
+            zIndex: 1 
+          }} 
         />
       )
     }
     
     return (
-      <div style={style} key={id}>
+      <div key={id} style={style}>
         <NativeListItem
           nativeHash={id}
         />
       </div>
     )
-  }, [namespaces])
+  }, [ namespaces ])
 
   return (
-    <Box sx={{ flex: 1, ...sx }} {...rest}>
+    <Box
+      sx={{
+        flex: 1,
+        ...sx 
+      }}
+      {...rest}
+    >
       <JumpToNamespace 
-        onNamespaceClicked={jumpToNamespace}
         namespaces={namespaces}
+        onNamespaceClicked={jumpToNamespace}
       />
+
       <AutoSizer>
         {({ height, width }) => (
           <StickyTree
-            root={{ node: { id: 'root' }, height: 0 }}
-            ref={listRef}
-            width={width}
-            height={height}
             getChildren={getChildren}
-            rowRenderer={renderRow}
-            renderRoot={false}
+            height={height}
             overscanRowCount={10}
+            ref={listRef}
+            renderRoot={false}
+            root={{
+              node:   { id: 'root' },
+              height: 0 
+            }}
+            rowRenderer={renderRow}
+            width={width}
           />
         )}
       </AutoSizer>

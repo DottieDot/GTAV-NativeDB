@@ -3,7 +3,7 @@ import InteractiveText from '../InteractiveText'
 import { Fragment } from 'react'
 import {
   bindTrigger,
-  bindPopover,
+  bindPopover
 } from 'material-ui-popup-state/hooks'
 import PopupState from 'material-ui-popup-state'
 import ConstDefinition from '../ConstDefinition'
@@ -21,27 +21,28 @@ export default function NativeConst({ constName, popover }: NativeConstProps) {
       <PopupState variant="popover">
         {(popupState) => (
           <Fragment>
-            <Box sx={{ color: theme.extensions.constantIdentifierHighlight }} component="span" {...bindTrigger(popupState)}>
+            <Box component="span" sx={{ color: theme.extensions.constantIdentifierHighlight }} {...bindTrigger(popupState)}>
               <InteractiveText>
                 {constName}
               </InteractiveText>
             </Box>
+
             <Popover
               {...bindPopover(popupState)}
               PaperProps={{ 
                 sx: { 
-                  border: `solid 1px ${theme.extensions.typeInfoBorderColor}`,
+                  border:     `solid 1px ${theme.extensions.typeInfoBorderColor}`,
                   whiteSpace: 'nowrap',
-                  overflowX: 'auto'
+                  overflowX:  'auto'
                 }
               }}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
+                vertical:   'bottom',
+                horizontal: 'center'
               }}
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
+                vertical:   'top',
+                horizontal: 'center'
               }}
             >
               <ConstDefinition constName={constName} />
@@ -53,7 +54,7 @@ export default function NativeConst({ constName, popover }: NativeConstProps) {
   }
 
   return (
-    <Box sx={{ color: theme.extensions.constantIdentifierHighlight }} component="span">
+    <Box component="span" sx={{ color: theme.extensions.constantIdentifierHighlight }}>
       {constName}
     </Box>
   )

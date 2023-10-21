@@ -1,13 +1,21 @@
 import { Typography, TypographyProps, Link } from '@mui/material'
-import React, { memo } from 'react'
+import { memo } from 'react'
 import Linkify from 'react-linkify'
 
 export interface NativeCommentProps extends TypographyProps {}
 
 function NativeComment({ children, sx, ...rest }: NativeCommentProps) {
   return (
-    <Typography sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word', ...sx }} {...rest}>
-      <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (
+    <Typography
+      sx={{
+        whiteSpace: 'pre-wrap',
+        wordBreak:  'break-word',
+        ...sx 
+      }}
+      {...rest}
+    >
+      <Linkify
+        componentDecorator={(decoratedHref, decoratedText, key) => (
           <Link href={decoratedHref} key={key} target="_blank">
             {decoratedText}
           </Link>

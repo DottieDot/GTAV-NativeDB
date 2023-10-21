@@ -12,14 +12,14 @@ export default function CopyableText({ children }: CopyableTextProps) {
 
   const onClick = useCallback(() => {
     children && copyToClipboard(children.replace(/\u200b/g, ''))
-  }, [copyToClipboard, children])
+  }, [ copyToClipboard, children ])
 
   if (!children) {
     return null
   }
   
   return (
-    <Tooltip title="Copy to clipboard" placement="top" arrow>
+    <Tooltip placement="top" title="Copy to clipboard" arrow>
       <InteractiveText onClick={onClick}>
         {children}
       </InteractiveText>

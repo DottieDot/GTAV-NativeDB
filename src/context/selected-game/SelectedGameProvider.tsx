@@ -13,7 +13,7 @@ export interface SelectedGameProviderProps {
   children: ReactNode
 }
 
-export const SelectedGameProvider = memo(({ game, children }: SelectedGameProviderProps) => {
+export const SelectedGameProvider = memo(function SelectedGameProvider({ game, children }: SelectedGameProviderProps) {
   return (
     <selectedGameContext.Provider value={game}>
       {children}

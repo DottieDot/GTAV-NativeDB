@@ -18,17 +18,17 @@ export interface SettingsProviderProps {
   children: ReactNode
 }
 
-export const SettingsProvider = memo(({ children }: SettingsProviderProps) => {
-  const [settings, setSettings] = useLocalStorageState<Settings>('SettingsProvider-0', {
+export const SettingsProvider = memo(function SettingsProvider({ children }: SettingsProviderProps) {
+  const [ settings, setSettings ] = useLocalStorageState<Settings>('SettingsProvider-0', {
     defaultValue: {
-      theme: 'system',
-      sources: [NativeSources.Alloc8or, NativeSources.DottieDot],
-      nativeDisplayMode: 'C',
-      nativeTypes: true,
-      compactVectors: false,
+      theme:                 'system',
+      sources:               [ NativeSources.Alloc8or, NativeSources.DottieDot ],
+      nativeDisplayMode:     'C',
+      nativeTypes:           true,
+      compactVectors:        false,
       displayVoidReturnType: true,
-      lightTheme: 'Default',
-      darkTheme: 'Default'
+      lightTheme:            'Default',
+      darkTheme:             'Default'
     }
   })
 
@@ -37,13 +37,15 @@ export const SettingsProvider = memo(({ children }: SettingsProviderProps) => {
       ...settings,
       ...patch
     }))
-  }, [setSettings])
+  }, [ setSettings ])
 
   return (
-    <settingsContext.Provider value={{
-      settings, 
-      patchSettings 
-    }}>
+    <settingsContext.Provider
+      value={{
+        settings, 
+        patchSettings 
+      }}
+    >
       {children}
     </settingsContext.Provider>
   )

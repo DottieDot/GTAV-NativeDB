@@ -8,10 +8,18 @@ interface Props {
 
 export default function AppsDialog({ open, onClose }: Props) {
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
+    <Dialog
+      maxWidth="xs"
+      onClose={onClose}
+      open={open}
+      fullWidth
+    >
       <Apps />
+
       <DialogActions>
-        <Button onClick={onClose}>Close</Button>
+        <Button onClick={onClose}>
+          Close
+        </Button>
       </DialogActions>
     </Dialog>
   )

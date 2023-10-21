@@ -1,7 +1,7 @@
 import { Add as AddIcon, DataObject as JsonIcon, GridView as GuiIcon } from '@mui/icons-material'
 import { Autocomplete, Box, Stack, TextField, ToggleButton, ToggleButtonGroup, useTheme } from '@mui/material'
 import { v4 as uuidv4 } from 'uuid'
-import { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useThemes } from '../../hooks'
 import ThemeEditor from '../ThemeEditor'
 import ThemeJsonEditor from '../ThemeJsonEditor'
@@ -25,36 +25,36 @@ function useCreateTheme(setSelectedTheme: (id: string) => void) {
     }
 
     return max
-  }, [themes])
+  }, [ themes ])
 
   return useCallback(() => {
     const id = uuidv4()
     addTheme({
       id,
-      name: `New Theme ${numNewThemes + 1}`,
-      mode: palette.mode,
+      name:   `New Theme ${numNewThemes + 1}`,
+      mode:   palette.mode,
       colors: {
-        primary: palette.primary.main,
-        secondary: palette.secondary.main,
-        background: palette.background.default,
-        paper: palette.background.paper,
-        text: palette.text.primary,
-        nativeValueHighlight: extensions.nativeValueHighlight,
+        primary:                     palette.primary.main,
+        secondary:                   palette.secondary.main,
+        background:                  palette.background.default,
+        paper:                       palette.background.paper,
+        text:                        palette.text.primary,
+        nativeValueHighlight:        extensions.nativeValueHighlight,
         constantIdentifierHighlight: extensions.constantIdentifierHighlight,
-        typeInfoBorderColor: extensions.typeInfoBorderColor,
-        parameterColor: extensions.parameterColor,
-        symbolColor: extensions.symbolColor,
+        typeInfoBorderColor:         extensions.typeInfoBorderColor,
+        parameterColor:              extensions.parameterColor,
+        symbolColor:                 extensions.symbolColor
       }
     })
     setSelectedTheme(id)
-  }, [palette, extensions, addTheme, numNewThemes, setSelectedTheme])
+  }, [ palette, extensions, addTheme, numNewThemes, setSelectedTheme ])
 }
 
 function ThemeManager() {
-  const [editorMode, setEditorMode] = useState<'gui' | 'json'>('gui')
+  const [ editorMode, setEditorMode ] = useState<'gui' | 'json'>('gui')
   const themes = useThemes()
-  const [selectedTheme, setSelectedTheme] = useState<string | null>(null)
-  const themeIds = useMemo(() => Object.keys(themes), [themes])
+  const [ selectedTheme, setSelectedTheme ] = useState<string | null>(null)
+  const themeIds = useMemo(() => Object.keys(themes), [ themes ])
 
   const handleEditorModeChanged = useCallback((_: unknown, value: unknown) => {
     if (value === 'gui' || value === 'json') {
@@ -70,7 +70,7 @@ function ThemeManager() {
     if (selectedTheme !== null && themes[selectedTheme] === undefined) {
       setSelectedTheme(null)
     }
-  }, [themes, selectedTheme])
+  }, [ themes, selectedTheme ])
 
   const createTheme = useCreateTheme(setSelectedTheme)
 
@@ -78,48 +78,50 @@ function ThemeManager() {
     <Stack gap={2}>
       <Box 
         sx={{
-          display: 'flex',
+          display:       'flex',
           flexDirection: 'row',
-          alignItems: 'center',
-          width: '100%',
-          gap: 2
+          alignItems:    'center',
+          width:         '100%',
+          gap:           2
         }}
       >
         <Autocomplete
+          getOptionLabel={(id) => themes[id]?.name ?? 'undefined'}
           id="theme-selector"
+          onChange={handleSelectionChanged}
           options={themeIds}
           renderInput={(params: object) => <TextField {...params} label="Theme" />}
-          value={selectedTheme}
-          onChange={handleSelectionChanged}
-          getOptionLabel={(id) => themes[id]?.name ?? 'undefined'}
           size="small"
+          value={selectedTheme}
           disablePortal
           fullWidth
         />
-        <ToggleButton size="small" value="..." onClick={createTheme}>
+
+        <ToggleButton onClick={createTheme} size="small" value="...">
           <AddIcon />
         </ToggleButton>
+
         <ToggleButtonGroup
-          value={editorMode}
           onChange={handleEditorModeChanged}
+          value={editorMode}
           exclusive
         >
           <ToggleButton size="small" value="gui">
             <GuiIcon />
           </ToggleButton>
+
           <ToggleButton size="small" value="json">
             <JsonIcon />
           </ToggleButton>
         </ToggleButtonGroup>
       </Box>
+
       {(selectedTheme) && (
-        <Fragment>
-          {editorMode === 'gui' ? (
-            <ThemeEditor themeId={selectedTheme} />
-          ) : (
-            <ThemeJsonEditor themeId={selectedTheme} />
-          )}
-        </Fragment>
+        editorMode === 'gui' ? (
+          <ThemeEditor themeId={selectedTheme} />
+        ) : (
+          <ThemeJsonEditor themeId={selectedTheme} />
+        )
       )}
     </Stack>
   )

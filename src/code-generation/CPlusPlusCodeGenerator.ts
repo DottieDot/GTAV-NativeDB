@@ -70,7 +70,7 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSet
   addNative(native: CodeGenNative): this {
     const name         = this.settings.cppCompliant ? this.transformNativeName(native.name) : native.name
     const params       = native.params.map(({ type, name }) => `${this.formatType(type)} ${name}`).join(', ')
-    const invokeParams = [native.hash, ...native.params.map(this.formatInvokeParam)].join(', ')
+    const invokeParams = [ native.hash, ...native.params.map(this.formatInvokeParam) ].join(', ')
     const returnType   = this.formatType(native.returnType)
     const returnString = returnType === 'void'
       ? '' 
@@ -114,7 +114,7 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSet
   }
 
   private formatType(type: CodeGenType): string {
-    let { baseType } = type
+    const { baseType } = type
 
     return `${type.isConst ? 'const ' : ''}${baseType}${'*'.repeat(type.pointers)}`
   }

@@ -12,7 +12,7 @@ interface NativeListItemProps {
 function NativeListItem({ nativeHash }: NativeListItemProps) {
   const native = useNative(nativeHash)
   const navigate = useNavigate()
-  const [search] = useSearchParams()
+  const [ search ] = useSearchParams()
   const { native: selectedNativeHash } = useParams<{ native: string } >()
   
   const url = useGameUrl(`/natives/${nativeHash}`)
@@ -20,9 +20,9 @@ function NativeListItem({ nativeHash }: NativeListItemProps) {
   const onClick = useCallback(() => {
     navigate({
       pathname: url,
-      search: search.toString()
+      search:   search.toString()
     })
-  }, [navigate, url, search])
+  }, [ navigate, url, search ])
 
   return (
     <ListItem
@@ -33,9 +33,9 @@ function NativeListItem({ nativeHash }: NativeListItemProps) {
     >
       <NativeDefinition
         name={native.name}
-        returnType={native.returnType}
-        params={native.params}
         nameCopyable={false}
+        params={native.params}
+        returnType={native.returnType}
         noWrap
       />
     </ListItem>

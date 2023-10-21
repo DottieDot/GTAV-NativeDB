@@ -1,6 +1,6 @@
 import { Container, Paper, Typography, Tab, Divider, Box } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import React, { memo, SyntheticEvent } from 'react'
+import { memo, SyntheticEvent } from 'react'
 import { useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import CPlusPlus from './CPlusPlus'
@@ -14,14 +14,21 @@ function GenerateCodePage() {
 
   const onTabChange = useCallback((_e: SyntheticEvent<Element, Event>, language: string) => {
     navigate(`/generate-code/${language}`, { replace: true })
-  }, [navigate])
+  }, [ navigate ])
 
   return (
-    <Box sx={{ py: 2, overflow: 'hidden scroll', flexGrow: 1 }}>
+    <Box
+      sx={{
+        py:       2,
+        overflow: 'hidden scroll',
+        flexGrow: 1 
+      }}
+    >
       <Container maxWidth="lg">
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography component="h1" variant="h4" gutterBottom>
           Generate Code
         </Typography>
+
         <Paper>
           <TabContext value={language}>
             <TabList onChange={onTabChange}>
@@ -32,22 +39,29 @@ function GenerateCodePage() {
               <Tab label="SHV.NET" value="shvdn" />
               <Tab label="RPH" value="rph" />
             </TabList>
+
             <Divider />
+
             <TabPanel value="cpp">
               <CPlusPlus />
             </TabPanel>
+
             <TabPanel value="rs">
               <Rust />
             </TabPanel>
+
             <TabPanel value="cs">
               <CSharpEnum />
             </TabPanel>
+
             <TabPanel value="ts">
               <TypeScript />
             </TabPanel>
+
             <TabPanel value="shvdn">
               Soon&trade;
             </TabPanel>
+
             <TabPanel value="rph">
               Soon&trade;
             </TabPanel>

@@ -1,5 +1,5 @@
 import { Box, BoxProps, useTheme } from '@mui/material'
-import React, { Fragment } from 'react'
+import { Fragment } from 'react'
 import { useSettings } from '../../hooks'
 import { NativeParam } from '../../context'
 import NativeType from '../NativeType'
@@ -19,6 +19,7 @@ export default function NativeParams({ params, ...rest }: NativeParamsProps) {
   return (
     <Box component="span" sx={{ color: extensions.symbolColor }} {...rest}>
       {'(\u200B'}
+
       {params.map(({ type, name }, index) => (
         <Fragment key={name}>
           {(nativeDisplayMode === 'C') && (
@@ -27,25 +28,30 @@ export default function NativeParams({ params, ...rest }: NativeParamsProps) {
               &nbsp;
             </Fragment>
           )}
+
           <Box component="span" sx={{ color: extensions.parameterColor }}>
             {name}
           </Box>
+
           {(nativeDisplayMode === 'UML') && (
             <Fragment>
               :&nbsp;
               <NativeType type={type} />
             </Fragment>
           )}
+
           {(nativeDisplayMode === 'TS') && (
             <Fragment>
               :&nbsp;
               <NativeType type={convertTypeToTS(type, nativeTypes)} />
             </Fragment>
           )}
+
           {((index + 1) !== params.length) && ', '}
         </Fragment>
       ))}
-      {')'}
+
+      )
     </Box>
   )
 }

@@ -12,83 +12,79 @@ export interface AppRibbonProps {
 }
 
 const Container = styled('div')({
-  display: 'grid',
+  display:             'grid',
   gridTemplateColumns: 'auto 1fr',
-  gridTemplateAreas: '"ribbon content"',
-  height: '100%',
-  position: 'relative'
+  gridTemplateAreas:   '"ribbon content"',
+  height:              '100%',
+  position:            'relative'
 })
 
 const Ribbon = styled(Paper)(({ theme }) => ({
-  display: 'inline-grid',
-  gridArea: 'ribbon',
-  zIndex: 1200,
-  alignItems: 'baseline',
-  padding: theme.spacing(0.5),
-  width: `calc(2.5rem + ${theme.spacing(1)})`,
+  display:      'inline-grid',
+  gridArea:     'ribbon',
+  zIndex:       1200,
+  alignItems:   'baseline',
+  padding:      theme.spacing(0.5),
+  width:        `calc(2.5rem + ${theme.spacing(1)})`,
   '&.expanded': {
-    width: '15rem',
+    width:   '15rem',
     padding: theme.spacing(0.5)
   },
   [theme.breakpoints.down('sm')]: {
-    width: 0,
-    padding: theme.spacing(0),
+    width:    0,
+    padding:  theme.spacing(0),
     position: 'absolute',
-    height: '100%'
+    height:   '100%'
   },
-  transition: 'width ease-in-out .1s',
-  overflow: 'hidden',
+  transition:   'width ease-in-out .1s',
+  overflow:     'hidden',
   borderRadius: 0
 }))
 
 const Content = styled('div')({
-  display: 'flex',
-  flexDirection: 'column',
-  gridArea: 'content',
+  display:          'flex',
+  flexDirection:    'column',
+  gridArea:         'content',
   gridTemplateRows: 'auto 1fr',
-  overflowY: 'auto',
-  position: 'relative'
+  overflowY:        'auto',
+  position:         'relative'
 })
 
 const Logo = styled('img')(({ theme }) => ({
-  width: '2.5rem',
+  width:   '2.5rem',
   padding: theme.spacing(0.5)
 }))
 
 const MobileFab = styled(Fab)(({ theme }) => ({
   position: 'fixed',
-  bottom: theme.spacing(2),
-  left: theme.spacing(2),
+  bottom:   theme.spacing(2),
+  left:     theme.spacing(2),
 
- [theme.breakpoints.up('sm')]: {
-  display: 'none'
- }
+  [theme.breakpoints.up('sm')]: { display: 'none' }
 }))
 
-const CloseMenuBackdrop = styled(Backdrop)(({theme}) => ({
-  [theme.breakpoints.up('sm')]: {
-    display: 'none'
-  },
-  zIndex: '1101'
+const CloseMenuBackdrop = styled(Backdrop)(({ theme }) => ({
+  [theme.breakpoints.up('sm')]: { display: 'none' },
+  zIndex:                       '1101'
 }))
 
 export default function AppRibbon({ children }: AppRibbonProps) {
-  const [settings, setSettings] = useState(false)
-  const [appsAnchorEl, setAppsAnchorEl] = useState<HTMLElement | null>(null)
-  const [expanded, setExpanded] = useState(false)
+  const [ settings, setSettings ] = useState(false)
+  const [ appsAnchorEl, setAppsAnchorEl ] = useState<HTMLElement | null>(null)
+  const [ expanded, setExpanded ] = useState(false)
   const isSmall = useIsSmallDisplay()
 
   const handleAppsOpen = useCallback<MouseEventHandler<HTMLElement>>(event => {
     setAppsAnchorEl(event.currentTarget)
-  }, [setAppsAnchorEl])
+  }, [ setAppsAnchorEl ])
   
   const handleApsClose = useCallback(() => {
     setAppsAnchorEl(null)
-  }, [setAppsAnchorEl])
+  }, [ setAppsAnchorEl ])
   
   const handleOpenSettings = useCallback(() => {
     setSettings(true)
-  }, [setSettings])
+  }, [ setSettings ])
 
   const handleMenuOpen = useCallback(() => {
     setExpanded(true)
@@ -100,63 +96,75 @@ export default function AppRibbon({ children }: AppRibbonProps) {
 
   return (
     <Container>
-      <Ribbon elevation={4} className={expanded ? 'expanded' : ''}>
+      <Ribbon className={expanded ? 'expanded' : ''} elevation={4}>
         <Stack gap={1}>
-          <Logo src="/GTA5/android-chrome-192x192.png" alt="app logo" />
-          <RibbonButton href="/gta5/natives" activeHref="/gta5" label="GTA5 Natives">
+          <Logo alt="app logo" src="/GTA5/android-chrome-192x192.png" />
+
+          <RibbonButton activeHref="/gta5" href="/gta5/natives" label="GTA5 Natives">
             V
           </RibbonButton>
-          <RibbonButton href="/rdr3/natives" activeHref="/rdr3" label="RDR3 Natives">
+
+          <RibbonButton activeHref="/rdr3" href="/rdr3/natives" label="RDR3 Natives">
             II
           </RibbonButton>
+
           <RibbonButton href="/hash" label="Hashing">
             #
           </RibbonButton>
         </Stack>
+
         <Stack gap={1} sx={{ alignSelf: 'end' }}>
           <Divider />
-          <RibbonButton onClick={handleOpenSettings} label="Settings">
+
+          <RibbonButton label="Settings" onClick={handleOpenSettings}>
             <SettingsIcon fontSize="inherit" />
           </RibbonButton>
-          <RibbonButton href="https://github.com/DottieDot/GTAV-NativeDB" target="_blank" label="View on GitHub">
+
+          <RibbonButton href="https://github.com/DottieDot/GTAV-NativeDB" label="View on GitHub" target="_blank">
             <GitHubIcon fontSize="inherit" />
           </RibbonButton>
-          <RibbonButton onClick={handleAppsOpen} label="Apps">
+
+          <RibbonButton label="Apps" onClick={handleAppsOpen}>
             <AppsIcon fontSize="inherit" />
           </RibbonButton>
         </Stack>
       </Ribbon>
+
       <Content>
         {children}
+
         <MobileFab color="default" onClick={handleMenuOpen}>
           <HamburgerIcon />
         </MobileFab>
       </Content>
+
       <SettingsDrawer
-        open={settings}
         onClose={setSettings}
+        open={settings}
       />
+
       {isSmall ? (
         <AppsDialog
-          open={!!appsAnchorEl}
           onClose={handleApsClose}
+          open={!!appsAnchorEl}
         />
       ) : ( 
         <AppsPopover
           anchorEl={appsAnchorEl}
-          onClose={handleApsClose}
-          open={!!appsAnchorEl}
           anchorOrigin={{
-            vertical: 'bottom',
+            vertical:   'bottom',
             horizontal: 'right'
           }}
+          onClose={handleApsClose}
+          open={!!appsAnchorEl}
           transformOrigin={{
-            vertical: 'bottom',
+            vertical:   'bottom',
             horizontal: 'left'
           }}
         />
       )}
-      <CloseMenuBackdrop open={expanded} onClick={handleMenuClose} />
+
+      <CloseMenuBackdrop onClick={handleMenuClose} open={expanded} />
     </Container>
   )
 }

@@ -1,5 +1,5 @@
 import CodeGeneratorBase, { CodeGeneratorBaseSettings } from './CodeGeneratorBase'
-import { CodeGenNative, CodeGenType } from './ICodeGenerator';
+import { CodeGenNative, CodeGenType } from './ICodeGenerator'
 
 export interface CSharpCodeGeneratorSettings extends CodeGeneratorBaseSettings {
   generateComments: boolean
@@ -85,7 +85,7 @@ class CSharpCodeGenerator extends CodeGeneratorBase<CSharpCodeGeneratorSettings>
   }
 
   private formatType(type: CodeGenType): string {
-    let { baseType } = type
+    const { baseType } = type
 
     return `${type.isConst ? 'const ' : ''}${baseType}${'*'.repeat(type.pointers)}`
   }

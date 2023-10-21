@@ -1,5 +1,5 @@
 import { Button, ButtonProps, Collapse } from '@mui/material'
-import React, { Fragment, FunctionComponent, ReactElement, useCallback, useState } from 'react'
+import { Fragment, ReactElement, useCallback, useState } from 'react'
 
 interface CollapsibleProps {
   label     : string
@@ -8,26 +8,26 @@ interface CollapsibleProps {
   children  : ReactElement
 }
 
-const Collapsible: FunctionComponent<CollapsibleProps> = ({ children, label, variant, fullWidth }) => {
-  const [open, setOpen] = useState(false)
+export default function Collapsible({ children, label, variant, fullWidth }: CollapsibleProps) {
+  const [ open, setOpen ] = useState(false)
 
   const toggle = useCallback(() => {
     setOpen(!open)
-  }, [open, setOpen])
+  }, [ open, setOpen ])
 
   return (
     <Fragment>
       <Button 
-        variant={variant} 
         fullWidth={fullWidth} 
-        onClick={toggle}
+        onClick={toggle} 
+        variant={variant}
       >
         {label}
       </Button>
+
       <Collapse in={open}>
         {children}
       </Collapse>
     </Fragment>
   )
 }
-export default Collapsible

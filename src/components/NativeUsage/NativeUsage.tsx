@@ -1,5 +1,5 @@
 import { Box, CircularProgress } from '@mui/material'
-import React, { memo, useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import SyntaxHighlighter from '../SnytaxHighlighter'
 
 export interface NativeUsageProps {
@@ -8,14 +8,14 @@ export interface NativeUsageProps {
 }
 
 function NativeUsage({ nativeHash, onNotFound }: NativeUsageProps) {
-  const [usageCode, setUsageCode] = useState<string | null>(null)
+  const [ usageCode, setUsageCode ] = useState<string | null>(null)
 
   useEffect(() => {
     (async () => {
       setUsageCode(null)
       const response = await fetch(`https://raw.githubusercontent.com/DottieDot/gta5-additional-nativedb-data/main/usages/${nativeHash}.cpp`)
       if (response.ok) {
-        const code = await response.text();
+        const code = await response.text()
         setUsageCode(code)
       }
       else {
@@ -23,11 +23,17 @@ function NativeUsage({ nativeHash, onNotFound }: NativeUsageProps) {
         setUsageCode('')
       }
     })()
-  }, [nativeHash, setUsageCode, onNotFound])
+  }, [ nativeHash, setUsageCode, onNotFound ])
 
   if (usageCode === null) {
     return (
-      <Box sx={{ p: 2, justifyContent: 'center', display: 'flex' }}>
+      <Box
+        sx={{
+          p:              2,
+          justifyContent: 'center',
+          display:        'flex' 
+        }}
+      >
         <CircularProgress size={36} />
       </Box>
     )

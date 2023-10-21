@@ -1,67 +1,61 @@
-import React, { ChangeEvent, Fragment, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { useSearchParams } from 'react-router-dom'
 import { NativeList as NativeListComponent } from '../../components'
 import { useNativeSearch, useQuery, useSetAppBarSettings } from '../../hooks'
 
 export default function NativeList() {
-  const [filter, setFilter] = useState('')
+  const [ filter, setFilter ] = useState('')
   const namespaces = useNativeSearch(filter)
   const inputRef = useRef<HTMLInputElement>(null)
   const query = useQuery()
-  const [, setSearch] = useSearchParams()
+  const [ , setSearch ] = useSearchParams()
 
   useEffect(() => {
     const search = query.get('search')
     setFilter(search ?? '')
-  }, [query, setFilter])
+  }, [ query, setFilter ])
 
   const handleSearchKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       inputRef.current?.blur()
       e.preventDefault()
     }
-  }, [inputRef])
+  }, [ inputRef ])
 
   const handleSearchBlur = useCallback(() => {
     if (filter) {
       // history.replace(`${history.location.pathname}?search=${encodeURIComponent(filter)}`)
-      setSearch({
-        search: filter
-      })
+      setSearch({ search: filter })
     }
     else {
       setSearch()
     }
-  }, [setSearch, filter])
+  }, [ setSearch, filter ])
 
   const handleFilterChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFilter(e.target.value)
-  }, [setFilter])
+  }, [ setFilter ])
 
   const nativeListMemo = useMemo(() => ({
     search: {
-      onChange: handleFilterChange,
+      onChange:  handleFilterChange,
       onKeyDown: handleSearchKeyDown,
-      onBlur: handleSearchBlur,
-      ref: inputRef,
-      value: filter
+      onBlur:    handleSearchBlur,
+      ref:       inputRef,
+      value:     filter
     }
-  }), [filter, handleFilterChange, handleSearchBlur, inputRef, handleSearchKeyDown])
+  }), [ filter, handleFilterChange, handleSearchBlur, inputRef, handleSearchKeyDown ])
   useSetAppBarSettings('NativeList', nativeListMemo)
 
   useHotkeys('ctrl+k', () => {
     inputRef.current?.focus()
-  }, {
-    preventDefault: true
-  }, [inputRef])
+  }, { preventDefault: true }, [ inputRef ])
 
   return (
-    <Fragment>
-      <NativeListComponent
-        sx={{ height: '100%' }}
-        namespaces={namespaces}
-      />
-    </Fragment>
+    <NativeListComponent
+      namespaces={namespaces}
+      sx={{ height: '100%' }}
+    />
   )
 }

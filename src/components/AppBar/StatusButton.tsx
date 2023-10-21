@@ -1,6 +1,6 @@
 import { Tooltip, IconButton } from '@mui/material'
 import { CloudOff as OfflineIcon, Update as UpdateIcon } from '@mui/icons-material'
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useOnlineStatus, useUpdateAvailable } from '../../hooks'
 import { useUpdateServiceWorker } from '../../hooks'
 
@@ -20,14 +20,14 @@ function StatusIcon({ status }: StatusIconProps) {
 
 const statusTexts: { [name: string]: string } = {
   offline: 'Running in offline mode',
-  update: 'Update Available'
+  update:  'Update Available'
 }
 
 export default function StatusButton() {
   const updateServiceWorker = useUpdateServiceWorker()
   const onlineStatus = useOnlineStatus()
   const updateAvailable = useUpdateAvailable()
-  const [loading, setLoading] = useState(false)
+  const [ loading, setLoading ] = useState(false)
   const status = onlineStatus 
     ? updateAvailable ? 'update' : ''
     : 'offline'
@@ -42,7 +42,7 @@ export default function StatusButton() {
         window.location.reload()
         break
     }
-  }, [status, setLoading, updateServiceWorker])
+  }, [ status, setLoading, updateServiceWorker ])
 
   if (!status) {
     return null
@@ -50,7 +50,7 @@ export default function StatusButton() {
 
   return (
     <Tooltip title={statusTexts[status]}>
-      <IconButton onClick={handleClick} disabled={loading}>
+      <IconButton disabled={loading} onClick={handleClick}>
         <StatusIcon status={status} />
       </IconButton>
     </Tooltip>

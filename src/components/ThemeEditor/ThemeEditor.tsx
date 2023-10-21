@@ -6,10 +6,10 @@ import SettingsControl from '../SettingsControl'
 import ThemeColor from './ThemeColor'
 import { ThemeColors, useThemesContext } from '../../context'
 
-const ColorGrid = styled('div')(({theme}) => ({
-  display: 'grid',
+const ColorGrid = styled('div')(({ theme }) => ({
+  display:             'grid',
   gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-  gap: theme.spacing(2)
+  gap:                 theme.spacing(2)
 }))
 
 interface ThemeEditorProps {
@@ -23,74 +23,68 @@ interface Color {
 const colors: Color[] = [
   {
     label: 'Primary Color',
-    prop: 'primary'
+    prop:  'primary'
   },
   {
     label: 'Secondary Color',
-    prop: 'secondary'
+    prop:  'secondary'
   },
   {
     label: 'Text Color',
-    prop: 'text'
+    prop:  'text'
   },
   {
     label: 'Background Color',
-    prop: 'background'
+    prop:  'background'
   },
   {
     label: 'Paper Color',
-    prop: 'paper'
+    prop:  'paper'
   },
   {
     label: 'Native Value Color',
-    prop: 'nativeValueHighlight'
+    prop:  'nativeValueHighlight'
   },
   {
     label: 'Constant Identifier Color',
-    prop: 'constantIdentifierHighlight'
+    prop:  'constantIdentifierHighlight'
   },
   {
     label: 'Type Info Border Color',
-    prop: 'typeInfoBorderColor'
+    prop:  'typeInfoBorderColor'
   },
   {
     label: 'Parameter Color',
-    prop: 'parameterColor'
+    prop:  'parameterColor'
   },
   {
     label: 'Symbol Color',
-    prop: 'symbolColor'
+    prop:  'symbolColor'
   }
 ]
 
 function ThemeEditor({ themeId }: ThemeEditorProps) {
   const { patchTheme, removeTheme } = useThemesContext()
   const theme = useCustomTheme(themeId)
-  const [name, setName] = useState(theme?.name ?? '')
+  const [ name, setName ] = useState(theme?.name ?? '')
 
   useEffect(() => {
     setName(theme?.name ?? '')
-  }, [theme?.name])
+  }, [ theme?.name ])
 
   const handleColorChanged = useCallback((prop: keyof ThemeColors, value: string) => {
-    patchTheme(themeId, {
-      colors: {
-        [prop]: value
-      }
-    })
-  }, [patchTheme, themeId])
+    patchTheme(themeId, { colors: { [prop]: value }})
+  }, [ patchTheme, themeId ])
 
   const handleModeChanged = useCallback((_: unknown, value: string) => {
     if (value === 'light' || value === 'dark') {
-      patchTheme(themeId, {
-        mode: value
-      })
+      patchTheme(themeId, { mode: value })
     }
-  }, [patchTheme, themeId])
+  }, [ patchTheme, themeId ])
 
   const handleDelete = useCallback(() => {
     removeTheme(themeId)
-  }, [removeTheme, themeId])
+  }, [ removeTheme, themeId ])
 
   const handleNameChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value)
@@ -98,11 +92,9 @@ function ThemeEditor({ themeId }: ThemeEditorProps) {
 
   const handleBlur = useCallback((_: unknown) => {
     if (name !== '') {
-      patchTheme(themeId, {
-        name
-      })
+      patchTheme(themeId, { name })
     }
-  }, [name, themeId, patchTheme])
+  }, [ name, themeId, patchTheme ])
 
   if (!theme) {
     return null
@@ -112,48 +104,51 @@ function ThemeEditor({ themeId }: ThemeEditorProps) {
     <Fragment>
       <Box
         sx={{
-          display: 'flex',
+          display:       'flex',
           flexDirection: 'row',
-          alignItems: 'center',
-          gap: 2
+          alignItems:    'center',
+          gap:           2
         }}
       >
         <TextField
+          error={!name}
           label="Name"
+          onBlur={handleBlur}
+          onChange={handleNameChange}
+          sx={{ flex: 1 }}
           value={name}
           variant="filled"
-          sx={{ flex: 1 }}
-          onChange={handleNameChange}
-          onBlur={handleBlur}
-          error={!name}
           required
         />
+
         <IconButton onClick={handleDelete}>
           <DeleteIcon />
         </IconButton>
       </Box>
+
       <SettingsControl
-        label="Mode"
         icon={ModeIcon}
+        label="Mode"
       >
         <Autocomplete
-          options={['dark', 'light']}
-          value={theme.mode}
           onChange={handleModeChanged}
+          options={[ 'dark', 'light' ]}
           renderInput={(params) => <TextField {...params} />}
           size="small"
           sx={{ width: 200 }}
+          value={theme.mode}
           disableClearable
           disablePortal
         />
       </SettingsControl>
+
       <ColorGrid>
         {colors.map(({ label, prop }) => (
           <ThemeColor
             key={prop}
             label={label}
-            prop={prop}
             onChange={handleColorChanged}
+            prop={prop}
             themeColor={theme.colors[prop]}
           />
         ))}

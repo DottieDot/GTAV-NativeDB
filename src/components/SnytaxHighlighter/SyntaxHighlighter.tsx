@@ -1,5 +1,5 @@
 import { useTheme } from '@mui/material'
-import React, { memo } from 'react'
+import { memo } from 'react'
 import Highlighter from 'react-syntax-highlighter'
 import { atomOneDark as darkStyle, atomOneLight as lightStyle } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 
@@ -18,14 +18,14 @@ function SyntaxHighlighter({ language, children, customStyle }: SyntaxHighlighte
 
   return (
     <Highlighter 
-      language={language} 
-      style={highlighterStyle} 
       customStyle={{ 
         background: 'none', 
-        padding: theme.spacing(2), 
-        margin: 0,
+        padding:    theme.spacing(2), 
+        margin:     0,
         ...customStyle
-      }}
+      }} 
+      language={language} 
+      style={highlighterStyle}
     >
       {children}
     </Highlighter>

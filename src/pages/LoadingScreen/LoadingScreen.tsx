@@ -1,35 +1,37 @@
 import { LinearProgress, Typography, Box, Stack } from '@mui/material'
 import { memo } from 'react'
 
-const image = `/GTA5/splash.png`
+const image = '/GTA5/splash.png'
 
-const LoadingPage = () => {
+function LoadingPage() {
   return (
     <Box 
       sx={{
-        p: 2,
-        display: 'flex',
-        flexDirection: 'column',
-        flex: 1,
+        p:              2,
+        display:        'flex',
+        flexDirection:  'column',
+        flex:           1,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems:     'center'
       }}
     >
       <Stack spacing={2}>
         <img 
+          alt="splash screen logo"
+          height="225" 
           src={image}
-          alt="splash screen logo" 
-          height="225"
           style={{ objectFit: 'contain' }}
         />
+
         <Typography 
-          variant="h2" 
+          align="center" 
           component="h1"
-          align="center"
+          variant="h2"
           gutterBottom
         >
           Loading Natives
         </Typography>
+
         <LinearProgress />
       </Stack>
     </Box>

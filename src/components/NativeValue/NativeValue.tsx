@@ -10,25 +10,26 @@ export interface NativeValueProps {
 export default memo(function NativeValue({ value, popover =  false }: NativeValueProps) {
   const theme = useTheme()
 
-  let split = useMemo(() => {
+  const split = useMemo(() => {
     if (value === 'true' || value === 'false') {
-      return [[value]]
+      return [[ value ]]
     }
 
     const regex = /(.*?)(?=HASH\(".*?(?=")"\))(HASH\(".*?(?=")"\))|(.*?)(?=([a-zA-Z][_0-9a-zA-Z]+))([_0-9a-zA-Z]+)|(.+)/gm
-    const matches = [...value.matchAll(regex)].map((arr) => { 
+    const matches = [ ...value.matchAll(regex) ].map((arr) => { 
       arr[1] = arr[1] ?? arr[3] 
       arr[2] = arr[2] ?? arr[4]
       return arr
     })
     return matches
-  }, [value])
+  }, [ value ])
 
   return (
-    <Box sx={{ color: theme.extensions.nativeValueHighlight }} component="span">
-      {split.map(([full, text, constant]) => (
-        <Fragment>
+    <Box component="span" sx={{ color: theme.extensions.nativeValueHighlight }}>
+      {split.map(([ full, text, constant ], i) => (
+        <Fragment key={i}>
           {text || (!constant && full)}
+
           {constant && (
             <NativeConst constName={constant} popover={popover} />
           )}
