@@ -1,11 +1,1 @@
-{
-  "files.associations": {
-    "*.php": "php",
-    ".php_cs": "php",
-    "functional": "cpp"
-  },
-  "editor.formatOnSave": false,
-  "[rust]": {
-    "editor.formatOnSave": true
-  }
-}
+{}
