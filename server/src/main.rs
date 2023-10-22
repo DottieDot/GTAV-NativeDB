@@ -28,7 +28,7 @@ struct AppState {
 async fn main() -> anyhow::Result<()> {
   let spa_directory = env::var("SPA_DIR").unwrap_or_else(|_| "../build".to_owned());
 
-  let serve_dir = ServeDir::new(format!("{spa_directory}"))
+  let serve_dir = ServeDir::new(&spa_directory)
     .not_found_service(ServeFile::new(format!("{spa_directory}/index.html")));
 
   let state = AppState {
