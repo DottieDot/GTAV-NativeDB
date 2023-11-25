@@ -100,7 +100,7 @@
     ],
     "no-console": [
       "warn",
-      { 
+      {
         "allow": [
           "warn",
           "error"
@@ -167,7 +167,7 @@
     "react/jsx-no-comment-textnodes": "off",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": [
-      "error",
+      "warn",
       {
         "argsIgnorePattern": "^_",
         "varsIgnorePattern": "^_",

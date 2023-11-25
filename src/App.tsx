@@ -1,12 +1,13 @@
-import { CssBaseline } from '@mui/material'
+import { AppBar, CssBaseline } from '@mui/material'
 import { BrowserRouter } from 'react-router-dom'
-import { AppRibbon, OnlineStatusProvider, UpdateDialog } from './components'
+import { AppContent, AppRibbon, OnlineStatusProvider, UpdateDialog } from './components'
 import { useNamespaces } from './hooks'
 import NativeLoader from './NativeLoader'
-import { LoadingScreen } from './pages'
+import { LoadingScreen, NativesPage } from './pages'
 import Router from './Router'
 import Theme from './Theme'
 import { AppBarSettingsProvider, AppDataProvider, Game, NativeDataProvider, SelectedGameProvider, SettingsProvider, ThemesProvider } from './context'
+import { AppFrame } from './components/AppFrame'
 
 function LoadGate() {
   const namespaces = useNamespaces()
@@ -37,7 +38,14 @@ export default function App() {
                     <Theme>
                       <CssBaseline />
                       <NativeLoader />
-                      <LoadGate />
+
+                      {/* <LoadGate /> */}
+                      
+                      <AppFrame>
+                        <AppContent>
+                          <Router />
+                        </AppContent>
+                      </AppFrame>
                     </Theme>
                   </BrowserRouter>
                 </AppBarSettingsProvider>

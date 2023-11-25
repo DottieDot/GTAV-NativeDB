@@ -54,7 +54,18 @@ function getDarkTheme(): ThemeOptions {
       primary:   { main: '#20ba4e' },
       secondary: { main: '#ff8c00' }
     },
-    components: { MuiCssBaseline: { styleOverrides: { body: darkScrollbar() }}},
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            backgroundImage:    'url("https://images8.alphacoders.com/573/573739.jpg")',
+            backgroundSize:     'cover',
+            backgroundPosition: 'center',
+            ...darkScrollbar() 
+          }
+        }
+      }
+    },
     extensions: {
       nativeValueHighlight:        '#ffccbc',
       constantIdentifierHighlight: '#ff9e80',

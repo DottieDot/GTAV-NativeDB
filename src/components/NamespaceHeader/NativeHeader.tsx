@@ -1,6 +1,6 @@
 import { Box, BoxProps, Typography, styled, alpha, IconButton, Tooltip  } from '@mui/material'
 import { memo } from 'react'
-import { createShareUrl, getOverlayAlpha } from '../../common'
+import { createShareUrl } from '../../common'
 import { LinkSharp as ShareIcon } from '@mui/icons-material'
 import { useNamespace } from '../../hooks'
 import { useCopyToClipboard } from '../../hooks'
@@ -18,13 +18,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   gap:             theme.spacing(1),
   padding:         theme.spacing(2),
   backdropFilter:  'blur(20px)',
-  backgroundColor: alpha(theme.palette.background.default, 0.6),
-  ...(theme.palette.mode === 'dark' && {
-    backgroundImage: `linear-gradient(${alpha(
-      '#fff',
-      getOverlayAlpha(4),
-    )}, ${alpha('#fff', getOverlayAlpha(4))})`
-  })
+  backgroundColor: alpha(theme.palette.background.paper, .8)
 }))
 
 function NamespaceHeader({ namespace, nativeCount, ...rest }: NativeHeaderProps) {

@@ -85,3 +85,7 @@ export * from './SettingsControl'
 
 export { default as AppRibbon } from './AppRibbon'
 export * from './AppRibbon'
+
+export * from './AppFrame'
+
+export * from './AppContent'
