@@ -7,14 +7,16 @@ import CPlusPlus from './CPlusPlus'
 import CSharpEnum from './CSharpEnum'
 import Rust from './Rust'
 import TypeScript from './TypeScript'
+import { useGameUrl } from '../../hooks'
 
 function GenerateCodePage() {
   const { language = 'cpp' } = useParams<{ language: string }>()
   const navigate = useNavigate()
+  const generateCodeUrl = useGameUrl('/generate-code')
 
   const onTabChange = useCallback((_e: SyntheticEvent<Element, Event>, language: string) => {
-    navigate(`/generate-code/${language}`, { replace: true })
-  }, [ navigate ])
+    navigate(`${generateCodeUrl}/${language}`, { replace: true })
+  }, [ navigate, generateCodeUrl ])
 
   return (
     <Box
