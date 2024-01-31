@@ -104,7 +104,7 @@ function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
       />
 
       <AutoSizer>
-        {({ height, width }) => (
+        {({ height, width }: { height: number, width: number }) => (
           <StickyTree
             getChildren={getChildren}
             height={height}

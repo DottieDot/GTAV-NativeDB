@@ -6,7 +6,7 @@ export interface CPlusPlusCodeGeneratorSettings extends CodeGeneratorBaseSetting
   generateComments  : boolean
   useNativeTypes    : boolean
   cppCompliant      : boolean
-  includes          : string[]
+  includes          : string
   invokeFunction    : string
   invokeSupportsVoid: boolean
   oneLineFunctions  : boolean
@@ -30,11 +30,7 @@ class CPlusPlusCodeGenerator extends CodeGeneratorBase<CPlusPlusCodeGeneratorSet
   start(): this {
     return super.start()
       .writeLine('#pragma once')
-      .conditional(_.isEmpty(this.settings.includes), gen => 
-        this.settings.includes.reduce((gen, include) => (
-          gen.writeLine(`#include ${include}`)
-        ), gen)
-      )
+      .writeLine(this.settings.includes)
       .writeBlankLine()
       .writeComment(`Generated on ${new Date().toLocaleString()}`)
       .writeComment(`${window.location.origin}`)

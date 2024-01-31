@@ -27,7 +27,11 @@ export interface ComboCodeGenOption<TSettings> extends CodeGenOption<TSettings> 
   options: { label: string, value: unknown }[]
 }
 
-type CodeGenOptions<TSettings> = BooleanCodeGenOption<TSettings> | StringCodeGenOption<TSettings> | ComboCodeGenOption<TSettings>
+export interface MultiLineCodeGenOption<TSettings> extends CodeGenOption<TSettings> {
+  type: 'multi'
+}
+
+type CodeGenOptions<TSettings> = BooleanCodeGenOption<TSettings> | StringCodeGenOption<TSettings> | ComboCodeGenOption<TSettings> | MultiLineCodeGenOption<TSettings>
 
 type CodeGenOptionComponentProps<TSettings> = CodeGenOptions<TSettings> & {
   onChange: (event: ChangeEvent<HTMLInputElement> | SelectChangeEvent) => void
@@ -82,6 +86,16 @@ export function CodeGenOptionComponent<TSettings>(props: CodeGenOptionComponentP
           name={prop}
           onChange={(onChange as unknown as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>)}
           value={value}
+        />
+      )
+    case 'multi':
+      return (
+        <TextField
+          label={label}
+          name={prop}
+          onChange={(onChange as unknown as ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>)}
+          value={value}
+          multiline
         />
       )
   }

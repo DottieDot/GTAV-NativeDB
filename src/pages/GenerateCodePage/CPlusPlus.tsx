@@ -49,6 +49,11 @@ export default function CPlusPlus() {
           ]
         },
         {
+          type:  'multi',
+          label: 'Includes',
+          prop:  'includes'
+        },
+        {
           type:  'string',
           label: 'Invoke Function',
           prop:  'invokeFunction'
@@ -66,7 +71,7 @@ export default function CPlusPlus() {
         generateComments:   true,
         useNativeTypes:     false,
         cppCompliant:       true,
-        includes:           [],
+        includes:           '#include "invoker.h"\n#include "types.h"',
         invokeFunction:     'invoke',
         invokeSupportsVoid: false,
         oneLineFunctions:   true,

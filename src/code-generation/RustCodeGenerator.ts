@@ -6,6 +6,7 @@ export interface RustCodeGeneratorSettings extends CodeGeneratorBaseSettings {
   generateComments  : boolean
   oneLineFunctions  : boolean
   includeNdbLinks   : boolean
+  imports           : string
 }
 
 export default
@@ -16,6 +17,8 @@ class RustCodeGenerator extends CodeGeneratorBase<RustCodeGeneratorSettings> {
 
   start(): this {
     return super.start()
+      .writeLine('#[!allow(dead_code)]')
+      .writeLine('#[!allow(unused_imports)]')
       .writeBlankLine()
       .writeComment(`Generated on ${new Date().toLocaleString()}`)
       .writeComment(`${window.location.origin}`)
@@ -59,14 +62,16 @@ class RustCodeGenerator extends CodeGeneratorBase<RustCodeGeneratorSettings> {
   pushNamespace(name: string): this {
     const n = this.settings.rustNames ? this.transformNativeName(name) : name
 
-    return this
-      .writeLine('#[allow(dead_code)]')
+    this
       .writeLine(`pub mod ${n}`)
       .pushBranch(false)
-      .writeLine('#[allow(unused_imports)]')
-      .writeLine('use scripthookv::types::*;')
-      .writeLine('use scripthookv::call_native;')
-      .writeBlankLine()
+
+    for (const importString of this.settings.imports.split('\n')) {
+      this
+        .writeLine(importString)
+    }
+
+    return this.writeBlankLine()
   }
 
   popNamespace(): this {

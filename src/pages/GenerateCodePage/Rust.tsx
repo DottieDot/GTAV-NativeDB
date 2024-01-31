@@ -47,6 +47,11 @@ export default function Rust() {
               value: 'crlf' 
             }
           ]
+        },
+        {
+          type:  'multi',
+          label: 'Usings',
+          prop:  'imports'
         }
       ]}
       defaultSettings={{
@@ -56,7 +61,8 @@ export default function Rust() {
         generateComments: true,
         oneLineFunctions: true,
         includeNdbLinks:  false,
-        rustNames:        true
+        rustNames:        true,
+        imports:          'use scripthookv::types::*;\nuse scripthookv::call_native;'
       }}
       extension="rs"
       generator={RustCodeGenerator}
