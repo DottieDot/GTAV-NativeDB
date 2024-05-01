@@ -14,7 +14,7 @@ export interface NativeListProps extends Omit<BoxProps, 'children'> {
 }
 
 function NativeList({ namespaces, sx = {}, ...rest }: NativeListProps) {
-  const namespaceArray = useMemo(() => Object.values(namespaces), [ namespaces ])
+  const namespaceArray = useMemo(() => Object.values(namespaces).filter(ns => ns.natives.length), [ namespaces ])
   const namespaceData = useMemo(
     () => namespaceArray.reduce<{[name: string]: StickyTreeNode<TreeNode>[]}>((accumulator, namespace) => {
       accumulator[namespace.name] = namespace.natives.map(hash => ({
