@@ -116,7 +116,7 @@ export default function DesktopSearch({ search }: DesktopSearchProps) {
       current.focus()
     }
   }, [ search ])
-  
+
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
       search.ref?.current?.blur()
@@ -194,7 +194,12 @@ export default function DesktopSearch({ search }: DesktopSearchProps) {
       />
 
       <ClearIconWrapper className="clear-button">
-        <IconButton onClick={handleClear} size="small" sx={{ mt: '2px' }}>
+        <IconButton
+          color="inherit"
+          onClick={handleClear}
+          size="small"
+          sx={{ mt: '2px' }}
+        >
           <ClearIcon />
         </IconButton>
       </ClearIconWrapper>
