@@ -1,6 +1,8 @@
 import { useMemo } from 'react'
 import { Namespace, Native } from '../context'
 import useNatives from './useNatives'
+import useSettings from './useSettings'
+import useNamespaces from './useNamespaces'
 
 interface SearchData {
   name       ?: string
@@ -118,20 +120,32 @@ function matchNativeStrict(searchData: SearchData, native: Native) {
 }
 
 export default function useNativeSearch(searchQuery: string) {
+  const ordering = useSettings().nativeOrdering
   const natives = useNatives()
+  const namespaces = useNamespaces()
   return useMemo(() => {
     const searchData = parseSearchQuery(searchQuery)
-    return Object.values(natives).reduce<{[name: string]: Namespace}>((accumulator, native) => {
+
+    const nativesList = Object.values(natives)
+    if (ordering === 'alphabetical') {
+      nativesList.sort((a, b) => {
+        if (a.name > b.name) return 1
+        if (a.name < b.name) return -1
+        return 0
+      })
+    }
+
+    return nativesList.reduce<{[name: string]: Namespace}>((accumulator, native) => {
       if (matchNativeStrict(searchData, native) && matchNativeLoose(searchData.all, native)) {
-        if (!accumulator[native.namespace]) {
-          accumulator[native.namespace] = {
-            name:    native.namespace,
-            natives: []
-          }
-        }
         accumulator[native.namespace].natives.push(native.hash)
       }
       return accumulator
-    }, {})
-  }, [ natives, searchQuery ])
+    }, Object.values(namespaces).reduce<{[name: string]: Namespace}>((accumulator, ns) => {
+      accumulator[ns.name] = {
+        name:    ns.name,
+        natives: []
+      }
+      return accumulator
+    }, {}))
+  }, [ natives, searchQuery, ordering, namespaces ])
 }

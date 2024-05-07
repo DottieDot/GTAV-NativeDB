@@ -10,10 +10,13 @@ export enum NativeSources {
 
 export type NativeDisplayMode = 'C' | 'UML' | 'TS'
 
+export type NativeOrdering = 'registration' | 'alphabetical'
+
 export interface Settings {
   theme: SelectedTheme
   sources: NativeSources[]
   nativeDisplayMode: NativeDisplayMode
+  nativeOrdering: NativeOrdering,
   nativeTypes: boolean
   compactVectors: boolean
   displayVoidReturnType: boolean

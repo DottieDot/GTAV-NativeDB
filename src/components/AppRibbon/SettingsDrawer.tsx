@@ -23,6 +23,12 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
     }
   }, [ patchSettings ])
 
+  const handleNativeOrderingChanged = useCallback((_: unknown, value: unknown) => {
+    if (value === 'registration' || value === 'alphabetical') {
+      patchSettings({ nativeOrdering: value })
+    }
+  }, [ patchSettings ])
+
   const handleListDisplayModeChanged = useCallback((_: unknown, value: unknown) => {
     if (value === 'C' || value === 'UML' || value === 'TS') {
       patchSettings({ nativeDisplayMode: value })
@@ -108,6 +114,28 @@ export default function SettingsDrawer({ open, onClose }: SettingsDrawerProps) {
 
               <ToggleButton value="special">
                 Special
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </div>
+
+          <div>
+            <Typography variant="body1" gutterBottom>
+              Native Ordering
+            </Typography>
+
+            <ToggleButtonGroup
+              color="primary"
+              onChange={handleNativeOrderingChanged}
+              value={settings.nativeOrdering}
+              exclusive
+              fullWidth
+            >
+              <ToggleButton value="registration">
+                Registration
+              </ToggleButton>
+
+              <ToggleButton value="alphabetical">
+                Alphabetical
               </ToggleButton>
             </ToggleButtonGroup>
           </div>

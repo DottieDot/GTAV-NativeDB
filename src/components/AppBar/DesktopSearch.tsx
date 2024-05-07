@@ -1,4 +1,4 @@
-import { Box, IconButton, InputBase, styled, useTheme } from '@mui/material'
+import { Box, IconButton, InputBase, alpha, styled, useTheme } from '@mui/material'
 import { Search as SearchIcon, Clear as ClearIcon } from '@mui/icons-material'
 import { AppBarSearch } from './model'
 import { useCallback, useEffect, useState } from 'react'
@@ -21,9 +21,9 @@ const Search = styled('div')<StyleProps>(({ theme, inner, outer }) => ({
   position:          'relative',
   margin:            theme.spacing(0, 2),
   borderRadius:      theme.shape.borderRadius,
-  backgroundColor:   theme.extensions.typeInfoBorderColor,
+  backgroundColor:   alpha(theme.palette.mode === 'dark' ? theme.palette.text.primary : theme.palette.background.default, .2),
   transition:        'all ease-in-out .2s',
-  '&:hover':         { backgroundColor: theme.extensions.typeInfoBorderColor },
+  '&:hover':         { backgroundColor: alpha(theme.palette.mode === 'dark' ? theme.palette.text.primary : theme.palette.background.default, .3) },
   '& .clear-button': { display: 'none' },
   '&:not(.mobile)':  { '&:not(:has(input:placeholder-shown))': { '& .clear-button': { display: 'block' }}},
   '&.mobile':        {
@@ -116,7 +116,7 @@ export default function DesktopSearch({ search }: DesktopSearchProps) {
       current.focus()
     }
   }, [ search ])
-  
+
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
       search.ref?.current?.blur()
@@ -194,7 +194,12 @@ export default function DesktopSearch({ search }: DesktopSearchProps) {
       />
 
       <ClearIconWrapper className="clear-button">
-        <IconButton onClick={handleClear} size="small" sx={{ mt: '2px' }}>
+        <IconButton
+          color="inherit"
+          onClick={handleClear}
+          size="small"
+          sx={{ mt: '2px' }}
+        >
           <ClearIcon />
         </IconButton>
       </ClearIconWrapper>
