@@ -24,6 +24,7 @@ export const SettingsProvider = memo(function SettingsProvider({ children }: Set
       theme:                 'system',
       sources:               [ NativeSources.Alloc8or, NativeSources.DottieDot ],
       nativeDisplayMode:     'C',
+      nativeOrdering:        'registration',
       nativeTypes:           true,
       compactVectors:        false,
       displayVoidReturnType: true,

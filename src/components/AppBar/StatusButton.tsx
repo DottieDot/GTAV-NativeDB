@@ -28,7 +28,7 @@ export default function StatusButton() {
   const onlineStatus = useOnlineStatus()
   const updateAvailable = useUpdateAvailable()
   const [ loading, setLoading ] = useState(false)
-  const status = onlineStatus 
+  const status = onlineStatus
     ? updateAvailable ? 'update' : ''
     : 'offline'
 
@@ -50,7 +50,7 @@ export default function StatusButton() {
 
   return (
     <Tooltip title={statusTexts[status]}>
-      <IconButton disabled={loading} onClick={handleClick}>
+      <IconButton color="inherit" disabled={loading} onClick={handleClick}>
         <StatusIcon status={status} />
       </IconButton>
     </Tooltip>
